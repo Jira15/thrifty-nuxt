@@ -8,7 +8,9 @@ export default {
     },
     methods: {
             showMenu() {
-                this.showMobileMenu = !this.showMobileMenu;
+                if (this.showMobileMenu !== undefined) {
+                    this.showMobileMenu = !this.showMobileMenu;
+                } 
             },
         },
     };
@@ -17,8 +19,8 @@ export default {
 <template>
 <header class="menu">
     <nav>  
-        <i class="fas fa-bars" @click="showMenu()"><font-awesome-icon icon="fa-solid fa-bars" /></i>
-        <div class="nav-content" :class="this.showMobileMenu ? 'open-menu' : 'closed-menu'">   
+        <i class="fas fa-bars" @click="showMenu()"><font-awesome-icon icon="bars" class="icon alt"/></i> 
+        <div class="nav-content" :class="showMobileMenu ? 'open-menu' : 'closed-menu'">   
             <router-link to="/"><img src="../assets/images/logo.png"></router-link>
             <ul class="nav-items">
                 <li><a href="#">Reservas</a>

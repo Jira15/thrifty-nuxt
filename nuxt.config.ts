@@ -35,11 +35,21 @@ export default defineNuxtConfig({
     plugins: [ 
         '@/plugins/fontawesome.js',  
         '@/plugins/vue-datepicker.js'   
-       
     ],   
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [  
-    ],
+            [
+                '@pinia/nuxt',
+                {
+                    autoImports: [ 
+                        // automatically imports `defineStore`  //  'autoStore',  'sucursalStore'
+                        'defineStore', // import { defineStore } from 'pinia'
+                        // automatically imports `defineStore` as `definePiniaStore`
+                        ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+                    ],
+                },
+            ]
+        ],
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {

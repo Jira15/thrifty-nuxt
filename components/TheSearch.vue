@@ -1,8 +1,12 @@
 <script>   
 import moment from 'moment';
+import { useSearchStore } from '@/stores/search'
+import { storeToRefs } from 'pinia'
+
 export default { 
     setup() {
-        const router = useRouter()
+        const search = useSearchStore() 
+        const router = useRouter() 
 
         function tiempoMinimoAntesDeReserva(date, hours){
             const newDate = new Date(date);
@@ -18,6 +22,7 @@ export default {
         const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
         
         return {
+            search,
             time,
             startTime 
         }
@@ -42,7 +47,7 @@ export default {
             ],  
         }
     },
-    methods:{
+    methods:{ 
         ChangeD(retiroAFechaCorta)
         {
             this.diaRetiro=moment(retiroAFechaCorta).format('YYYY-MM-DD'); 
@@ -50,6 +55,7 @@ export default {
         ChangeR(retornoAFechaCorta)
         { 
             this.diaRetorno=moment(retornoAFechaCorta).format('YYYY-MM-DD');
+         
         },
         ChangeH()
         { 
@@ -61,13 +67,13 @@ export default {
         }
     }, 
 
-}
-
-</script>   
+} 
+</script>
 <template>
 <form class="reservador" @submit.prevent="submit">
     <header>
         <h2>
+            {{ search.retorno }}
             Haz tu reserva
         </h2>
     </header>

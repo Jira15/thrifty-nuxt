@@ -34,11 +34,12 @@
 
     <section class="sociales"> 
       <h3>Siguenos en</h3>
-      <p>  
+      <p>   
+
         <a href="#"><font-awesome-icon icon="fa-brands fa-instagram" /></a>
-        <a href="#"><font-awesome-icon icon="fa-brands fa-twitter" /></a>
+        <a href="#"><font-awesome-icon :icon="['fab', 'twitter']" class="icon alt"/></a>
         <a href="#"><font-awesome-icon icon="fa-brands fa-facebook" /></a>
-      </p> 
+      </p>  
     </section>
 
     <p class="copyright">Copyright © 2022 Thrifty Panamá</p>
