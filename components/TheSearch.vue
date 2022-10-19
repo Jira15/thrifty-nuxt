@@ -1,11 +1,10 @@
 <script>   
-import moment from 'moment';
 import { useSearchStore } from '@/stores/search'
 import { storeToRefs } from 'pinia'
 
 export default { 
     setup() {
-        const search = useSearchStore() 
+        const storeSearch = useSearchStore() 
         const router = useRouter() 
 
         function tiempoMinimoAntesDeReserva(date, hours){
@@ -22,58 +21,18 @@ export default {
         const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
         
         return {
-            search,
+            storeSearch,
             time,
             startTime 
         }
-    },
-    data() {
-        return { 
-            sucursal: 'Seleccione',
-            sucursalRetorno: '',
-            modelo:'',
-            diaRetiro: null,
-            diaRetorno: null,
-            horaRetiro: null,
-            horaRetorno: null,
-            tiempoRetiro: null,
-            tiempoRetorno: null,
-            carroObjetoArray: [], 
-            sucursal: 'Seleccione', 
-            sucursales: '',
-            options: [
-                { value: 'TH TORRE', label: 'Torremolinos (Tocumen)', region: 'Panamá'}, 
-                { value: 'TDAVIDC', label: 'David Centro', region: 'Chiriquí'}  
-            ],  
-        }
-    },
-    methods:{ 
-        ChangeD(retiroAFechaCorta)
-        {
-            this.diaRetiro=moment(retiroAFechaCorta).format('YYYY-MM-DD'); 
-        },
-        ChangeR(retornoAFechaCorta)
-        { 
-            this.diaRetorno=moment(retornoAFechaCorta).format('YYYY-MM-DD');
-         
-        },
-        ChangeH()
-        { 
-            this.tiempoRetiro = this.horaRetiro.hours + ':' + this.horaRetiro.minutes; 
-        },
-        ChangeT()
-        {  
-            this.tiempoRetorno = this.horaRetorno.hours + ':' + this.horaRetorno.minutes;
-        }
-    }, 
+    },  
 
 } 
 </script>
 <template>
 <form class="reservador" @submit.prevent="submit">
     <header>
-        <h2>
-            {{ search.retorno }}
+        <h2> 
             Haz tu reserva
         </h2>
     </header>
@@ -82,9 +41,9 @@ export default {
             <section>
                 <legend>sucursal de retiro</legend> 
                 <label class="sucursal">
-                    <select v-model="sucursal"> 
+                    <select v-model="storeSearch.sucursal"> 
                         <option disabled value="">{{ sucursal }}</option>
-                        <option v-for="option in options" :value="option.value"  >
+                        <option v-for="option in storeSearch.options" :value="option.value"  >
                             {{ option.label }}
                         </option>
                     </select> 
@@ -95,20 +54,20 @@ export default {
                 <legend>Día de retiro</legend> 
                     <fieldset class="fechas">  
                     <date-picker
-                        v-model="diaRetiro"  
+                        v-model="storeSearch.diaRetiro"  
                         :minDate="new Date()"
                         :enableTimePicker="false"
                         locale="es"
-                        @update:modelValue="ChangeD(date)"
+                        @update:modelValue="storeSearch.retiroAFechaCorta"
                         /> 
     
                     <date-picker 
                         class="hora"
-                        v-model="horaRetiro"
+                        v-model="storeSearch.horaRetiro"
                         :startTime="startTime"
                         timePicker
                         minutesIncrement="30"  
-                        @update:modelValue="ChangeH()" 
+                        @update:modelValue="storeSearch.tiempoRetiroConHorasMinutos" 
                         >
                         <template  #input-icon> 
                             <img class="slot-icon"  src="@/assets/images/clock.png"/> 
@@ -122,9 +81,9 @@ export default {
             <section>
                 <legend>sucursal de retorno</legend>
                 <label class="sucursales">
-                    <select v-model="sucursalRetorno" > 
+                    <select v-model="storeSearch.sucursalRetorno" > 
                         <option disabled value="">{{ sucursales }}</option>
-                        <option v-for="option in options" :value="option.value"  >
+                        <option v-for="option in storeSearch.options" :value="option.value"  >
                             {{ option.label }}
                         </option>
                     </select> 
@@ -135,20 +94,20 @@ export default {
                 <legend>Día de retorno</legend>  
                 <fieldset class="fechas">
                     <date-picker
-                        v-model="diaRetorno" 
-                        :minDate="diaRetiro"
+                        v-model="storeSearch.diaRetorno" 
+                        :minDate="storeSearch.diaRetiro"
                         :enableTimePicker="false"
                         locale="es"
-                        @update:modelValue="ChangeR(date)"
+                        @update:modelValue="storeSearch.retornoAFechaCorta"
                         /> 
                     
                     <date-picker
                         class="hora"
-                        v-model="horaRetorno"
+                        v-model="storeSearch.horaRetorno"
                         :startTime="startTime"
                         timePicker
                         minutesIncrement="30"  
-                        @update:modelValue="ChangeT()" 
+                        @update:modelValue="storeSearch.tiempoRetornoConHorasMinutos" 
                         >
                         <template  #input-icon> 
                             <img class="slot-icon"  src="@/assets/images/clock.png"/> 
@@ -160,13 +119,13 @@ export default {
         <div class="siguiente"> 
             <NuxtLink class="verificar" 
             :to="'/search/' +
-                sucursal +
+                storeSearch.sucursal +
                 '/' +
-                sucursalRetorno +
+                storeSearch.sucursalRetorno +
                 '/' +
-                diaRetiro + tiempoRetiro +
+                storeSearch.diaRetiro + storeSearch.tiempoRetiro +
                 '/' +
-                diaRetorno + tiempoRetorno +
+                storeSearch.diaRetorno + storeSearch.tiempoRetorno +
                 '/'">
                 Siguiente
             </NuxtLink>  

@@ -1,18 +1,23 @@
 import { defineStore } from 'pinia'
-
+import moment from 'moment';
 export const useSearchStore = defineStore('search', {
     // a function that returns a fresh state - STATE ES COMO DATA
 state: () => ({   
     sucursalRetorno: '',
     modelo:'',
-    diaRetiro: null,
-    diaRetorno: null,
-    horaRetiro: null,
-    horaRetorno: null,
-    tiempoRetiro: null,
-    tiempoRetorno: null,
-    carroObjetoArray: [], 
+
     sucursal: 'Seleccione', 
+    diaRetiro: null,
+    horaRetiro: null,
+    tiempoRetiro: null,
+
+
+    diaRetorno: null,
+    
+    horaRetorno: null,
+   
+    tiempoRetorno: null,
+    
     sucursales: '',
     options: [
         { value: 'TH TORRE', label: 'Torremolinos (Tocumen)', region: 'Panamá'}, 
@@ -25,20 +30,20 @@ getters: {
 },
 // optional actions ACTIONS SON COMO METHODS
 actions: {
-        ChangeD(retiroAFechaCorta)
+        retiroAFechaCorta(fecha)
         {
-            this.diaRetiro=moment(retiroAFechaCorta).format('YYYY-MM-DD'); 
+            this.diaRetiro=moment(fecha).format('YYYY-MM-DD'); 
         },
-        ChangeR(retornoAFechaCorta)
+        retornoAFechaCorta(fecha)
         { 
-            this.diaRetorno=moment(retornoAFechaCorta).format('YYYY-MM-DD');
+            this.diaRetorno=moment(fecha).format('YYYY-MM-DD');
         
         },
-        ChangeH()
+        tiempoRetiroConHorasMinutos()
         { 
             this.tiempoRetiro = this.horaRetiro.hours + ':' + this.horaRetiro.minutes; 
         },
-        ChangeT()
+        tiempoRetornoConHorasMinutos()
         {  
             this.tiempoRetorno = this.horaRetorno.hours + ':' + this.horaRetorno.minutes;
         }
