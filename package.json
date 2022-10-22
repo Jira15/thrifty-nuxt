@@ -21,6 +21,13 @@
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@pinia/nuxt": "^0.4.3",
     "@vuepic/vue-datepicker": "^3.5.2",
-    "moment": "^2.29.4"
+    "@gtm-support/vue-gtm": "^2.0.0",
+    "moment": "^2.29.4",
+    "nuxt-directus": "^3.1.0",
+    "v-money": "^0.8.1",
+    "v-viewer": "^3.0.10",
+    "vue-colorful-slider": "^1.0.1",
+    "vue-ssr-carousel": "^1.4.2",
+    "vue3-google-map": "^0.15.0"
   }
 }

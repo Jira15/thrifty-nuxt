@@ -34,10 +34,12 @@ export default defineNuxtConfig({
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [ 
         '@/plugins/fontawesome.js',  
-        '@/plugins/vue-datepicker.js'   
+        '@/plugins/vue-datepicker.js',
+        '@/plugins/vue-gtm.client.js' 
     ],   
     // Modules: https://go.nuxtjs.dev/config-modules
-    modules: [  
+    modules: [ 
+            'nuxt-directus', 
             [
                 '@pinia/nuxt',
                 {
@@ -48,9 +50,11 @@ export default defineNuxtConfig({
                         ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
                     ],
                 },
-            ]
+            ],
         ],
-
+	directus: {
+		url: "http://localhost:8055",
+	}, 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
         transpile: ['@vuepic/vue-datepicker']
