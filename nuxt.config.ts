@@ -28,7 +28,8 @@ export default defineNuxtConfig({
         // https://fontawesome.com/docs/web/use-with/vue/use-with
         '@fortawesome/fontawesome-svg-core/styles.css',
         // https://vue3datepicker.com/installation/#nuxt
-        '@vuepic/vue-datepicker/dist/main.css'
+        '@vuepic/vue-datepicker/dist/main.css',
+        "@/layout/global.css"
     ],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

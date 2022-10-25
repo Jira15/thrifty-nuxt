@@ -19,25 +19,27 @@ export default {
 <template>
 <header class="menu">
     <nav>  
-        <i class="fas fa-bars" @click="showMenu()"><font-awesome-icon icon="bars" class="icon alt"/></i> 
+        <ClientOnly>
+            <i class="fas fa-bars" @click="showMenu()"><font-awesome-icon icon="bars" class="icon alt"/></i>
+        </ClientOnly>
         <div class="nav-content" :class="showMobileMenu ? 'open-menu' : 'closed-menu'">   
-            <router-link to="/"><img src="../assets/images/logo.png"></router-link>
+            <NuxtLink to="/"><img src="../assets/images/logo.png"></NuxtLink>
             <ul class="nav-items">
                 <li><a href="#">Reservas</a>
                     <ul class="dropdown" aria-label="submenu">
-                        <li><router-link to="/reserva">Reservas</router-link></li>
+                        <li><NuxtLink to="/reserva">Reservas</NuxtLink></li>
                         <li><a href="#">Reservas a USA </a></li> 
                     </ul> 
                 </li>
-                <li><router-link to="/flota">Flota</router-link></li>
-                <li><router-link to="/sucursales">Sucursales</router-link></li>
+                <li><NuxtLink to="/flota">Flota</NuxtLink></li>
+                <li><NuxtLink to="/sucursales">Sucursales</NuxtLink></li>
                 <li><a href="#">Corporativo</a>
                     <ul class="dropdown" aria-label="submenu">
-                        <li><router-link to="/corporativo">Leasing Corporativo</router-link></li>
-                        <li><a href="#">Planes Corporativos</a></li> 
+                        <li><NuxtLink to="/paginas/operativo">Leasing Operativo</NuxtLink></li>
+                        <li><NuxtLink to="/paginas/corporativo">Planes Corporativos</NuxtLink></li> 
                     </ul>
                 </li> 
-                <li><router-link to="/modify">Maneja tu Reserva</router-link></li>
+                <!-- <li><NuxtLink to="/modify">Maneja tu Reserva</NuxtLink></li> -->
             </ul>
         </div>
     </nav>   
@@ -49,7 +51,7 @@ export default {
     width: 100%;
     background: linear-gradient(6deg, rgba(71, 157, 255, 1) 0%, rgba(3, 101, 199, 1) 100%);
     display: flex; 
-    .router-link-active {
+    .NuxtLink-active {
     color:#d8d8d8;
     }
     nav {

@@ -2,9 +2,8 @@
   <footer class="footer">
     <section>
       <!-- <router-link to="/"><img src="../assets/images/logo.png"/></router-link> --> 
-      
-      <p>
-        <h3>Contacto</h3>
+      <h3>Contacto</h3>
+      <p> 
           Reservaciones: (507) 204-9555 <br /> 
           Asistencia 24 H: (507) 204-9550<br /> 
           Whatsapp: (507) 6678-5406
@@ -14,32 +13,35 @@
 
   <section>
     <nav> 
+      
+      <h3>Servicios</h3>
       <p>
-        <h3>Servicios</h3>
-          <a href="#">Coberturas</a>
-          <a href="#">Requisitos</a>
-          <a href="#">Bolsa de Trabajo</a>
+          <NuxtLink to="/paginas/coberturas">Coberturas</NuxtLink>
+          <NuxtLink to="/paginas/requisitos">Requisitos</NuxtLink>
+          <NuxtLink to="#">Bolsa de Trabajo</NuxtLink>
       </p> 
     </nav> 
   </section>
 
     <section> 
+      <h3>Soporte</h3>
       <p>
-        <h3>Soporte</h3>
-        <a href="#">Politica de Reembolso</a>
-        <a href="#">Términos y Condiciones</a>
-        <a href="#">Política de Privacidad</a>
+     
+        <NuxtLink to="/paginas/reembolso">Politica de Reembolso</NuxtLink>
+        <NuxtLink to="/paginas/tyc">Términos y Condiciones</NuxtLink>
+        <NuxtLink to="/paginas/privacidad">Política de Privacidad</NuxtLink>
       </p> 
     </section> 
 
     <section class="sociales"> 
-      <h3>Siguenos en</h3>
-      <p>   
-
-        <a href="#"><font-awesome-icon icon="fa-brands fa-instagram" /></a>
-        <a href="#"><font-awesome-icon :icon="['fab', 'twitter']" class="icon alt"/></a>
-        <a href="#"><font-awesome-icon icon="fa-brands fa-facebook" /></a>
-      </p>  
+      <h3>Siguenos en</h3> 
+      <ClientOnly>
+        <p>
+          <font-awesome-icon icon="fa-brands fa-instagram" /> 
+          <font-awesome-icon :icon="['fab', 'twitter']" class="icon alt"/> 
+          <font-awesome-icon icon="fa-brands fa-facebook" />
+        </p>  
+      </ClientOnly>
     </section>
 
     <p class="copyright">Copyright © 2022 Thrifty Panamá</p>
@@ -57,19 +59,23 @@
   min-height: 300px;
   line-height: 1.3;  
   text-align: left; 
-  padding:50px;
+  padding:50px; 
+  justify-content: space-between;
   h3 {
     font-weight: bold;
     font-size: 16px;
     margin-bottom: 10px;
+
   } 
   nav { 
     display: flex;
     flex-direction: column;   
   }
   p { 
-    font-family: sans-serif;
-    width: 300px;
+    font-family: sans-serif; 
+ 
+    display: flex;
+    flex-direction: column;
   }
   a {
     margin-bottom: 5px;
@@ -90,8 +96,13 @@
  
   font-size: 12px;
 }
-.sociales a{  
+.sociales { 
   font-size: 30px;
+}
+.sociales p { 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 // Desktop  
