@@ -18,7 +18,7 @@
       <p>
           <NuxtLink to="/paginas/coberturas">Coberturas</NuxtLink>
           <NuxtLink to="/paginas/requisitos">Requisitos</NuxtLink>
-          <NuxtLink to="#">Bolsa de Trabajo</NuxtLink>
+          <NuxtLink to="/paginas/trabajo">Bolsa de Trabajo</NuxtLink>
       </p> 
     </nav> 
   </section>
