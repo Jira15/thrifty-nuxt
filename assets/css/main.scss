@@ -31,31 +31,7 @@ font-family: Lato, sans-serif;
     }
 } 
 // v-html especifico //
-
-
-
-
-.lista-modelos {
-font-size: 13px;
-font-weight: bold;
-margin: 5px;
-}
-
-.lista-modelos ul {
-height: 200px;
-display: flex;
-flex-direction: column;
-flex-wrap: wrap; 
-list-style: none; 
-} 
-    
-    
-.sucursales h2 {
-font-size: 16px;
-}
-
  
-
 
 input,
 textarea,
@@ -480,4 +456,5 @@ select {
     section {
     display: inline;
     }
-}
+} 
+

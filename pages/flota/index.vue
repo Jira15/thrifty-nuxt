@@ -19,15 +19,18 @@ onMounted(() => {
 <template>
 <main class="auto">
     <h2>Flota</h2>
-    <div>
+    <div class="wrapper">
         <article v-for="auto in autos" :key="auto.id">
             <figure> 
                 <img :src="getAssetURL(auto.imagen)"  loading="lazy" /> 
             </figure> 
             <section>
-                <h2>
-                    {{ auto.marca }}  {{ auto.modelo }} <em>o similar</em> 
-                </h2>   
+            <header>
+                <h3>
+                    {{ auto.marca }} {{ auto.modelo }}  
+                </h3>   
+                <em>o similar</em> 
+            </header>
                 <dl class="specs">
                     <div v-if="auto.pasajeros">
                         <dt>
@@ -74,7 +77,12 @@ onMounted(() => {
                 </dl>   
             </section>  
 
-            <NuxtLink to="#"><button>Reservar Aqui</button></NuxtLink>
+            <NuxtLink  
+            :to="'/flota/' +
+            auto.id">
+                <button>Reservar Aqui</button>
+            </NuxtLink>
+ 
         </article> 
     </div>
 </main> 
@@ -84,22 +92,35 @@ onMounted(() => {
 .auto {  
     article {
         background-color: white;
-        border-radius: 5px;
-        margin: 10px;
+        border-radius: 5px; 
         padding: 5px;
         display: flex;
-        flex-direction: column;
-    } 
+        flex-direction: column; 
+        min-width: 350px;
+        max-width: 350px;
+        margin:10px;
+    }
+
     h2 {
         font-weight: bold;
-        font-size: 32px;
-        line-height: 36px;
+        font-size: 32px; 
         margin-top: 20px;
         margin: 10px;
+        width: 100%; 
     }
+    header { 
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    h3 {
+        font-weight: bold;
+        font-size: 34px;  
+        width: 100%; 
+    } 
     em {
         font-size: 24px;
         color: gray;
+        font-style: italic; 
     }
     p {  
         font-size: 15px; 
@@ -108,7 +129,7 @@ onMounted(() => {
     img {
         object-fit:contain;
         width: 100%;
-        height: 150px;
+        height: 180px;
         border-radius: 5px;
     }
     button {
@@ -118,8 +139,7 @@ onMounted(() => {
         text-transform: uppercase;
         font-size: 16px;
         font-weight: 600;
-        color: white;  
-        margin-top: 20px;
+        color: white;   
         width: 100%;
         text-align: center;
     }
@@ -127,19 +147,21 @@ onMounted(() => {
         display: flex;   
         width: 100%;
         padding: 5px;
+        flex-wrap: wrap;
+        div {
+            text-align: center; 
+            text-transform:capitalize;
+            width: 90px; 
+            margin-top: 3px;
+        }
             dl {
                 display: flex;
                 font-size: 14px;
                 font-weight: bold;
             }
             dd {  
-                font-size: 12px;
-           
-            }
-            div {
-                text-align: center; 
-                text-transform:capitalize
-            }
+                font-size: 12px; 
+            } 
             dt {
                 object-fit:contain;
             } 
@@ -152,16 +174,9 @@ onMounted(() => {
 
 // Desktop  
 @media screen and (min-width: 768px) { 
-    div { 
+    .wrapper { 
         display: flex;
         justify-content: center;
-    }
-    article {
-        min-width: 350px;
-        max-width: 350px; 
-    }
-    section {
-        height: 130px;
-    }
+    } 
 }
 </style>
