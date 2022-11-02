@@ -7,9 +7,10 @@ state: () => ({
 }),
 // optional getters GETTER SON COMO COMPUTED 
 getters: {
-    getautos: (state) => { 
+    getAutos: (state) => { 
         return state.autos 
     },  
+    
     // GETTER SON COMO COMPUTED getters receive the state as first parameter 
 },
 // optional actions ACTIONS SON COMO METHODS

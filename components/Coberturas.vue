@@ -1,9 +1,11 @@
  
 <script setup>  
 import { useCoberturasStore } from '@/stores/coberturas'
+import { usePedidoStore } from '@/stores/pedido'
 import { storeToRefs } from 'pinia' 
 import { getAssetURL } from "@/utils/get-asset-url";
  
+const storePedido = usePedidoStore() 
 const storeCoberturas = useCoberturasStore() 
 const coberturas = computed(() => {
     return storeCoberturas.coberturas
@@ -13,7 +15,7 @@ onMounted(() => {
 })
 </script> 
 <template>
-<main class="extras">   
+<main class="coberturas">   
 <h2>Coberturas</h2>
 <section> 
     <ul>
@@ -28,19 +30,21 @@ onMounted(() => {
                     </p>
                 </div>
                 <footer> 
-                    <input  type="radio" name="coberturas" >
+                    <input  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura" >
                     <h4>B/. {{ cobertura.precio }} / por día</h4>  
                 </footer>
             </article>
         </li>  
         <li>
-            <article> 
+            <article>
+                <div>
                 <header>  
                     <h3>Asistencia Vial(ERA)</h3>
                 </header> 
-                <p>
-                    ERA | ASISTENCIA VIAL Esta cobertura ofrece a EL ARRENDATARIO los siguientes servicios de asistencia en carretera sin cargo alguno: Pérdida de llave del automóvil, servicio de grúa, reemplazo de neumático, asistencia al quedarse sin combustible o sin batería. El tiempo de respuesta por parte de LA ARRENDADORA está sujeto al día, hora y ubicación del incidente.
-                </p>
+                    <p>
+                        ERA | ASISTENCIA VIAL Esta cobertura ofrece a EL ARRENDATARIO los siguientes servicios de asistencia en carretera sin cargo alguno: Pérdida de llave del automóvil, servicio de grúa, reemplazo de neumático, asistencia al quedarse sin combustible o sin batería. El tiempo de respuesta por parte de LA ARRENDADORA está sujeto al día, hora y ubicación del incidente.
+                    </p>
+                </div>
                 <footer> 
                     <h4>B/. 3.99 </h4>  
                 </footer>
@@ -51,7 +55,7 @@ onMounted(() => {
 </main> 
 </template> 
 <style scoped lang="scss">  
-.extras {  
+.coberturas {  
     ul li article {
         background-color: rgba(255, 255, 255, 0.644);
         border-radius: 5px;  
@@ -68,8 +72,8 @@ onMounted(() => {
     h2 {
         font-weight: bold;
         font-size: 32px; 
-        margin-top: 20px;
-        margin: 10px;
+        margin-top: 20px; 
+        padding-left:10px;
         width: 100%; 
     } 
     h3 {
@@ -114,7 +118,7 @@ onMounted(() => {
 } 
   // Desktop  
 @media screen and (min-width: 768px) {
-    .extras {  
+    .coberturas {  
         ul li article {
             background-color: rgba(255, 255, 255, 0.644);
             border-radius: 5px;  
@@ -126,6 +130,7 @@ onMounted(() => {
         }
         footer {  
             align-items: center;
+            max-width: 150px;
         } 
     } 
 }

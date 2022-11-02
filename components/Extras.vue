@@ -1,8 +1,8 @@
 <script setup>  
 import { useExtrasStore } from '@/stores/extras'
-import { storeToRefs } from 'pinia' 
-import { getAssetURL } from "@/utils/get-asset-url";
-
+import { usePedidoStore } from '@/stores/pedido'
+ 
+const storePedido = usePedidoStore() 
 const storeExtras = useExtrasStore() 
 const extras = computed(() => {
     return storeExtras.extras
@@ -22,9 +22,10 @@ onMounted(() => {
                     <h3> {{ extra.nombre }} </h3>
                 </header>  
                 <footer> 
-                    <input  type="checkbox" name="extras" >
+                    <input :id="extra.id" type="checkbox" v-model="storePedido.pedido.extras" :value="extra" >
                     <h4>B/.{{ extra.precio }} / por día</h4>  
                 </footer>
+ 
             </article>
         </li>  
     </ul> 
@@ -51,7 +52,7 @@ onMounted(() => {
         font-weight: bold;
         font-size: 32px; 
         margin-top: 20px;
-        margin: 10px;
+        padding-left:10px;
         width: 100%; 
     }
     h3 {
@@ -88,7 +89,7 @@ onMounted(() => {
             justify-content: space-between;
         } 
         ul {     
-            margin: 10px;
+            padding: 10px;
         } 
         ul li   { 
             display: flex; 
