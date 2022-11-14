@@ -4,6 +4,8 @@ import { useExtrasStore } from '@/stores/extras';
 import { useCoberturasStore } from '@/stores/coberturas';
 
 
+
+
 export const usePedidoStore = defineStore(
     'pedido', 
     { 
@@ -12,36 +14,61 @@ export const usePedidoStore = defineStore(
             pedido: {
                 carro: Object,
                 cobertura: Object,
-                extras: []
+                extras: [],
+                sucursal: Object,
+                sucursalRetorno: Object,
+                diaRetiro: String, 
+                horaRetiro: Object, 
+                diaRetorno: null, 
+                horaRetorno: Object,  
             } 
         }), 
         // optional getters GETTER SON COMO COMPUTED 
-        getters: {   
+getters: {   
+    
+
+    }, 
+
+
+
+            // const total = computed(() => {
+
+            //     // defino variables
+            //     let precioAuto = pedidoStore.pedido.carro.precio;  
+            //     let precioCobertura = pedidoStore.pedido.cobertura.precio; 
+            //     const precioExtra = pedidoStore.pedido.extras;   
+            //     const preciosASumar = []; 
+            //     // sumo todos los extras
+            //     const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0); 
+                
+            //     //multiplicar extras y coberturas por la cantidad de dias arrendados
+                
+            //     // falta sumar ERA 3.99
             
-            // total(): number {
-            //     const extras = useExtrasStore();
-            //     return Object.keys(this.pedido).reduce((acc, id) => {
-            //         return acc + extras.extras[id].precio ;
-            //     }, 0);
-            //     }, 
-        },
+            //     // agrego los precios de cobertura y carro y todos los extras ya sumados al array
+            //     preciosASumar.push(extrasSumados, precioCobertura, precioAuto); 
+            //     // sumo todo en el array
+            //     const suma = preciosASumar.map(element => element).reduce((a, b) => a + b, 0);
+            //     // que siempre formattee como dolares
+            //     return suma.toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
+            //     });  
 
         actions: {  
-            
+            total() {
+                let precioAuto = this.pedido.carro.precio;  
+                let precioCobertura = this.pedido.cobertura.precio; 
+                const precioExtra = this.pedido.extras;   
+                const preciosASumar = []; 
+        
+                // sumo todos los extras
+                const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0); 
+                //  agrego los precios de cobertura y carro y todos los extras ya sumados al array
+                preciosASumar.push(extrasSumados, precioCobertura, precioAuto); 
+                // sumo todo en el array
+                const suma = preciosASumar.map(element => element).reduce((a, b) => a + b, 0);
+                // que siempre formattee como dolares
+                return suma.toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
+            }   
         } 
     }   
-)  
-
-
-
-
-
-
-// GETTER SON COMO COMPUTED getters receive the state as first parameter 
-//hacer un getter que guarde o sume los extras/coberturas de los otros stores  
-// getPedido: (state) => { 
-//     return state.pedido // * this.contents[id].quantity
-// },
-//  agregarSubtotal(state) {
-//     return state.pedido.subtotal.push(this.pedido.extras.precio);
-//   }, 
+)   

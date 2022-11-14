@@ -24,8 +24,7 @@ onMounted(() => {
                 <footer> 
                     <input :id="extra.id" type="checkbox" v-model="storePedido.pedido.extras" :value="extra" >
                     <h4>B/.{{ extra.precio }} / por día</h4>  
-                </footer>
- 
+                </footer> 
             </article>
         </li>  
     </ul> 
@@ -41,8 +40,7 @@ onMounted(() => {
         display: flex;
         flex-direction: column; 
         margin:10px;
-        padding: 0px;
-        width: 100%;
+        padding: 0px; 
     } 
     header { 
         display: flex;
@@ -87,6 +85,7 @@ onMounted(() => {
             margin:2px;
             padding: 0px;
             justify-content: space-between;
+            width: 100%;
         } 
         ul {     
             padding: 10px;

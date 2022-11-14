@@ -1,23 +1,20 @@
  
 <script setup>  
 import { useSucursalStore } from '@/stores/sucursal'
+import { useSearchStore } from '@/stores/search'
 import { storeToRefs } from 'pinia' 
 import { getAssetURL } from "@/utils/get-asset-url";
 import { GoogleMap, Marker } from 'vue3-google-map'  
 
-const storeSucursal = useSucursalStore()
-
-const getSucursales = computed(() => {
-    return storeSucursal.getSucursales
-})
+const storeSucursal = useSucursalStore(); 
+const storeSearch = useSearchStore();
+ 
 const sucursales = computed(() => {
     return storeSucursal.sucursales
 }) 
 onMounted(() => {
     storeSucursal.fetchSucursales(); 
-}) 
-
-    
+})  
 </script> 
 <template>
 <main class="sucursal">
@@ -29,7 +26,7 @@ onMounted(() => {
             </figure> 
             <section>
                 <h3>
-                    {{ sucursal.nombre }}
+                    {{ sucursal.nombre }}  
                 </h3> 
                 <p>
                     Telefonos:  {{ sucursal.telefono_1 }} <br />
@@ -66,9 +63,23 @@ onMounted(() => {
                         position: { lat: sucursal.mapa.coordinates[1], lng: sucursal.mapa.coordinates[0] } }" 
                         />
                 </GoogleMap>
-            </aside> 
+            </aside>  
 
-            <button>Reservar Aqui</button>
+            <NuxtLink class="verificar" 
+            :to="'/search/' +
+                sucursal.codigo_rentworks  +
+                '/' +
+                sucursal.codigo_rentworks +
+                '/' +
+                 sucursal.horario_apertura +
+                '/' +
+                 sucursal.horario_apertura +
+                '/'">
+                Reservar Aqui  
+            </NuxtLink> 
+
+
+
         </article> 
     </div>
 </main> 
@@ -104,8 +115,8 @@ onMounted(() => {
         height: 150px;
         border-radius: 5px;
     }
-    button {
-        background-color: #047EFF;
+    .verificar {
+        background-color: #006fb4;
         padding: 5px 15px;
         border-radius: 5px; 
         text-transform: uppercase;
@@ -115,6 +126,7 @@ onMounted(() => {
         margin-top: 20px;
         width: 100%;
         text-align: center;
+        display:inline-block
     } 
 }
 .mapa {

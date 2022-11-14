@@ -12,12 +12,14 @@ const getAutos = computed(() => {
 const autos = computed(() => {
     return storeAutos.autos
 }) 
+
 onMounted(() => {
     storeAutos.fetchAutos(); 
 })
 </script> 
 <template>
-  <main class="auto"> 
+  <main class="auto">
+    <TheSearch />
       <div class="wrapper">
         <article v-for="auto in autos" :key="auto.id">
               <figure> 

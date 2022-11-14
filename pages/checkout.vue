@@ -3,32 +3,54 @@ import { getAssetURL } from "@/utils/get-asset-url";
 import { usePedidoStore } from '@/stores/pedido';
 
 const storePedido = usePedidoStore();
-const route = useRoute();
-const { getItemById } = useDirectusItems(); 
-const auto = await  getItemById({
-        collection: "flota",
-        id: route.params.id, 
-    });   
-onMounted(() => {
-    storePedido.pedido.carro = auto; 
-}) 
+ 
+const pedido = computed(() => {
+    return storePedido.pedido
+})  
 </script> 
 <template>
-    <main class="auto">  
-        <article> 
-            <CarroSeleccionado />
-            <Desglose />  
-            <footer>   
-                <NuxtLink to="/checkout">
-                    <button>Siguiente</button>
-                </NuxtLink> 
-            </footer> 
-        </article> 
-        <section class="coberturas">
-            <Coberturas /> 
-            <Extras /> 
-        </section> 
-    </main> 
+<main class="auto">  
+    <article> 
+        <CarroSeleccionado />
+        <!-- agregar detalles sucursal -->
+        <Desglose />  
+
+    </article> 
+    <section class="detalles-conductor"> 
+        <h3>Finaliza tu reserva</h3>
+        <form>
+            <p>
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" />
+            </p>
+            <p>
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" />
+            </p> 
+            <p>
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" name="telefono" />
+            </p> 
+            <p>
+                <label for="email">Dirección de correo electrónico</label>
+                <input type="text" id="email" name="email" />
+            </p> 
+            <p>
+                <label for="licencia">Licencia</label>
+                <input type="text" id="licencia" name="licencia" />
+            </p> 
+            <p>
+                <label for="nacimiento">Fecha de Nacimiento</label>
+                <input type="text" id="nacimiento" name="nacimiento" />
+            </p> 
+        </form>
+        <footer> 
+            <NuxtLink to="/checkout">
+                <button>PAGAR / PAYPAL</button>
+            </NuxtLink> 
+        </footer> 
+    </section> 
+</main> 
 </template>
 <style scoped lang="scss">  
   /* autos flota id */ 
@@ -40,7 +62,8 @@ onMounted(() => {
         display: flex;
         flex-direction: column;
         min-width: 350px; 
-        margin:5px;  
+        margin:5px; 
+        
     }
     h2 {
         font-weight: bold;
@@ -125,11 +148,57 @@ onMounted(() => {
             max-width:  15px;  
         } 
     }
+    .detalles-conductor{
+        background-color:white;
+        border-radius: 5px; 
+        padding: 5px; 
+        min-width: 350px; 
+        margin:5px;
+        line-height: 1.5;
+        form {
+            margin-bottom: 10px;
+       
+            p { 
+                display: flex; 
+                flex-direction: column;
+                justify-content: space-between; 
+            } 
+        }
+    }
 }   
 // Desktop  
 @media screen and (min-width: 768px) { 
 .auto {
-    display: flex; 
+    display: flex;
+    .detalles-conductor{
+        background-color: white;
+        border-radius: 5px; 
+        padding: 5px; 
+        width: 100%; 
+        margin:5px;
+        line-height: 1.5;
+        
+        form {
+            input {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 3px;
+                margin-left: 20px;
+                width: 100%;
+                box-sizing: border-box;
+                background-color: rgb(245, 245, 245);
+            }
+            margin-bottom: 10px; 
+            p { 
+                font-size: 18px;
+                max-width: 500px;
+                display: flex; 
+                flex-direction: column;
+                justify-content: space-between; 
+            } 
+        }
+    }
+    
     article {
         background-color: white;
         border-radius: 5px; 

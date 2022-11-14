@@ -3,28 +3,21 @@ import moment from 'moment';
 export const useSearchStore = defineStore('search', {
     // a function that returns a fresh state - STATE ES COMO DATA
 state: () => ({   
-    sucursalRetorno: '',
-    modelo:'',
-
-    sucursal: 'Seleccione', 
-    diaRetiro: null,
+    sucursal: Object, 
+    sucursalRetorno: Object,
+    modelo:'', 
+    diaRetiro: String,
     horaRetiro: null,
-    tiempoRetiro: null,
-
-
-    diaRetorno: null,
-    
-    horaRetorno: null,
-   
-    tiempoRetorno: null,
-    
+    tiempoRetiro: null, 
+    diaRetorno: null, 
+    horaRetorno: null, 
+    tiempoRetorno: null, 
     sucursales: '',
-    options: [
-        { value: 'TH TORRE', label: 'Torremolinos (Tocumen)', region: 'Panamá'}, 
-        { value: 'TDAVIDC', label: 'David Centro', region: 'Chiriquí'}  
-    ],  
+    options: [],  
 }),
 // optional getters GETTER SON COMO COMPUTED 
+// { value: 'TH TORRE', label: 'Torremolinos (Tocumen)', region: 'Panamá'}, 
+// { value: 'TDAVIDC', label: 'David Centro', region: 'Chiriquí'} 
 getters: {
     // GETTER SON COMO COMPUTED getters receive the state as first parameter 
 },

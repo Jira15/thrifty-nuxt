@@ -1,33 +1,39 @@
-<script>   
+<script setup> 
 import { useSearchStore } from '@/stores/search'
 import { storeToRefs } from 'pinia'
+import { usePedidoStore } from '@/stores/pedido'
+import { useSucursalStore } from '@/stores/sucursal'
 
-export default { 
-    setup() {
-        const storeSearch = useSearchStore() 
-        const router = useRouter() 
+const router = useRouter(); 
+const pedidoStore = usePedidoStore();
+const storeSearch = useSearchStore();
+const storeSucursal = useSucursalStore(); 
+const sucursales = computed(() => {
+    return storeSucursal.sucursales
+})  
+onMounted(() => {
+    storeSucursal.fetchSucursales(); 
+    storeSearch.options = sucursales; 
+})  
+function tiempoMinimoAntesDeReserva(date, hours){
+        const newDate = new Date(date);
+        newDate.setHours(newDate.getHours() + hours);
+        return newDate;
+    }; 
 
-        function tiempoMinimoAntesDeReserva(date, hours){
-            const newDate = new Date(date);
-            newDate.setHours(newDate.getHours() + hours);
-            return newDate;
-        }; 
-        const time = ref({ 
-            hours: new Date().getHours(),
-            minutes: new Date().getMinutes()
-        });
-        const date = new Date();
-        const tiempoMinimo = tiempoMinimoAntesDeReserva(date, 1); 
-        const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
+const time = ref({ 
+    hours: new Date().getHours(),
+    minutes: new Date().getMinutes() 
+});
+const date = new Date();
+const tiempoMinimo = tiempoMinimoAntesDeReserva(date, 1); 
+const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
         
-        return {
-            storeSearch,
-            time,
-            startTime 
-        }
-    },  
-
-} 
+// return {
+//     storeSearch,
+//     time,
+//     startTime 
+// } 
 </script>
 <template>
 <form class="reservador" @submit.prevent="submit">
@@ -43,8 +49,8 @@ export default {
                 <label class="sucursal">
                     <select v-model="storeSearch.sucursal"> 
                         <option disabled value="">{{ sucursal }}</option>
-                        <option v-for="option in storeSearch.options" :value="option.value"  >
-                            {{ option.label }}
+                        <option v-for="option in storeSearch.options" :value="option"  >
+                            {{ option.nombre }}
                         </option>
                     </select> 
                 </label>
@@ -81,10 +87,9 @@ export default {
             <section>
                 <legend>sucursal de retorno</legend>
                 <label class="sucursales">
-                    <select v-model="storeSearch.sucursalRetorno" > 
-                        <option disabled value="">{{ sucursales }}</option>
-                        <option v-for="option in storeSearch.options" :value="option.value"  >
-                            {{ option.label }}
+                    <select v-model="storeSearch.sucursalRetorno" >  
+                        <option v-for="option in storeSearch.options" :value="option"  >
+                            {{ option.nombre }}
                         </option>
                     </select> 
                 </label>
@@ -118,20 +123,24 @@ export default {
         </div>
         <div class="siguiente"> 
             <NuxtLink class="verificar" 
-            :to="'/search/' +
-                storeSearch.sucursal +
-                '/' +
-                storeSearch.sucursalRetorno +
-                '/' +
-                storeSearch.diaRetiro + storeSearch.tiempoRetiro +
-                '/' +
-                storeSearch.diaRetorno + storeSearch.tiempoRetorno +
-                '/'">
-                Siguiente
-            </NuxtLink>  
+            to="/search/">
+                Buscar
+            </NuxtLink> 
         </div>
     </article>  
 </form>
+
+<!-- :to="'/search/' +
+storeSearch.sucursal.label +
+'/' +
+storeSearch.sucursalRetorno.label +
+'/' +
+storeSearch.diaRetiro + storeSearch.tiempoRetiro +
+'/' +
+storeSearch.diaRetorno + storeSearch.tiempoRetorno +
+'/'"> -->
+
+
 </template> 
 <style lang="scss">
 .slot-icon {
@@ -221,3 +230,16 @@ export default {
 }
 
 </style>
+
+<!-- <NuxtLink class="verificar" 
+:to="'/search/' +
+    storeSearch.sucursal +
+    '/' +
+    storeSearch.sucursalRetorno +
+    '/' +
+    storeSearch.diaRetiro + storeSearch.tiempoRetiro +
+    '/' +
+    storeSearch.diaRetorno + storeSearch.tiempoRetorno +
+    '/'">
+    Buscar
+</NuxtLink>   -->

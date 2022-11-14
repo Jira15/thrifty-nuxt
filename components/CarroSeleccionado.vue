@@ -1,38 +1,73 @@
 <script setup>    
 import { getAssetURL } from "@/utils/get-asset-url";
-import { usePedidoStore } from '@/stores/pedido';
-
-const storePedido = usePedidoStore();
-const route = useRoute();
-const { getItemById } = useDirectusItems(); 
-const auto = await  getItemById({
-        collection: "flota",
-        id: route.params.id, 
-    });   
-onMounted(() => {
-    storePedido.pedido.carro = auto; 
+import { usePedidoStore } from '@/stores/pedido'; 
+const storePedido = usePedidoStore(); 
+const auto = computed(() => {
+    return storePedido.pedido.carro
 }) 
 </script> 
 <template>
-    <main class="auto">  
-        <article> 
-            <CarroSeleccionado />
-            <Desglose />  
-            <footer>   
-                <NuxtLink to="/checkout">
-                    <button>Siguiente</button>
-                </NuxtLink> 
-            </footer> 
-        </article> 
-        <section class="coberturas">
-            <Coberturas /> 
-            <Extras /> 
-        </section> 
-    </main> 
+<section>  
+    <header> 
+        <div> 
+            <h3>
+                {{ auto.marca }} {{ auto.modelo }}  
+            </h3>   
+            <em>o similar</em> 
+        </div> 
+        <figure> 
+            <img :src="getAssetURL(auto.imagen)"  loading="lazy" /> 
+        </figure> 
+    </header>
+
+    <dl class="specs">
+        <div v-if="auto.pasajeros">
+            <dt>
+                <img src="@/assets/images/pasajeros.png" alt="Pasajeros" />  
+            </dt>
+            <dd>{{auto.pasajeros }}</dd>
+        </div>
+        <div v-if="auto.puertas">
+            <dt>
+                <img src="@/assets/images/doors.png" alt="Puertas" />
+            </dt>
+            <dd>{{auto.puertas }}</dd>
+        </div>
+        <div v-if="auto.maletas">
+            <dt>
+                <img src="@/assets/images/luggage.png" alt="Maletas" />
+            </dt>
+            <dd>{{auto.maletas }}</dd>
+        </div>
+        <div v-if="auto.transmision">
+            <dt>
+            <img src="@/assets/images/transmision.png" alt="Transmision" />
+            </dt>
+            <dd>{{ auto.transmision }}</dd>
+        </div>
+        <div v-if="auto.motor">
+            <dt>
+            <img src="@/assets/images/motor.png" alt="Motor" />
+            </dt>
+            <dd>1200cc</dd>
+        </div>
+        <div v-if="auto.combustible">
+            <dt>
+            <img src="@/assets/images/fuel.png" alt="Gasolina" />
+            </dt>
+            <dd>{{ auto.combustible}}</dd>
+        </div>
+        <div>
+            <dt>
+            <img src="@/assets/images/ac.png" alt="ac" /> 
+            </dt>
+            <dd>A/C</dd>
+        </div>
+    </dl>   
+</section>  
 </template>
 <style scoped lang="scss">  
-  /* autos flota id */ 
-.auto {  
+  /* autos flota id */  
     article {
         background-color: white;
         border-radius: 5px; 
@@ -40,7 +75,8 @@ onMounted(() => {
         display: flex;
         flex-direction: column;
         min-width: 350px; 
-        margin:5px;  
+        margin:5px; 
+        
     }
     h2 {
         font-weight: bold;
@@ -124,12 +160,10 @@ onMounted(() => {
         img{ 
             max-width:  15px;  
         } 
-    }
-}   
+    } 
 // Desktop  
-@media screen and (min-width: 768px) { 
-.auto {
-    display: flex; 
+@media screen and (min-width: 768px) {  
+ 
     article {
         background-color: white;
         border-radius: 5px; 
@@ -178,6 +212,5 @@ onMounted(() => {
             padding: 2px;  
         }  
     }
-} 
-}
+}  
 </style> 
