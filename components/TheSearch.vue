@@ -31,16 +31,17 @@ const date = new Date();
 const tiempoMinimo = tiempoMinimoAntesDeReserva(date, 1); 
 const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
         
-const searchSchema = yup.object({ 
-    diaRetiro: yup.date().required(() => new Date()),
-    sucursal: yup.string().required()
-});
 
+// const searchSchema = yup.object({  
+//     sucursal: yup.string().required(),
+//     diaRetiro: yup.date().required(),
+//     // horaRetiro: yup.object().required()
+// });
+ 
 </script> 
 <template>
-<Form class="reservador" @submit="onSubmit" :validation-schema="searchSchema"  @invalid-submit="onInvalidSubmit">
- 
-    
+<Form class="reservador"  @submit="storeSearch.submit" > 
+
     <header>
         <h2> 
             Haz tu reserva
@@ -53,6 +54,7 @@ const searchSchema = yup.object({
                 {{ option.nombre }}
             </option>
         </select>  -->
+
         <div class="retiro">
             <section>
                 <legend>sucursal de retiro</legend> 
@@ -63,7 +65,8 @@ const searchSchema = yup.object({
                             {{ option.nombre }}
                         </option> 
                     </Field> 
-                </label> 
+                </label>  
+              
                 <ErrorMessage name="sucursal" />
             </section> 
 
@@ -74,43 +77,43 @@ const searchSchema = yup.object({
                         v-model="storeSearch.diaRetiro"  
                         :minDate="new Date()"
                         :enableTimePicker="false"
-                        locale="es"
-                        required 
+                        locale="es" 
                         name="diaRetiro"
                         rules="required" 
                         @update:modelValue="storeSearch.retiroAFechaCorta"
-                        />
-                    <ErrorMessage name="diaRetiro" />
+                        /> 
+                        <ErrorMessage name="diaRetiro" />
                     <date-picker 
                         class="hora"
                         v-model="storeSearch.horaRetiro"
                         :startTime="startTime"
                         timePicker
-                        minutesIncrement="30"  
+                        minutesIncrement="30"   
                         @update:modelValue="storeSearch.tiempoRetiroConHorasMinutos" 
+                        name="horaRetiro" 
                         >
                         <template  #input-icon> 
                             <img class="slot-icon"  src="@/assets/images/clock.png"/> 
                         </template>
-                    </date-picker>
+                    </date-picker> 
+                    <ErrorMessage name="horaRetiro" />
+                    <span>{{ storeSearch.errors.horaRetiro }}</span>
                 </fieldset>  
             </section>  
-        </div>
-        
-        <div class="retorno"> 
- 
-
+        </div> 
+        <div class="retorno">  
             <section>
                 <legend>sucursal de retorno</legend> 
                 <label class="sucursales">
-                    <Field  v-model="storeSearch.sucursalRetorno"  name="sucursalRetorno" as="select" rules="required" > 
+                    <Field  v-model="storeSearch.sucursalRetorno"  name="sucursalRetorno" as="select"   rules="required" > 
                         <option disabled value="">Selecciona una sucursal</option>
                         <option v-for="option in  storeSearch.options" :key="option" :value="option.nombre">
                             {{ option.nombre }}
                         </option> 
                     </Field> 
                 </label> 
-                <ErrorMessage name="sucursal" />
+                <ErrorMessage name="sucursalRetorno" />
+                <span>{{ storeSearch.errors.sucursalRetorno }}</span>
             </section>
             
             <section> 
@@ -122,8 +125,12 @@ const searchSchema = yup.object({
                         :enableTimePicker="false"
                         locale="es"
                         @update:modelValue="storeSearch.retornoAFechaCorta"
+                        rules="required"
                         /> 
-                    
+                        <span>
+                            {{ storeSearch.errors.diaRetorno }}
+                          </span> 
+                          <ErrorMessage name="diaRetiro" />
                     <date-picker
                         class="hora"
                         v-model="storeSearch.horaRetorno"
@@ -131,17 +138,22 @@ const searchSchema = yup.object({
                         timePicker
                         minutesIncrement="30"  
                         @update:modelValue="storeSearch.tiempoRetornoConHorasMinutos" 
+                        name="horaRetorno"
+                        rules="required"
                         >
                         <template  #input-icon> 
                             <img class="slot-icon"  src="@/assets/images/clock.png"/> 
                         </template>
                     </date-picker> 
+                    <span>{{ storeSearch.errors.horaRetorno }}</span>
                 </fieldset> 
             </section> 
         </div>
         <div class="siguiente"> 
-            <NuxtLink class="verificar" 
-            to="/search/">
+            
+        
+            <NuxtLink class="verificar"   
+            to="/search/"  @click="submit">
                 Buscar
             </NuxtLink> 
         </div>
