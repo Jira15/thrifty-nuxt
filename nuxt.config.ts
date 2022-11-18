@@ -1,11 +1,9 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+ 
  // Global page headers:  
     head: {
-        title: 'Thrifty Nuxt',
-        htmlAttrs: {
-            lang: 'en'
-        },
+        title: 'Thrifty Nuxt', 
         meta: [
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -36,7 +34,8 @@ export default defineNuxtConfig({
     plugins: [ 
         '@/plugins/fontawesome.js',  
         '@/plugins/vue-datepicker.js',
-        '@/plugins/vue-gtm.client.js' 
+        '@/plugins/vue-gtm.client.js',
+        '@/plugins/vee-validate.js'
     ],   
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [ 
@@ -58,6 +57,6 @@ export default defineNuxtConfig({
 	}, 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
-        transpile: ['@vuepic/vue-datepicker']
+        transpile: ['@vuepic/vue-datepicker' ]
     }
 }) 

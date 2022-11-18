@@ -10,7 +10,7 @@ const auto = await  getItemById({
         id: route.params.id, 
     });   
 onMounted(() => {
-    storePedido.pedido.carro = auto; 
+    storePedido.pedido.carro = auto;
 }) 
 </script> 
 <template>

@@ -1,47 +1,26 @@
-
 <script setup> 
 import { usePedidoStore } from '@/stores/pedido';
 
-const pedidoStore = usePedidoStore();
 
-// const cobertura = computed(() => {
-//     return pedidoStore.pedido.cobertura
-// }) 
-// const extras = computed(() => {
-//     return pedidoStore.pedido.extras
-// })  
-// onMounted(() => {
-//     pedidoStore. 
-// })
+const pedidoStore = usePedidoStore();
+ 
+const pedido = computed(() => { 
+    return pedidoStore.pedido
+})   
+const precioDropoff = computed(() => {
+    return pedidoStore.pedido.dropoff = pedidoStore.checkDropoff(pedidoStore.pedido.sucursal.codigo_rentworks, pedidoStore.pedido.sucursalRetorno.codigo_rentworks); 
+})   
+
+const totalDeDias = computed(() => {
+    return pedidoStore.pedido.totalDeDias = pedidoStore.diffDias(pedidoStore.pedido.diaRetorno, pedidoStore.pedido.diaRetiro); 
+})
 
 const totalPedido = computed(() => {
-    return pedidoStore.total(); 
+    return pedidoStore.pedido.subTotal = pedidoStore.total(); 
 })  
 
-const pedido = computed(() => {
-    return pedidoStore.pedido
-})  
-// const total = computed(() => {
+// checkDropoff(pedidoStore.pedido.sucursal.codigo_rentworks, pedidoStore.pedido.sucursalRetorno.codigo_rentworks);
 
-//     // defino variables
-//     let precioAuto = pedidoStore.pedido.carro.precio;  
-//     let precioCobertura = pedidoStore.pedido.cobertura.precio; 
-//     const precioExtra = pedidoStore.pedido.extras;   
-//     const preciosASumar = []; 
-//     // sumo todos los extras
-//     const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0); 
-    
-//     //multiplicar extras y coberturas por la cantidad de dias arrendados
-    
-//     // falta sumar ERA 3.99
-
-//     // agrego los precios de cobertura y carro y todos los extras ya sumados al array
-//     preciosASumar.push(extrasSumados, precioCobertura, precioAuto); 
-//     // sumo todo en el array
-//     const suma = preciosASumar.map(element => element).reduce((a, b) => a + b, 0);
-//     // que siempre formattee como dolares
-//     return suma.toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
-//     });  
 </script>
 
 <template>
@@ -49,20 +28,20 @@ const pedido = computed(() => {
         <h6>Detalles:</h6> 
             <dl>
                 <dt>
-                    Retiro: {{ pedido.sucursal.label }}
+                    Retiro: {{ pedido.sucursal.nombre }}
                 </dt> 
                 <dd>
-                    Retorno: {{ pedido.sucursalRetorno.label }} 
+                    Retorno: {{ pedido.sucursalRetorno.nombre }} 
                 </dd>
             </dl>
             <dl>
                 <dt>
-                    Drop-off 
+                    Días Reservados:
                 </dt> 
                 <dd>
-                    {{ pedido.carro.precio }} 
+                    {{ totalDeDias }}
                 </dd>
-            </dl>
+            </dl>  
             <dl>
                 <dt>
                     Día de Retiro:
@@ -79,6 +58,14 @@ const pedido = computed(() => {
                     {{ pedido.diaRetorno }}  {{ pedido.horaRetorno.hours }}:{{ pedido.horaRetorno.minutes }}
                 </dd>
             </dl>   
+            <dl>
+                <dt>
+                    Drop-off 
+                </dt> 
+                <dd>
+                    {{ precioDropoff }}
+                </dd>
+            </dl>
         
         <h6>Modelo:</h6>
         <dl>
@@ -91,12 +78,21 @@ const pedido = computed(() => {
         </dl>
         
         <h6>Coberturas:</h6>
+
         <dl v-if="pedido.cobertura">
             <dt> 
                 {{ pedido.cobertura.nombre }} 
             </dt> 
             <dd>
                 {{ pedido.cobertura.precio}} 
+            </dd> 
+        </dl> 
+        <dl >
+            <dt> 
+                Asistencia Vial(ERA)
+            </dt> 
+            <dd>
+                {{ pedido.era }} 
             </dd> 
         </dl> 
 
@@ -112,13 +108,13 @@ const pedido = computed(() => {
             </div>
         </dl>
         
-        <h6>Sub-Total:  </h6>
-       
-        <dl v-if="pedido.cobertura">
+        <h6>Sub-Total:  </h6> 
+
+        <dl v-if="totalPedido">
             <dt> 
             </dt>
-            <dd>
-                B/.  {{ +totalPedido || 0 }} 
+            <dd >
+                B/.  {{ totalPedido }} 
             </dd> 
         </dl>  
     </section>

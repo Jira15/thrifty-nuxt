@@ -1,12 +1,22 @@
 <script setup>    
 import { getAssetURL } from "@/utils/get-asset-url";
 import { usePedidoStore } from '@/stores/pedido';
-
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as yup from 'yup';
 const storePedido = usePedidoStore();
  
 const pedido = computed(() => {
     return storePedido.pedido
-})  
+})   
+const checkoutSchema = yup.object({
+    email: yup.string().required().email(),
+    nombre: yup.string().required(),
+    apellido: yup.string().required(),
+    telefono: yup.string().required(),
+    licencia: yup.string().required(),
+    nacimiento: yup.string().required(),
+});
+
 </script> 
 <template>
 <main class="auto">  
@@ -18,32 +28,39 @@ const pedido = computed(() => {
     </article> 
     <section class="detalles-conductor"> 
         <h3>Finaliza tu reserva</h3>
-        <form>
+        <Form  @submit="submit" :validation-schema="checkoutSchema">
             <p>
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" />
+                <Field type="text" id="nombre" name="nombre" rules="required" />
+                <ErrorMessage name="nombre" />
             </p>
             <p>
                 <label for="apellido">Apellido</label>
-                <input type="text" id="apellido" name="apellido" />
+                <Field type="text" id="apellido" name="apellido" rules="required" />
+                <ErrorMessage name="apellido" />
             </p> 
             <p>
                 <label for="telefono">Teléfono</label>
-                <input type="text" id="telefono" name="telefono" />
+                <Field type="text" id="telefono" name="telefono" />
+                <ErrorMessage name="telefono" />
             </p> 
             <p>
                 <label for="email">Dirección de correo electrónico</label>
-                <input type="text" id="email" name="email" />
+                <Field type="text" id="email" name="email" rules="required|email" />
+                <ErrorMessage name="email" />
             </p> 
             <p>
                 <label for="licencia">Licencia</label>
-                <input type="text" id="licencia" name="licencia" />
+                <Field type="text" id="licencia" name="licencia" />
+                <ErrorMessage name="licencia" />
             </p> 
             <p>
                 <label for="nacimiento">Fecha de Nacimiento</label>
-                <input type="text" id="nacimiento" name="nacimiento" />
+                <Field type="text" id="nacimiento" name="nacimiento" />
+                <ErrorMessage name="nacimiento" />
             </p> 
-        </form>
+            <button>Submit</button>
+        </Form>
         <footer> 
             <NuxtLink to="/checkout">
                 <button>PAGAR / PAYPAL</button>
@@ -98,8 +115,7 @@ const pedido = computed(() => {
         height: 160px;
         padding: 5px;
         border-radius: 5px;
-    }
-
+    } 
     footer {
         text-align: center;
         justify-content: space-between; 
@@ -155,9 +171,8 @@ const pedido = computed(() => {
         min-width: 350px; 
         margin:5px;
         line-height: 1.5;
-        form {
-            margin-bottom: 10px;
-       
+            form {
+                margin-bottom: 10px; 
             p { 
                 display: flex; 
                 flex-direction: column;
@@ -168,85 +183,85 @@ const pedido = computed(() => {
 }   
 // Desktop  
 @media screen and (min-width: 768px) { 
-.auto {
-    display: flex;
-    .detalles-conductor{
-        background-color: white;
-        border-radius: 5px; 
-        padding: 5px; 
-        width: 100%; 
-        margin:5px;
-        line-height: 1.5;
-        
-        form {
-            input {
-                padding: 10px 20px;
-                border: none;
-                border-radius: 3px;
-                margin-left: 20px;
-                width: 100%;
-                box-sizing: border-box;
-                background-color: rgb(245, 245, 245);
+    .auto {
+        display: flex;
+        .detalles-conductor{
+            background-color: white;
+            border-radius: 5px; 
+            padding: 5px; 
+            width: 100%; 
+            margin:5px;
+            line-height: 1.5;
+            
+            form {
+                input {
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 3px;
+                    margin-left: 20px;
+                    width: 100%;
+                    box-sizing: border-box;
+                    background-color: rgb(245, 245, 245);
+                }
+                margin-bottom: 10px; 
+                p { 
+                    font-size: 18px;
+                    max-width: 500px;
+                    display: flex; 
+                    flex-direction: column;
+                    justify-content: space-between; 
+                } 
             }
-            margin-bottom: 10px; 
-            p { 
-                font-size: 18px;
-                max-width: 500px;
-                display: flex; 
-                flex-direction: column;
-                justify-content: space-between; 
-            } 
         }
-    }
-    
-    article {
-        background-color: white;
-        border-radius: 5px; 
-        padding: 5px;
-        display: flex;
-        flex-direction: column;
-        min-width: 400px; 
-        margin:10px; 
-        // justify-content: space-around;
-    }
-    header { 
-        display: flex;
-        flex-direction: column;  
-    } 
-    img {
-        object-fit:contain;
-        width: 100%;
-        height: 400px;
-        padding: 5px;
-        border-radius: 5px; 
-    } //650 x 411
-    .specs { 
-        display:flex;
-        flex-wrap: wrap; 
-        div {
-            text-align: center; 
-            text-transform:capitalize;
-            width: 90px; 
-            margin-top: 3px;
-        }
-        dl {
+        
+        article {
+            background-color: white;
+            border-radius: 5px; 
+            padding: 5px;
             display: flex;
-            font-size: 14px;
-            font-weight: bold;
+            flex-direction: column;
+            min-width: 400px; 
+            margin:10px; 
+            // justify-content: space-around;
         }
-        dd {  
-            font-size: 12px; 
+        header { 
+            display: flex;
+            flex-direction: column;  
         } 
-        dt {
+        img {
             object-fit:contain;
-        } 
-        img{ 
-            max-width: 25px;
-            max-height: 25px;
-            object-fit:contain; 
-            padding: 2px;  
-        }  
-    }
-} 
+            width: 100%;
+            height: 400px;
+            padding: 5px;
+            border-radius: 5px; 
+        } //650 x 411
+        .specs { 
+            display:flex;
+            flex-wrap: wrap; 
+            div {
+                text-align: center; 
+                text-transform:capitalize;
+                width: 90px; 
+                margin-top: 3px;
+            }
+            dl {
+                display: flex;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            dd {  
+                font-size: 12px; 
+            } 
+            dt {
+                object-fit:contain;
+            } 
+            img{ 
+                max-width: 25px;
+                max-height: 25px;
+                object-fit:contain; 
+                padding: 2px;  
+            }  
+        }
+    } 
 }
 </style> 

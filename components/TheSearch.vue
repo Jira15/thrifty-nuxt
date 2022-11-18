@@ -3,6 +3,8 @@ import { useSearchStore } from '@/stores/search'
 import { storeToRefs } from 'pinia'
 import { usePedidoStore } from '@/stores/pedido'
 import { useSucursalStore } from '@/stores/sucursal'
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as yup from 'yup';
 
 const router = useRouter(); 
 const pedidoStore = usePedidoStore();
@@ -29,31 +31,40 @@ const date = new Date();
 const tiempoMinimo = tiempoMinimoAntesDeReserva(date, 1); 
 const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
         
-// return {
-//     storeSearch,
-//     time,
-//     startTime 
-// } 
-</script>
+const searchSchema = yup.object({ 
+    diaRetiro: yup.date().required(() => new Date()),
+    sucursal: yup.string().required()
+});
+
+</script> 
 <template>
-<form class="reservador" @submit.prevent="submit">
+<Form class="reservador" @submit="onSubmit" :validation-schema="searchSchema"  @invalid-submit="onInvalidSubmit">
+ 
+    
     <header>
         <h2> 
             Haz tu reserva
         </h2>
     </header>
     <article>
+
+        <!-- <select v-model="storeSearch.sucursalRetorno" >  
+            <option v-for="option in storeSearch.options" :value="option"  >
+                {{ option.nombre }}
+            </option>
+        </select>  -->
         <div class="retiro">
             <section>
                 <legend>sucursal de retiro</legend> 
                 <label class="sucursal">
-                    <select v-model="storeSearch.sucursal"> 
-                        <option disabled value="">{{ sucursal }}</option>
-                        <option v-for="option in storeSearch.options" :value="option"  >
+                    <Field  v-model="storeSearch.sucursal"  name="sucursal" as="select" rules="required" > 
+                        <option disabled value="">Selecciona una sucursal</option>
+                        <option v-for="option in sucursales" :key="option" :value="option.nombre">
                             {{ option.nombre }}
-                        </option>
-                    </select> 
-                </label>
+                        </option> 
+                    </Field> 
+                </label> 
+                <ErrorMessage name="sucursal" />
             </section> 
 
             <section>
@@ -64,9 +75,12 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         :minDate="new Date()"
                         :enableTimePicker="false"
                         locale="es"
+                        required 
+                        name="diaRetiro"
+                        rules="required" 
                         @update:modelValue="storeSearch.retiroAFechaCorta"
-                        /> 
-    
+                        />
+                    <ErrorMessage name="diaRetiro" />
                     <date-picker 
                         class="hora"
                         v-model="storeSearch.horaRetiro"
@@ -84,15 +98,19 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
         </div>
         
         <div class="retorno"> 
+ 
+
             <section>
-                <legend>sucursal de retorno</legend>
+                <legend>sucursal de retorno</legend> 
                 <label class="sucursales">
-                    <select v-model="storeSearch.sucursalRetorno" >  
-                        <option v-for="option in storeSearch.options" :value="option"  >
+                    <Field  v-model="storeSearch.sucursalRetorno"  name="sucursalRetorno" as="select" rules="required" > 
+                        <option disabled value="">Selecciona una sucursal</option>
+                        <option v-for="option in  storeSearch.options" :key="option" :value="option.nombre">
                             {{ option.nombre }}
-                        </option>
-                    </select> 
-                </label>
+                        </option> 
+                    </Field> 
+                </label> 
+                <ErrorMessage name="sucursal" />
             </section>
             
             <section> 
@@ -128,18 +146,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
             </NuxtLink> 
         </div>
     </article>  
-</form>
-
-<!-- :to="'/search/' +
-storeSearch.sucursal.label +
-'/' +
-storeSearch.sucursalRetorno.label +
-'/' +
-storeSearch.diaRetiro + storeSearch.tiempoRetiro +
-'/' +
-storeSearch.diaRetorno + storeSearch.tiempoRetorno +
-'/'"> -->
-
+</Form>
 
 </template> 
 <style lang="scss">
@@ -227,8 +234,7 @@ storeSearch.diaRetorno + storeSearch.tiempoRetorno +
             align-self: end;
         }
     }
-}
-
+} 
 </style>
 
 <!-- <NuxtLink class="verificar" 

@@ -144,6 +144,7 @@ justify-content: space-evenly;
     div { 
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
     }
     article {
         min-width: 350px;
