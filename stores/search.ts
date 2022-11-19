@@ -5,13 +5,13 @@ import * as Yup from 'yup';
 
 
 const schema = Yup.object({
-        sucursal: Yup.string().required(), 
-        diaRetiro: Yup.string().required(),
-        horaRetiro: Yup.object().required(), 
-        sucursalRetorno: Yup.string().required(),
-        diaRetorno: Yup.string().required(),
-        horaRetorno: Yup.object().required()
-    }); 
+    sucursal: Yup.string().required(),
+    diaRetiro: Yup.string().required(),
+    horaRetiro: Yup.object().required(),
+    sucursalRetorno: Yup.string().required(),
+    diaRetorno: Yup.string().required(),
+    horaRetorno: Yup.object().required()
+});
  
 export const useSearchStore = defineStore('search',
  () => {

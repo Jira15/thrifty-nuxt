@@ -5,18 +5,22 @@ import { usePedidoStore } from '@/stores/pedido'
 import { useSucursalStore } from '@/stores/sucursal'
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
+ 
 
-const router = useRouter(); 
 const pedidoStore = usePedidoStore();
+
 const storeSearch = useSearchStore();
+
 const storeSucursal = useSucursalStore(); 
+
 const sucursales = computed(() => {
     return storeSucursal.sucursales
-})  
+})
+
 onMounted(() => {
-    storeSucursal.fetchSucursales(); 
-    storeSearch.options = sucursales; 
-})  
+    storeSucursal.fetchSucursales();  
+    storeSearch.options = sucursales;
+})
 function tiempoMinimoAntesDeReserva(date, hours){
         const newDate = new Date(date);
         newDate.setHours(newDate.getHours() + hours);
@@ -27,20 +31,17 @@ const time = ref({
     hours: new Date().getHours(),
     minutes: new Date().getMinutes() 
 });
+
 const date = new Date();
 const tiempoMinimo = tiempoMinimoAntesDeReserva(date, 1); 
 const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
         
 
-// const searchSchema = yup.object({  
-//     sucursal: yup.string().required(),
-//     diaRetiro: yup.date().required(),
-//     // horaRetiro: yup.object().required()
-// });
- 
 </script> 
 <template>
-<Form class="reservador"  @submit="storeSearch.submit" > 
+<Form class="reservador"  action="/search/"> 
+
+<!-- @submit="storeSearch.submit" >  -->
 
     <header>
         <h2> 
@@ -48,13 +49,6 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
         </h2>
     </header>
     <article>
-
-        <!-- <select v-model="storeSearch.sucursalRetorno" >  
-            <option v-for="option in storeSearch.options" :value="option"  >
-                {{ option.nombre }}
-            </option>
-        </select>  -->
-
         <div class="retiro">
             <section>
                 <legend>sucursal de retiro</legend> 
@@ -150,12 +144,12 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
             </section> 
         </div>
         <div class="siguiente"> 
-            
+            <button>Submit</button>
         
-            <NuxtLink class="verificar"   
+            <!-- <NuxtLink class="verificar"   
             to="/search/"  @click="submit">
                 Buscar
-            </NuxtLink> 
+            </NuxtLink>  -->
         </div>
     </article>  
 </Form>
@@ -248,16 +242,3 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
     }
 } 
 </style>
-
-<!-- <NuxtLink class="verificar" 
-:to="'/search/' +
-    storeSearch.sucursal +
-    '/' +
-    storeSearch.sucursalRetorno +
-    '/' +
-    storeSearch.diaRetiro + storeSearch.tiempoRetiro +
-    '/' +
-    storeSearch.diaRetorno + storeSearch.tiempoRetorno +
-    '/'">
-    Buscar
-</NuxtLink>   -->

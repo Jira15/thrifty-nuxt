@@ -12,14 +12,14 @@ getters: {
     },  
     // GETTER SON COMO COMPUTED getters receive the state as first parameter 
 },
-// optional actions ACTIONS SON COMO METHODS
+// optional   ACTIONS SON COMO METHODS
 actions: {
         async fetchSucursales(){
                 try {
                     const { getItems } = useDirectusItems(); 
                     const sucursales = await getItems(
                         { collection: "sucursal", params : { fields: ["*","picture.*"] }});
-                        this.sucursales = sucursales 
+                        this.sucursales = sucursales
                 } catch (error) {
                         console.error(error); 
                 }
