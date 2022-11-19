@@ -1,73 +1,60 @@
 import { defineStore } from 'pinia'
-import moment from 'moment';
-import { useForm, useField  } from 'vee-validate';
-import * as Yup from 'yup';
-
+import moment from 'moment'; 
+import { useForm } from 'vee-validate';
+import * as Yup from 'yup'; 
+import { usePedidoStore } from '@/stores/pedido'; 
 
 const schema = Yup.object({
-    sucursal: Yup.string().required(),
-    diaRetiro: Yup.string().required(),
-    horaRetiro: Yup.object().required(),
-    sucursalRetorno: Yup.string().required(),
-    diaRetorno: Yup.string().required(),
-    horaRetorno: Yup.object().required()
+    sucursal: Yup.object().required(),
+    // diaRetiro: Yup.string().required(),
+    // horaRetiro: Yup.object().required(),
+    sucursalRetorno: Yup.object().required(),
+    // diaRetorno: Yup.string().required(),
+    // horaRetorno: Yup.object().required()
+});  
+ 
+export const useSearchStore = defineStore('search',  () => { 
+
+    const storePedido = usePedidoStore();
+    const router = useRouter()
+
+    const { errors, useFieldModel, handleSubmit, values } = useForm({
+        validationSchema: schema,
+    });
+
+    const [sucursal] = useFieldModel(['sucursal']);
+ 
+    
+    const siguiente = handleSubmit((values) => {
+        // send values to API
+        console.log('Submit', JSON.stringify(values, null, 2));
+        console.log("en Search Store", values);
+        storePedido.pedido.sucursal = values.sucursal;
+        storePedido.pedido.sucursalRetorno = values.sucursalRetorno;
+        router.push('/search/');
+        
+    });  
+
+    return {
+        errors,
+        sucursal,
+        siguiente
+    };
 });
  
-export const useSearchStore = defineStore('search',
- () => {
-        const { errors, useFieldModel, handleSubmit  } = useForm({
-            validationSchema: schema,
-        }); 
-        const [
-                sucursal,
-                diaRetiro,
-                horaRetiro,
-                sucursalRetorno,
-                diaRetorno,
-                horaRetorno 
-                ] = useFieldModel(
-                [
-                'sucursal',
-                'diaRetiro',
-                'horaRetiro', 
-                'sucursalRetorno',
-                'diaRetorno',
-                'horaRetorno'
-                ]); 
 
- 
-        // const [sucursal ] = useFieldModel(['sucursal', 'sucursalRetorno', 'diaRetiro']); 
-        // const sucursal = reactive(useField('sucursal'));
- 
-        const submit = handleSubmit((values) => {
-            // send values to API
-            console.log('Submit', JSON.stringify(values, null, 2));
-            
-        }); 
-        return {
-            errors,
-            sucursal,
-            diaRetiro,
-            horaRetiro,
-            sucursalRetorno,
-            diaRetorno,
-            horaRetorno,
-            submit,
-        };
-    // },
-// { // a function that returns a fresh state - STATE ES COMO DATA
+    // In Setup Stores: 
+    // ref()s become state properties
+    // computed()s become getters
+    // function()s become actions
+
+
+
+
+
+    
 // state: () => ({   
-//     sucursal: Object, 
-//     sucursalRetorno: Object,
-//     modelo:'', 
-//     diaRetiro: '',
-//     horaRetiro:  '',
-//     tiempoRetiro: null, 
-//     diaRetorno: null, 
-//     horaRetorno: null, 
-//     tiempoRetorno: null, 
-//     sucursales: '',
-//     options: [],  
+//     searchData: null
 // }),
 // // optional getters GETTER SON COMO COMPUTED 
 // // { value: 'TH TORRE', label: 'Torremolinos (Tocumen)', region: 'Panamá'}, 
@@ -77,6 +64,9 @@ export const useSearchStore = defineStore('search',
 // },
 // // optional actions ACTIONS SON COMO METHODS
 // actions: {
+//         validadoASearch() {
+//             console.log("en Search Store", this.searchData); 
+//         },
 //         retiroAFechaCorta(fecha)
 //         {
 //             this.diaRetiro=moment(fecha).format('YYYY-MM-DD'); 
@@ -95,8 +85,4 @@ export const useSearchStore = defineStore('search',
 //             this.tiempoRetorno = this.horaRetorno.hours + ':' + this.horaRetorno.minutes;
 //         }
 //     },
-}) 
-
-
-
-
+// })  

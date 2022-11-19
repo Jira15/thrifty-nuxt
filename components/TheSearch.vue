@@ -1,14 +1,9 @@
 <script setup> 
 import { useSearchStore } from '@/stores/search'
-import { storeToRefs } from 'pinia'
-import { usePedidoStore } from '@/stores/pedido'
+import { storeToRefs } from 'pinia' 
 import { useSucursalStore } from '@/stores/sucursal'
-import { Form, Field, ErrorMessage } from 'vee-validate';
-import * as yup from 'yup';
+import { Field, ErrorMessage, useForm } from 'vee-validate';
  
-
-const pedidoStore = usePedidoStore();
-
 const storeSearch = useSearchStore();
 
 const storeSucursal = useSucursalStore(); 
@@ -35,13 +30,11 @@ const time = ref({
 const date = new Date();
 const tiempoMinimo = tiempoMinimoAntesDeReserva(date, 1); 
 const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
-        
+ 
 
 </script> 
 <template>
-<Form class="reservador"  action="/search/"> 
-
-<!-- @submit="storeSearch.submit" >  -->
+<form class="reservador" @submit="storeSearch.siguiente" >  
 
     <header>
         <h2> 
@@ -55,12 +48,11 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                 <label class="sucursal">
                     <Field  v-model="storeSearch.sucursal"  name="sucursal" as="select" rules="required" > 
                         <option disabled value="">Selecciona una sucursal</option>
-                        <option v-for="option in sucursales" :key="option" :value="option.nombre">
+                        <option v-for="option in sucursales" :key="option" :value="option">
                             {{ option.nombre }}
                         </option> 
                     </Field> 
-                </label>  
-              
+                </label>   
                 <ErrorMessage name="sucursal" />
             </section> 
 
@@ -91,7 +83,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         </template>
                     </date-picker> 
                     <ErrorMessage name="horaRetiro" />
-                    <span>{{ storeSearch.errors.horaRetiro }}</span>
+                     
                 </fieldset>  
             </section>  
         </div> 
@@ -101,13 +93,12 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                 <label class="sucursales">
                     <Field  v-model="storeSearch.sucursalRetorno"  name="sucursalRetorno" as="select"   rules="required" > 
                         <option disabled value="">Selecciona una sucursal</option>
-                        <option v-for="option in  storeSearch.options" :key="option" :value="option.nombre">
+                        <option v-for="option in  storeSearch.options" :key="option" :value="option">
                             {{ option.nombre }}
                         </option> 
                     </Field> 
                 </label> 
-                <ErrorMessage name="sucursalRetorno" />
-                <span>{{ storeSearch.errors.sucursalRetorno }}</span>
+                <ErrorMessage name="sucursalRetorno" /> 
             </section>
             
             <section> 
@@ -121,9 +112,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         @update:modelValue="storeSearch.retornoAFechaCorta"
                         rules="required"
                         /> 
-                        <span>
-                            {{ storeSearch.errors.diaRetorno }}
-                          </span> 
+                   
                           <ErrorMessage name="diaRetiro" />
                     <date-picker
                         class="hora"
@@ -138,21 +127,19 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         <template  #input-icon> 
                             <img class="slot-icon"  src="@/assets/images/clock.png"/> 
                         </template>
-                    </date-picker> 
-                    <span>{{ storeSearch.errors.horaRetorno }}</span>
+                    </date-picker>  
                 </fieldset> 
             </section> 
         </div>
         <div class="siguiente"> 
-            <button>Submit</button>
-        
+            <button type="submit">Submit</button>
             <!-- <NuxtLink class="verificar"   
             to="/search/"  @click="submit">
                 Buscar
             </NuxtLink>  -->
         </div>
     </article>  
-</Form>
+</form>
 
 </template> 
 <style lang="scss">
