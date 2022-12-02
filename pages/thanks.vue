@@ -1,76 +1,9 @@
 <script setup>    
-import { getAssetURL } from "@/utils/get-asset-url";
-import { usePedidoStore } from '@/stores/pedido';
-import { useCheckoutStore } from '@/stores/checkout';
-import { Form, Field, ErrorMessage } from 'vee-validate'; 
-const storePedido = usePedidoStore();
  
-const pedido = computed(() => {
-    return storePedido.pedido
-})   
-
-const storeCheckout = useCheckoutStore(); 
-
 </script> 
 <template>
 <main class="auto">  
-    <article> 
-        <CarroSeleccionado />
-        <!-- agregar detalles sucursal -->
-        <Desglose />  
-
-    </article> 
-    <section class="detalles-conductor"> 
-        <h3>Finaliza tu reserva</h3>
-        <form @submit="storeCheckout.finalizar">
-            <p>
-                <label for="nombre">Nombre</label>
-                <Field type="text" id="nombre" name="nombre" rules="required" />
-                <ErrorMessage name="nombre" />
-            </p>
-            <p>
-                <label for="apellido">Apellido</label>
-                <Field type="text" id="apellido" name="apellido" rules="required" />
-                <ErrorMessage name="apellido" />
-            </p> 
-            <p>
-                <label for="telefono">Teléfono</label>
-                <Field type="text" id="telefono" name="telefono" />
-                <ErrorMessage name="telefono" />
-            </p> 
-            <p>
-                <label for="email">Dirección de correo electrónico</label>
-                <Field type="text" id="email" name="email" rules="required"  />
-                <ErrorMessage name="email" />
-            </p> 
-            <p>
-                <label for="licencia">Licencia</label>
-                <Field type="text" id="licencia" name="licencia" rules="required" />
-                <ErrorMessage name="licencia" />
-            </p> 
-            <p>
-                <label for="nacimiento">Fecha de Nacimiento</label>
-                <!-- <Field type="text" id="nacimiento" name="nacimiento" rules="required"  /> -->
- 
-                <date-picker 
-                :enableTimePicker="false"
-                v-model="pedido.nacimiento"
-                locale="es" 
-                name="nacimiento"
-                rules="required" 
-                id="nacimiento"  
-                />  
-                <ErrorMessage name="nacimiento" /> 
-
-            </p>
-            <button type="submit">Submit</button> 
-        </form>
-        <!--   <footer>  
-          <NuxtLink to="/checkout">
-                <button>PAGAR / PAYPAL</button>
-            </NuxtLink>
-        </footer>   -->
-    </section> 
+    <h2>GRACIAS POR SU COMPRA</h2>
 </main> 
 </template>
 <style scoped lang="scss">  
@@ -134,7 +67,16 @@ const storeCheckout = useCheckoutStore();
         color: rgb(3, 3, 3);
         font-style:normal;
         } 
-
+        button {
+            background-color: #047EFF;
+            padding: 5px 15px;
+            border-radius: 5px; 
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;    
+            text-align: center;
+        } 
     }
     .specs {
         display: none;    
@@ -173,16 +115,6 @@ const storeCheckout = useCheckoutStore();
                 flex-direction: column;
                 justify-content: space-between; 
             } 
-            button {
-                background-color: #047EFF;
-                padding: 5px 15px;
-                border-radius: 5px; 
-                text-transform: uppercase;
-                font-size: 16px;
-                font-weight: 600;
-                color: white;    
-                text-align: center;
-            } 
         }
     }
 }   
@@ -215,8 +147,7 @@ const storeCheckout = useCheckoutStore();
                     display: flex; 
                     flex-direction: column;
                     justify-content: space-between; 
-                }
-      
+                } 
             }
         }
         

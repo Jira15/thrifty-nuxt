@@ -6,11 +6,11 @@ import { usePedidoStore } from '@/stores/pedido';
 
 const schema = Yup.object({
     sucursal: Yup.object().required(),
-    // diaRetiro: Yup.string().required(),
-    // horaRetiro: Yup.object().required(),
+    diaRetiro: Yup.string().required(),
+    horaRetiro: Yup.object().required(),
     sucursalRetorno: Yup.object().required(),
-    // diaRetorno: Yup.string().required(),
-    // horaRetorno: Yup.object().required()
+    diaRetorno: Yup.string().required(),
+    horaRetorno: Yup.object().required()
 });  
  
 export const useSearchStore = defineStore('search',  () => { 
@@ -22,37 +22,57 @@ export const useSearchStore = defineStore('search',  () => {
         validationSchema: schema,
     });
 
-    const [sucursal] = useFieldModel(['sucursal']);
  
-    
+
+    const [
+        sucursal,
+        horaRetiro,
+        diaRetiro,
+        sucursalRetorno,
+        horaRetorno,
+        diaRetorno
+        ] = useFieldModel([
+        'sucursal',
+        'horaRetiro',
+        'diaRetiro',
+        'sucursalRetorno',
+        'horaRetorno',
+        'diaRetorno'
+        ]);
+        
     const siguiente = handleSubmit((values) => {
         // send values to API
         console.log('Submit', JSON.stringify(values, null, 2));
         console.log("en Search Store", values);
         storePedido.pedido.sucursal = values.sucursal;
+        storePedido.pedido.horaRetiro = values.horaRetiro; 
+        storePedido.pedido.diaRetiro = values.diaRetiro; 
         storePedido.pedido.sucursalRetorno = values.sucursalRetorno;
-        router.push('/search/');
-        
+        storePedido.pedido.horaRetorno = values.horaRetorno; 
+        storePedido.pedido.diaRetorno = values.diaRetorno;  
+        router.push('/search/'); 
     });  
 
     return {
         errors,
         sucursal,
+        diaRetiro,
+        horaRetiro,
+        sucursalRetorno,
+        diaRetorno,
+        horaRetorno,
         siguiente
     };
-});
- 
+}); 
 
-    // In Setup Stores: 
-    // ref()s become state properties
-    // computed()s become getters
-    // function()s become actions
+// In Setup Stores: 
+// ref()s become state properties
+// computed()s become getters
+// function()s become actions
 
-
-
-
-
-    
+//  @update:modelValue="storeSearch.tiempoRetornoConHorasMinutos"  -->
+// @update:modelValue="storeSearch.retornoAFechaCorta" 
+// @update:modelValue="storeSearch.tiempoRetornoConHorasMinutos" 
 // state: () => ({   
 //     searchData: null
 // }),
@@ -73,8 +93,7 @@ export const useSearchStore = defineStore('search',  () => {
 //         },
 //         retornoAFechaCorta(fecha)
 //         { 
-//             this.diaRetorno=moment(fecha).format('YYYY-MM-DD');
-        
+//             this.diaRetorno=moment(fecha).format('YYYY-MM-DD'); 
 //         },
 //         tiempoRetiroConHorasMinutos()
 //         { 

@@ -1,5 +1,5 @@
 <template> 
-  <main>
+  <main> 
     <Banner />
     <TheSearch />
     <Content />  

@@ -12,9 +12,11 @@ const sucursales = computed(() => {
     return storeSucursal.sucursales
 })
 
+ 
 onMounted(() => {
     storeSucursal.fetchSucursales();  
-    storeSearch.options = sucursales;
+    
+    // storeSearch.options = sucursales;
 })
 function tiempoMinimoAntesDeReserva(date, hours){
         const newDate = new Date(date);
@@ -34,6 +36,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
 
 </script> 
 <template>
+    
 <form class="reservador" @submit="storeSearch.siguiente" >  
 
     <header>
@@ -46,12 +49,12 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
             <section>
                 <legend>sucursal de retiro</legend> 
                 <label class="sucursal">
-                    <Field  v-model="storeSearch.sucursal"  name="sucursal" as="select" rules="required" > 
+                    <select  v-model="storeSearch.sucursal"  name="sucursal" as="select" rules="required" > 
                         <option disabled value="">Selecciona una sucursal</option>
                         <option v-for="option in sucursales" :key="option" :value="option">
-                            {{ option.nombre }}
+                            {{ option.name }}
                         </option> 
-                    </Field> 
+                    </select> 
                 </label>   
                 <ErrorMessage name="sucursal" />
             </section> 
@@ -65,25 +68,23 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         :enableTimePicker="false"
                         locale="es" 
                         name="diaRetiro"
-                        rules="required" 
-                        @update:modelValue="storeSearch.retiroAFechaCorta"
+                        rules="required"  
                         /> 
                         <ErrorMessage name="diaRetiro" />
+                        
                     <date-picker 
                         class="hora"
                         v-model="storeSearch.horaRetiro"
                         :startTime="startTime"
                         timePicker
-                        minutesIncrement="30"   
-                        @update:modelValue="storeSearch.tiempoRetiroConHorasMinutos" 
+                        minutesIncrement="30"    
                         name="horaRetiro" 
                         >
                         <template  #input-icon> 
                             <img class="slot-icon"  src="@/assets/images/clock.png"/> 
                         </template>
                     </date-picker> 
-                    <ErrorMessage name="horaRetiro" />
-                     
+                    <ErrorMessage name="horaRetiro" /> 
                 </fieldset>  
             </section>  
         </div> 
@@ -91,12 +92,12 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
             <section>
                 <legend>sucursal de retorno</legend> 
                 <label class="sucursales">
-                    <Field  v-model="storeSearch.sucursalRetorno"  name="sucursalRetorno" as="select"   rules="required" > 
+                    <select  v-model="storeSearch.sucursalRetorno"  name="sucursalRetorno" as="select"   rules="required" > 
                         <option disabled value="">Selecciona una sucursal</option>
-                        <option v-for="option in  storeSearch.options" :key="option" :value="option">
-                            {{ option.nombre }}
+                        <option v-for="option in  sucursales" :key="option" :value="option">
+                            {{ option.name }}
                         </option> 
-                    </Field> 
+                    </select> 
                 </label> 
                 <ErrorMessage name="sucursalRetorno" /> 
             </section>
@@ -109,7 +110,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         :minDate="storeSearch.diaRetiro"
                         :enableTimePicker="false"
                         locale="es"
-                        @update:modelValue="storeSearch.retornoAFechaCorta"
+                       
                         rules="required"
                         /> 
                    
@@ -120,10 +121,10 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         :startTime="startTime"
                         timePicker
                         minutesIncrement="30"  
-                        @update:modelValue="storeSearch.tiempoRetornoConHorasMinutos" 
                         name="horaRetorno"
                         rules="required"
                         >
+                      
                         <template  #input-icon> 
                             <img class="slot-icon"  src="@/assets/images/clock.png"/> 
                         </template>
@@ -132,11 +133,11 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
             </section> 
         </div>
         <div class="siguiente"> 
-            <button type="submit">Submit</button>
-            <!-- <NuxtLink class="verificar"   
-            to="/search/"  @click="submit">
+            <!-- <button type="submit">Buscar</button> -->
+            <NuxtLink class="verificar"   
+            to="/reserva/"  @click="submit">
                 Buscar
-            </NuxtLink>  -->
+            </NuxtLink> 
         </div>
     </article>  
 </form>

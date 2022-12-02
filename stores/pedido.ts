@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { mapWritableState } from 'pinia'
 import { useExtrasStore } from '@/stores/extras';
 import { useCoberturasStore } from '@/stores/coberturas'; 
+import { number } from 'yup';
 
 export const usePedidoStore = defineStore(
     'pedido', 
@@ -9,21 +10,78 @@ export const usePedidoStore = defineStore(
 // a function that returns a fresh state - STATE ES COMO DATA 
         state: () => ({  
             pedido: {
-                carro: Object,
-                cobertura: Object,
+                carro:  {
+                    id: Number,
+                    modelo: String,
+                    clasificacion:String,
+                    imagen: String,
+                    tipo: String,
+                    pasajeros: Number,
+                    maletas: Number,
+                    transmision:String,
+                    combustible:String,
+                    marca:String,
+                    puertas:Number,
+                    precio:Number,
+                    galeria:Array
+                }, 
+                cobertura: {
+                    nombre: String,
+                    explicacion: String,
+                    precio: Number,
+                    precio_2: Number,
+                    precio_3: Number
+                },
                 extras: [],
-                sucursal: Object,
-                sucursalRetorno: Object,
-                diaRetiro: String, 
-                horaRetiro: Object, 
-                diaRetorno: null, 
-                horaRetorno: Object, 
+                sucursal: { 
+                            id: Number,
+                            mapa: Object,
+                            imagen: String,
+                            name: String,
+                            telefono_1: String,
+                            telefono_2: null,
+                            horario_cierre: Number,
+                            codigo_rentworks: String,
+                            horario_apertura: Number,
+                            horario_cierre_sabado: Number,
+                            horario_cierre_domingo: Number,
+                            horario_apertura_sabado: Number,
+                            horario_apertura_domingo: Number
+                        },
+                sucursalRetorno: { 
+                            id: Number,
+                            mapa: Object,
+                            imagen: String,
+                            name: String,
+                            telefono_1: String,
+                            telefono_2: null,
+                            horario_cierre: Number,
+                            codigo_rentworks: String,
+                            horario_apertura: Number,
+                            horario_cierre_sabado: Number,
+                            horario_cierre_domingo: Number,
+                            horario_apertura_sabado: Number,
+                            horario_apertura_domingo: Number
+                        },
+                diaRetiro: Date, 
+                horaRetiro: {
+                    hours: Number,
+                    minutes: Number,
+                    seconds: Number
+                }, 
+                diaRetorno: Date, 
+                horaRetorno: {
+                    hours: Number,
+                    minutes: Number,
+                    seconds: Number
+                }, 
                 dropoff:null,
                 era: 3.99,
                 cupon: null,
                 prepago: null,
                 totalDeDias: Number,
                 subTotal: Number,
+                nacimiento: Date
             } 
         }), 
         // optional getters GETTER SON COMO COMPUTED 
@@ -31,6 +89,8 @@ export const usePedidoStore = defineStore(
 
             },  
         actions: {  
+
+            
             diffDias(retiro, retorno){
                     let difference = new Date(retiro).getTime() - new Date(retorno).getTime();
                     let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));

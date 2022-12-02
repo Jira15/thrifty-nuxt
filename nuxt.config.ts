@@ -53,7 +53,7 @@ export default defineNuxtConfig({
             ],
         ],
 	directus: {
-		url: "http://localhost:8055",
+		url: "https://admin.intermarketing.com.pa",
 	}, 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {

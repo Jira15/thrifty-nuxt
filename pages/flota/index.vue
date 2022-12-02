@@ -80,7 +80,7 @@ onMounted(() => {
             <NuxtLink  
             :to="'/flota/' +
             auto.id">
-                <button>Reservar Aqui</button>
+               Reservar   
             </NuxtLink>
  
         </article> 
@@ -99,6 +99,7 @@ onMounted(() => {
         min-width: 350px;
         max-width: 350px;
         margin:10px;
+        justify-content: space-between;
     }
 
     h2 {
@@ -132,7 +133,7 @@ onMounted(() => {
         height: 180px;
         border-radius: 5px;
     }
-    button {
+    a {
         background-color: #047EFF;
         padding: 5px 15px;
         border-radius: 5px; 
@@ -142,6 +143,7 @@ onMounted(() => {
         color: white;   
         width: 100%;
         text-align: center;
+        
     }
     .specs {
         display: flex;   
@@ -177,6 +179,7 @@ onMounted(() => {
     .wrapper { 
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
     } 
 }
 </style>
