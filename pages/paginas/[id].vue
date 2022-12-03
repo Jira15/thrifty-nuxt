@@ -1,28 +1,19 @@
 <script setup>   
 import { getAssetURL } from "@/utils/get-asset-url";
 import { storeToRefs } from 'pinia' 
+ 
+
 const route = useRoute()
 const { getItemById } = useDirectusItems(); 
 const pagina = await  getItemById({
-      collection: "paginas",
-      id: route.params.id,
-    });
+        collection: "paginas",
+        id: route.params.id,
+    });  
 
-
-    const { awesome } = storeToRefs()
 </script> 
-<template>
-
-    <button @click="awesome = !awesome">Toggle</button>
-
-    <div v-if="awesome">Vue is awesome!</div>
-    <div v-else>Oh no  </div>
-
-    <button @click="count++">Add 1</button>
-<p>Count is: {{ count }}</p>
-
-
-    <article class="page-content">
+<template> 
+    <ThePrompt/>
+    <article class="page-content">  
         <img :src="getAssetURL(pagina.banner)"  loading="lazy" />  
             <h2>
                 {{ pagina.titulo }}

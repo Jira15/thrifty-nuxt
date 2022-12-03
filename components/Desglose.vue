@@ -1,6 +1,6 @@
 <script setup> 
-import { usePedidoStore } from '@/stores/pedido';
-
+import { usePedidoStore } from '@/stores/pedido'; 
+import moment from 'moment';
 
 const pedidoStore = usePedidoStore();
  
@@ -19,7 +19,18 @@ const totalPedido = computed(() => {
     return pedidoStore.pedido.subTotal = pedidoStore.total(); 
 })  
 
-// checkDropoff(pedidoStore.pedido.sucursal.codigo_rentworks, pedidoStore.pedido.sucursalRetorno.codigo_rentworks);
+const fechaFormat = function(value) {
+    if (value) {
+        return moment(value).format('DD MMM YYYY')
+    }
+}
+
+const horaFormat = function(value) {
+    if (value) {
+        return moment(value).format('hh:mm A')
+    }
+}
+
 
 </script>
 
@@ -28,26 +39,26 @@ const totalPedido = computed(() => {
         <h6>Detalles:</h6> 
             <dl>
                 <dt>
-                    Retiro: {{ pedido.sucursal.nombre }}
+                    Retiro:<br/>{{ pedido.sucursal.name }}
                 </dt> 
                 <dd>
-                    Retorno: {{ pedido.sucursalRetorno.nombre }} 
+                    Retorno: <br/>{{ pedido.sucursalRetorno.name }} 
                 </dd>
             </dl>
-            <dl>
+            <!-- <dl>
                 <dt>
                     Días Reservados:
                 </dt> 
                 <dd>
                     {{ totalDeDias }}
                 </dd>
-            </dl>  
+            </dl>   -->
             <dl>
                 <dt>
                     Día de Retiro:
                 </dt> 
                 <dd>
-                    {{ pedido.diaRetiro }}   {{ pedido.horaRetiro.hours }}:{{ pedido.horaRetiro.minutes }}
+                    {{ fechaFormat(pedido.diaRetiro) }}   {{ horaFormat(pedido.horaRetiro) }}
                 </dd>
             </dl> 
             <dl>
@@ -55,10 +66,10 @@ const totalPedido = computed(() => {
                     Día de Retorno: 
                 </dt> 
                 <dd>
-                    {{ pedido.diaRetorno }}  {{ pedido.horaRetorno.hours }}:{{ pedido.horaRetorno.minutes }}
+                    {{ fechaFormat(pedido.diaRetorno) }}  {{ horaFormat(pedido.horaRetorno)  }}
                 </dd>
             </dl>   
-            <dl>
+            <dl v-if="(precioDropoff > 0)">
                 <dt>
                     Drop-off 
                 </dt> 
@@ -73,7 +84,7 @@ const totalPedido = computed(() => {
                 {{ pedido.carro.marca }} {{ pedido.carro.modelo }} 
             </dt> 
             <dd>
-                {{ pedido.carro.precio }} 
+                {{ pedido.carro.precio_thrifty }} 
             </dd>
         </dl>
         

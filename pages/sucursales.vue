@@ -14,10 +14,15 @@ const sucursales = computed(() => {
 }) 
 onMounted(() => {
     storeSucursal.fetchSucursales(); 
-})  
+})
+const sucursalABuscador = function(value) {
+    storeSearch.sucursal = value;
+    storeSearch.searchIs = 'TheSearch';
+}
 </script> 
 <template>
-<main class="sucursal">
+<main class="sucursal" id="prompt">
+    <ThePrompt />
     <h2>Sucursales</h2>
     <div>
         <article v-for="sucursal in sucursales" :key="sucursal.id">
@@ -26,7 +31,7 @@ onMounted(() => {
             </figure> 
             <section>
                 <h3>
-                    {{ sucursal.nombre }}  
+                    {{ sucursal.name }}  
                 </h3> 
                 <p>
                     Telefonos:  {{ sucursal.telefono_1 }} <br />
@@ -65,7 +70,7 @@ onMounted(() => {
                 </GoogleMap>
             </aside>  
 
-            <NuxtLink class="verificar" 
+            <!-- <NuxtLink class="verificar" 
             :to="'/search/' +
                 sucursal.codigo_rentworks  +
                 '/' +
@@ -76,9 +81,12 @@ onMounted(() => {
                  sucursal.horario_apertura +
                 '/'">
                 Reservar Aqui  
+            </NuxtLink>  -->
+
+            <NuxtLink to="#prompt"   class="verificar" 
+              @click="sucursalABuscador(sucursal)">
+                Reservar Aqui  
             </NuxtLink> 
-
-
 
         </article> 
     </div>

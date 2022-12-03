@@ -1,9 +1,27 @@
-import { defineStore } from 'pinia'
-
+import { defineStore } from 'pinia' 
+ 
 export const useSucursalStore = defineStore('sucursal', {
     // a function that returns a fresh state - STATE ES COMO DATA
 state: () => ({ 
-    sucursales: []
+    sucursales: [
+            {
+                sucursal: { 
+                id: Number,
+                mapa: Object,
+                imagen: String,
+                name: String,
+                telefono_1: String,
+                telefono_2: null,
+                horario_cierre: Number,
+                codigo_rentworks: String,
+                horario_apertura: Number,
+                horario_cierre_sabado: Number,
+                horario_cierre_domingo: Number,
+                horario_apertura_sabado: Number,
+                horario_apertura_domingo: Number
+            }
+        }
+    ]
 }),
 // optional getters GETTER SON COMO COMPUTED 
 getters: {
@@ -23,6 +41,9 @@ actions: {
                 } catch (error) {
                         console.error(error); 
                 }
-            }, 
+            },  
+        // sucursalABuscador(selected){
+        //     storeSearch.sucursal = selected
+        // },  
     },
 })  

@@ -22,7 +22,7 @@ export const usePedidoStore = defineStore(
                     combustible:String,
                     marca:String,
                     puertas:Number,
-                    precio:Number,
+                    precio_thrifty:Number,
                     galeria:Array
                 }, 
                 cobertura: {
@@ -150,7 +150,7 @@ export const usePedidoStore = defineStore(
             }, 
             total() {
                 let precioDias = this.pedido.totalDeDias; 
-                let precioAuto = this.pedido.carro.precio * precioDias;  
+                let precioAuto = this.pedido.carro.precio_thrifty * precioDias;  
                 let precioCobertura = this.pedido.cobertura.precio  * precioDias;
                 let precioEra = this.pedido.era  * precioDias; 
                 let precioDropoff = this.pedido.dropoff  * precioDias;

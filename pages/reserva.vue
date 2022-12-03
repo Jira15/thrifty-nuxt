@@ -3,7 +3,14 @@
 import { useAutosStore } from '@/stores/autos'
 import { storeToRefs } from 'pinia'
 import { getAssetURL } from "@/utils/get-asset-url";
- 
+
+import { useSearchStore } from '@/stores/search'
+
+const storeSearch = useSearchStore();
+
+
+
+
 const storeAutos = useAutosStore()
 
 const getAutos = computed(() => {
@@ -15,16 +22,12 @@ return storeAutos.autos
 
 onMounted(() => {
 storeAutos.fetchAutos();
-})
- 
- 
+storeSearch.searchIs = 'TheProgress';
+}) 
 </script> 
 <template>
 <main class="auto">
- 
-    <!-- <button @click="search = !search" >TOGGLE</button>
-    <TheSearch v-if="search"/>
-    <TheProgress v-else /> -->
+    <ThePrompt />
     <div class="wrapper">
         <article v-for="auto in autos" :key="auto.id"> 
             <section>
@@ -116,6 +119,8 @@ storeAutos.fetchAutos();
 </template>
 
 <style scoped lang="scss">
+
+
 .auto {
     
     article {

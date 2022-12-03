@@ -24,30 +24,31 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
 
 
 const fechaFormat = function(value) {
-  if (value) {
-    return moment(value).format('DD MMM')
-  }
+    if (value) {
+        return moment(value).format('DD MMM')
+    }
 }
 
 const horaFormat = function(value) {
-  if (value) {
-    return moment(value).format('hh:mm A')
-  }
+    if (value) {
+        return moment(value).format('hh:mm A')
+    }
 }
 
 </script> 
 <template> 
 
 <aside class="progreso"> 
+
     <div>
-        <section class="retiro"> 
+        <section class="retiro" v-if="storeSearch.sucursal"> 
             <h3> {{ storeSearch.sucursal.name }}</h3>  
             <p>   
                 {{ fechaFormat(storeSearch.diaRetiro) }}<br /> 
                 {{ horaFormat(storeSearch.horaRetiro) }}  
             </p>  
         </section>   
-        <section  class="retorno">
+        <section  class="retorno" v-if="storeSearch.sucursalRetorno">
             <h3>{{ storeSearch.sucursalRetorno.name }}</h3> 
             <p>  
                 {{ fechaFormat(storeSearch.diaRetorno) }}<br /> 
@@ -55,32 +56,32 @@ const horaFormat = function(value) {
             </p>  
         </section> 
     </div>
-    <div class="siguiente"> 
-        <!-- <button type="submit">Buscar</button> -->
-        <NuxtLink  
-        to="/reserva/"  @click="submit">
+    <div class="siguiente">
+        <NuxtLink    @click="storeSearch.searchIs = 'TheSearch'">
             Cambiar
         </NuxtLink> 
     </div>
 </aside>   
 
 </template> 
-<style lang="scss"> 
-.progreso {   
-background: linear-gradient(180deg, rgba(1, 45, 85, 1) 0%, rgba(0, 45, 80, 1) 30%, rgba(26, 77, 129, 1) 100%);
-padding: 15px;
-box-sizing: border-box;     
-display:flex; 
-text-transform: uppercase; 
-color: white; 
+<style lang="scss">  
+
+.progreso { 
+ 
+    box-sizing: border-box;     
+    display:flex; 
+    text-transform: uppercase; 
+    color: white;  
+    height: 100%; 
+    justify-content: space-around;  
     h3 {
-        font-size: 15px;  
-        padding: 0.2rem;
+        font-size: 15px;   
     } 
     div {
         display: flex;
         section {
             flex: 1; 
+            display: inline;
         }
         p {
             font-size: 18px;
@@ -97,17 +98,12 @@ color: white;
         border-radius:10px;
         align-self: flex-end; 
     }
-}   
-.siguiente { 
-padding: 8px; 
-}    
-
+} 
 // Desktop  
 @media screen and (min-width: 768px) { 
  
 .progreso{     
-    width:1000px; 
-    background-color: aqua;
+    width:1000px;  
     } 
 } 
 </style>

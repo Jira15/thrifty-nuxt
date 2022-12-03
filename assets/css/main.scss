@@ -3,6 +3,21 @@ body{
 background-color: #eaeaea;
 font-family: Lato, sans-serif;
 }   
+ 
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.25s ease-out;
+}
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
 
 // formato para contenido de paginas que se genera por v-html //
 .format-content {
@@ -441,21 +456,4 @@ select {
     transform: translateY(-50%);
     width: 2em;
     z-index: 1;
-}
-
-
-//** barra progres *//@at-root
-.progreso { 
-    background-color: rgb(255, 255, 255);
-    grid-area: banner;
-    height: 100%;
-    padding: 20px;
-    display: flex;
-    justify-content: space-around;
-    font-size: 12px;
-    section {
-    display: inline;
-    }
 } 
-
-

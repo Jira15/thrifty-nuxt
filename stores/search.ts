@@ -14,15 +14,13 @@ const schema = Yup.object({
 });  
  
 export const useSearchStore = defineStore('search',  () => { 
-
+    const searchIs = ref('default')
     const storePedido = usePedidoStore();
     const router = useRouter()
 
     const { errors, useFieldModel, handleSubmit, values } = useForm({
         validationSchema: schema,
-    });
-
- 
+    }); 
 
     const [
         sucursal,
@@ -50,7 +48,7 @@ export const useSearchStore = defineStore('search',  () => {
         storePedido.pedido.sucursalRetorno = values.sucursalRetorno;
         storePedido.pedido.horaRetorno = values.horaRetorno; 
         storePedido.pedido.diaRetorno = values.diaRetorno;  
-        router.push('/search/'); 
+        router.push('/reserva/'); 
     });  
 
     return {
@@ -61,7 +59,8 @@ export const useSearchStore = defineStore('search',  () => {
         sucursalRetorno,
         diaRetorno,
         horaRetorno,
-        siguiente
+        siguiente,
+        searchIs
     };
 }); 
 

@@ -4,7 +4,8 @@ import { usePedidoStore } from '@/stores/pedido';
 const storePedido = usePedidoStore(); 
 const auto = computed(() => {
     return storePedido.pedido.carro
-}) 
+})  
+
 </script> 
 <template>
 <section>  

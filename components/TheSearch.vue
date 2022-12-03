@@ -3,7 +3,7 @@ import { useSearchStore } from '@/stores/search'
 import { storeToRefs } from 'pinia' 
 import { useSucursalStore } from '@/stores/sucursal'
 import { Field, ErrorMessage, useForm } from 'vee-validate';
- 
+
 const storeSearch = useSearchStore();
 
 const storeSucursal = useSucursalStore(); 
@@ -14,8 +14,7 @@ const sucursales = computed(() => {
 
  
 onMounted(() => {
-    storeSucursal.fetchSucursales();  
-    
+    storeSucursal.fetchSucursales();   
     // storeSearch.options = sucursales;
 })
 function tiempoMinimoAntesDeReserva(date, hours){
@@ -38,12 +37,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
 <template>
     
 <form class="reservador" @submit="storeSearch.siguiente" >  
-
-    <header>
-        <h2> 
-            Haz tu reserva
-        </h2>
-    </header>
+ 
     <article>
         <div class="retiro">
             <section>
@@ -132,12 +126,10 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                 </fieldset> 
             </section> 
         </div>
-        <div class="siguiente"> 
-            <!-- <button type="submit">Buscar</button> -->
-            <NuxtLink class="verificar"   
-            to="/reserva/"  @click="submit">
-                Buscar
-            </NuxtLink> 
+        <div class="siguiente">  
+            <!-- <NuxtLink  @click="storeSearch.searchIs = 'ThePrompt'">Esconder</NuxtLink> 
+            <br/><br/><br/><br/> -->
+            <button class="verificar"  type="submit" @click="submit">Buscar</button> 
         </div>
     </article>  
 </form>
