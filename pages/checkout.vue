@@ -15,8 +15,7 @@ const storeCheckout = useCheckoutStore();
 <template>
 <main class="auto">  
     <article> 
-        <CarroSeleccionado />
-        <!-- agregar detalles sucursal -->
+        <CarroSeleccionado /> 
         <Desglose />  
 
     </article> 
@@ -25,44 +24,52 @@ const storeCheckout = useCheckoutStore();
         <form @submit="storeCheckout.finalizar">
             <p>
                 <label for="nombre">Nombre</label>
-                <Field type="text" id="nombre" name="nombre" rules="required" />
-                <ErrorMessage name="nombre" />
-            </p>
+                <Field type="text" id="nombre" name="nombre" rules="required" />  
+            </p> 
             <p>
                 <label for="apellido">Apellido</label>
-                <Field type="text" id="apellido" name="apellido" rules="required" />
-                <ErrorMessage name="apellido" />
-            </p> 
+                <Field type="text" id="apellido" name="apellido" rules="required" /> 
+            </p>  
             <p>
                 <label for="telefono">Teléfono</label>
-                <Field type="text" id="telefono" name="telefono" />
-                <ErrorMessage name="telefono" />
-            </p> 
+                <Field type="text" id="telefono" name="telefono" /> 
+            </p>  
             <p>
                 <label for="email">Dirección de correo electrónico</label>
-                <Field type="text" id="email" name="email" rules="required"  />
-                <ErrorMessage name="email" />
-            </p> 
+                <Field type="text" id="email" name="email" rules="required"  /> 
+            </p>  
             <p>
                 <label for="licencia">Licencia</label>
-                <Field type="text" id="licencia" name="licencia" rules="required" />
-                <ErrorMessage name="licencia" />
-            </p> 
+                <Field type="text" id="licencia" name="licencia" rules="required" /> 
+            </p>  
             <p>
-                <label for="nacimiento">Fecha de Nacimiento</label>
-                <!-- <Field type="text" id="nacimiento" name="nacimiento" rules="required"  /> -->
- 
-                <date-picker 
-                :enableTimePicker="false"
-                v-model="pedido.nacimiento"
+                <label for="nacimiento">Fecha de Nacimiento</label> 
+                <date-picker  :enableTimePicker="false" v-model="pedido.nacimiento"
                 locale="es" 
                 name="nacimiento"
                 rules="required" 
                 id="nacimiento"  
-                />  
-                <ErrorMessage name="nacimiento" /> 
-
+                /> 
             </p>
+
+            <section class="tarjeta">
+            <p>
+                <label for="licencia">Tarjeta de Credito</label>
+                <Field type="text" id="licencia" name="licencia" rules="required" /> 
+            </p>  
+
+
+            <p>
+                <label for="licencia">CCV</label>
+                <Field type="text" id="licencia" name="licencia" rules="required" /> 
+            </p>  
+
+            <p>
+                <label for="licencia">MM/YY</label>
+                <Field type="text" id="licencia" name="licencia" rules="required" /> 
+            </p>  
+        </section> 
+ 
             <button type="submit">Submit</button> 
         </form>
         <!--   <footer>  
@@ -70,6 +77,14 @@ const storeCheckout = useCheckoutStore();
                 <button>PAGAR / PAYPAL</button>
             </NuxtLink>
         </footer>   -->
+
+
+ 
+        <ErrorMessage name="nacimiento" >
+            <p>Todos los Campos son requeridos</p> 
+          </ErrorMessage>
+
+
     </section> 
 </main> 
 </template>

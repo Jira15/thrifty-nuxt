@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import moment from 'moment'; 
 import { useForm } from 'vee-validate';
 import * as Yup from 'yup'; 
-import { usePedidoStore } from '@/stores/pedido'; 
+import { usePedidoStore } from '@/stores/pedido';  
 
 const schema = Yup.object({
     sucursal: Yup.object().required(),
@@ -14,7 +14,7 @@ const schema = Yup.object({
 });  
  
 export const useSearchStore = defineStore('search',  () => { 
-    const searchIs = ref('default')
+    let searchIs = ref('default')
     const storePedido = usePedidoStore();
     const router = useRouter()
 
@@ -49,6 +49,7 @@ export const useSearchStore = defineStore('search',  () => {
         storePedido.pedido.horaRetorno = values.horaRetorno; 
         storePedido.pedido.diaRetorno = values.diaRetorno;  
         router.push('/reserva/'); 
+        searchIs = ref('TheProgress');
     });  
 
     return {

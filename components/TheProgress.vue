@@ -74,6 +74,7 @@ const horaFormat = function(value) {
     color: white;  
     height: 100%; 
     justify-content: space-around;  
+    z-index: 98989898989;
     h3 {
         font-size: 15px;   
     } 

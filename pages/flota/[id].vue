@@ -1,7 +1,7 @@
 <script setup>    
 import { getAssetURL } from "@/utils/get-asset-url";
 import { usePedidoStore } from '@/stores/pedido';
-
+ 
 const storePedido = usePedidoStore();
 const route = useRoute();
 const { getItemById } = useDirectusItems(); 
@@ -14,20 +14,20 @@ onMounted(() => {
 }) 
 </script> 
 <template>
-    <main class="auto">  
-        <article> 
-            <CarroSeleccionado />
-            <Desglose />  
-            <footer>   
-                <NuxtLink to="/checkout">
-                    <button>Siguiente</button>
-                </NuxtLink> 
-            </footer> 
-        </article> 
-        <section class="coberturas">
-            <Coberturas /> 
-            <Extras /> 
-        </section> 
+    <main class="auto">   
+            <article> 
+                <CarroSeleccionado />
+                <Desglose />  
+                <footer v-if="storePedido.pedido.cobertura.precio > 0">   
+                    <NuxtLink to="/checkout" >
+                        <button>Siguiente</button>
+                    </NuxtLink> 
+                </footer> 
+            </article> 
+            <section class="coberturas">
+                <Coberturas rules="required"  /> 
+                <Extras /> 
+            </section>  
     </main> 
 </template>
 <style scoped lang="scss">  

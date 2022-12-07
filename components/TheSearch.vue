@@ -2,8 +2,8 @@
 import { useSearchStore } from '@/stores/search'
 import { storeToRefs } from 'pinia' 
 import { useSucursalStore } from '@/stores/sucursal'
-import { Field, ErrorMessage, useForm } from 'vee-validate';
-
+import { defineRule, Form, Field, ErrorMessage, configure } from 'vee-validate';
+ 
 const storeSearch = useSearchStore();
 
 const storeSucursal = useSucursalStore(); 
@@ -36,8 +36,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
 </script> 
 <template>
     
-<form class="reservador" @submit="storeSearch.siguiente" >  
- 
+<form  class="reservador" @submit="storeSearch.siguiente" >   
     <article>
         <div class="retiro">
             <section>
@@ -49,10 +48,8 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                             {{ option.name }}
                         </option> 
                     </select> 
-                </label>   
-                <ErrorMessage name="sucursal" />
-            </section> 
-
+                </label>    
+            </section>    
             <section>
                 <legend>Día de retiro</legend> 
                     <fieldset class="fechas">  
@@ -63,9 +60,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         locale="es" 
                         name="diaRetiro"
                         rules="required"  
-                        /> 
-                        <ErrorMessage name="diaRetiro" />
-                        
+                        />   
                     <date-picker 
                         class="hora"
                         v-model="storeSearch.horaRetiro"
@@ -77,8 +72,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         <template  #input-icon> 
                             <img class="slot-icon"  src="@/assets/images/clock.png"/> 
                         </template>
-                    </date-picker> 
-                    <ErrorMessage name="horaRetiro" /> 
+                    </date-picker>  
                 </fieldset>  
             </section>  
         </div> 
@@ -92,9 +86,8 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                             {{ option.name }}
                         </option> 
                     </select> 
-                </label> 
-                <ErrorMessage name="sucursalRetorno" /> 
-            </section>
+                </label>  
+            </section> 
             
             <section> 
                 <legend>Día de retorno</legend>  
@@ -103,12 +96,9 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         v-model="storeSearch.diaRetorno" 
                         :minDate="storeSearch.diaRetiro"
                         :enableTimePicker="false"
-                        locale="es"
-                       
+                        locale="es" 
                         rules="required"
-                        /> 
-                   
-                          <ErrorMessage name="diaRetiro" />
+                        />  
                     <date-picker
                         class="hora"
                         v-model="storeSearch.horaRetorno"
@@ -117,8 +107,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         minutesIncrement="30"  
                         name="horaRetorno"
                         rules="required"
-                        >
-                      
+                        > 
                         <template  #input-icon> 
                             <img class="slot-icon"  src="@/assets/images/clock.png"/> 
                         </template>
@@ -130,6 +119,11 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
             <!-- <NuxtLink  @click="storeSearch.searchIs = 'ThePrompt'">Esconder</NuxtLink> 
             <br/><br/><br/><br/> -->
             <button class="verificar"  type="submit" @click="submit">Buscar</button> 
+
+            <ErrorMessage name="sucursal" >
+                <p>Todos los Campos son requeridos</p> 
+              </ErrorMessage>
+
         </div>
     </article>  
 </form>

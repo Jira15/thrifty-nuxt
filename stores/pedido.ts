@@ -22,13 +22,13 @@ export const usePedidoStore = defineStore(
                     combustible:String,
                     marca:String,
                     puertas:Number,
-                    precio_thrifty:Number,
+                    precio_thrifty: number,
                     galeria:Array
                 }, 
                 cobertura: {
                     nombre: String,
                     explicacion: String,
-                    precio: Number,
+                    precio: 0.00,
                     precio_2: Number,
                     precio_3: Number
                 },
@@ -75,12 +75,12 @@ export const usePedidoStore = defineStore(
                     minutes: Number,
                     seconds: Number
                 }, 
-                dropoff:null,
+                dropoff:number,
                 era: 3.99,
                 cupon: null,
                 prepago: null,
-                totalDeDias: Number,
-                subTotal: Number,
+                totalDeDias: number,
+                subTotal: number,
                 nacimiento: Date
             } 
         }), 
@@ -150,24 +150,27 @@ export const usePedidoStore = defineStore(
             }, 
             total() {
                 let precioDias = this.pedido.totalDeDias; 
-                let precioAuto = this.pedido.carro.precio_thrifty * precioDias;  
-                let precioCobertura = this.pedido.cobertura.precio  * precioDias;
-                let precioEra = this.pedido.era  * precioDias; 
-                let precioDropoff = this.pedido.dropoff  * precioDias;
+                let precioAuto = this.pedido.carro.precio_thrifty ;  
+                let precioCobertura = this.pedido.cobertura.precio;
+                let precioEra = this.pedido.era; 
+                let precioDropoff = this.pedido.dropoff;
                 const precioExtra = this.pedido.extras;   
                 const preciosASumar = []; 
         
                 // sumo todos los extras
-                const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0) * precioDias; 
+                const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0); 
                 //  agrego los precios de cobertura y carro y todos los extras ya sumados al array
-                preciosASumar.push(extrasSumados, precioCobertura, precioAuto, precioEra, precioDropoff); 
+                // preciosASumar.push(extrasSumados, precioCobertura, precioAuto, precioEra, precioDropoff); 
+
+                console.log(extrasSumados);
+                preciosASumar.push( precioAuto, precioEra, precioCobertura, extrasSumados); 
                 // sumo todo en el array
                 const suma = preciosASumar.map(element => element).reduce((a, b) => a + b, 0);
 
-                // const resultado = suma * 6;
+                const resultado = suma * precioDias;
 
                 // que siempre formattee como dolares 
-                return new Intl.NumberFormat('en-US').format(suma); 
+                return new Intl.NumberFormat('en-US').format(resultado); 
             }   
         } 
     }   

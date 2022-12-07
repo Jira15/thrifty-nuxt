@@ -23,9 +23,8 @@ export default {
             <i class="fas fa-bars" @click="showMenu()"><font-awesome-icon icon="bars" class="icon alt"/></i>
         </ClientOnly>
         <div class="nav-content" :class="showMobileMenu ? 'open-menu' : 'closed-menu'">   
-
+            <NuxtLink to="/"><img src="../assets/images/logo.png"></NuxtLink>
             <ul class="nav-items">
-                <li><NuxtLink to="/"><img src="../assets/images/logo.png"></NuxtLink></li>
                 <li><a href="#">Reservas</a>
                     <ul class="dropdown" aria-label="submenu">
                         <li><NuxtLink to="/reserva">Reservas</NuxtLink></li>
@@ -52,7 +51,6 @@ export default {
     width: 100%;
     background: linear-gradient(6deg, rgba(71, 157, 255, 1) 0%, rgba(3, 101, 199, 1) 100%);
     display: flex; 
-    z-index: -80000;
     .NuxtLink-active {
     color:#d8d8d8;
     }
@@ -63,7 +61,9 @@ export default {
     font-weight: bold; 
     color: #ffffff; 
         img {
-            max-height: 35px; 
+            max-height: 50px; 
+            margin-left: 15px;
+            margin-right: 10px;
         } 
     }
     .nav-content {
@@ -77,7 +77,8 @@ export default {
             justify-content: space-around;
             width: 100%;
             list-style: none;
-            margin: 0; 
+            margin: 0;
+            padding-left: 0;
         } 
         li {
             color: #fff; 
@@ -144,7 +145,9 @@ display: none;
         width: 100%;  
         align-items: center;
         font-weight: bold;
-        color: #ffffff; 
+        color: #ffffff;
+        
+                
         .nav-content { 
             flex-direction: column;
             z-index: 100;
@@ -170,7 +173,7 @@ display: none;
                 transition: all 0.5s ease;
                 margin-top: 1rem;
                 left: auto; 
-                
+                z-index: 10101;
                 
             }
             
@@ -186,7 +189,7 @@ display: none;
     }   
     .open-menu {
         opacity: 1;
- 
+        height: 150px;
     }
     .closed-menu {
         opacity: 0;

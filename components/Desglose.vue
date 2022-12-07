@@ -31,6 +31,11 @@ const horaFormat = function(value) {
     }
 }
 
+onMounted(() => { 
+    pedidoStore.pedido.totalDeDias = pedidoStore.diffDias(pedidoStore.pedido.diaRetorno, pedidoStore.pedido.diaRetiro);  
+}) 
+
+
 
 </script>
 

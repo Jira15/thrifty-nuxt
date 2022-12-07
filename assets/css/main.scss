@@ -2,21 +2,22 @@
 body{
 background-color: #eaeaea;
 font-family: Lato, sans-serif;
-}   
+}
+
+main {
+    position: relative;
  
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 0.25s ease-out;
 }
 
-.slide-up-enter-from {
-  opacity: 0;
-  transform: translateY(30px);
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
 }
 
-.slide-up-leave-to {
+.v-enter-from,
+.v-leave-to {
   opacity: 0;
-  transform: translateY(-30px);
 }
 
 // formato para contenido de paginas que se genera por v-html //

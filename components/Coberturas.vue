@@ -12,7 +12,7 @@ const coberturas = computed(() => {
 }) 
 onMounted(() => {
     storeCoberturas.fetchCoberturas(); 
-})
+}) 
 </script> 
 <template>
 <main class="coberturas">   
@@ -30,7 +30,7 @@ onMounted(() => {
                     </p>
                 </div>
                 <footer> 
-                    <input  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura" >
+                    <input required  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura">
                     <h4>B/. {{ cobertura.precio }} / por día</h4>  
                 </footer>
             </article>

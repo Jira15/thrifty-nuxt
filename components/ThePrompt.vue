@@ -40,6 +40,7 @@ onMounted(() => {
     text-transform: uppercase; 
     color: white;
     align-items: center;
+    z-index: 999999;
     h2 {
         font-size: 20px; 
         font-weight: bold;

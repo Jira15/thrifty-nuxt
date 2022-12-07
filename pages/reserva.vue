@@ -6,12 +6,8 @@ import { getAssetURL } from "@/utils/get-asset-url";
 
 import { useSearchStore } from '@/stores/search'
 
-const storeSearch = useSearchStore();
-
-
-
-
-const storeAutos = useAutosStore()
+const storeSearch = useSearchStore(); 
+const storeAutos = useAutosStore();
 
 const getAutos = computed(() => {
 return storeAutos.getAutos
