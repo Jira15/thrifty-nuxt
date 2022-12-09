@@ -19,6 +19,7 @@ const checkoutSchema = Yup.object({
 });
 
 export const useCheckoutStore = defineStore('checkout',  () => { 
+    
     const { createItems } = useDirectusItems(); 
     const storePedido = usePedidoStore();
     const totalPedido = storePedido.total();  
@@ -102,7 +103,12 @@ export const useCheckoutStore = defineStore('checkout',  () => {
             createItems<Pedido>({ collection: "pedidos", items });
             } catch (e) {} 
         router.push('/thanks/'); 
-    });  
+    }); 
+    
+ 
+
+
+
 
     return {
         errors,

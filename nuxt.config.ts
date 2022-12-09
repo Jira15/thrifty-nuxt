@@ -2,6 +2,8 @@
 export default defineNuxtConfig({
  
  // Global page headers:  
+
+ app:{
     head: {
         title: 'Thrifty Nuxt', 
         meta: [
@@ -9,12 +11,19 @@ export default defineNuxtConfig({
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
             { hid: 'description', name: 'description', content: '' },
             { name: 'format-detection', content: 'telephone=no' }
+            
+        ],
+        script:[    
+            {
+            src: "https://secure.networkmerchants.com/token/Collect.js",
+            'data-tokenization-key': "4S33Nz-Zsrp9B-qz2679-kUZAAQ" 
+            }
         ],
         link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
         ]
     },
-
+},
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: [
         // CSS file in the project
