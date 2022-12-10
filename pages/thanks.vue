@@ -1,5 +1,4 @@
-<script setup> 
-import { Buffer } from 'buffer';
+<!-- <script setup>  
 onMounted(() => { 
 
 class DirectPost {
@@ -127,11 +126,12 @@ dp.setShipping(shippingInfo);
 dp.doSale('100.00', '4111111111111111', '1221', '123');
 
 })
-
-
-
-
 </script> 
+ -->
+
+
+
+
 <template>
 <main class="auto">  
     <h2>GRACIAS POR SU COMPRA</h2>

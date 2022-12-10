@@ -1,7 +1,7 @@
 <script setup>    
 import { getAssetURL } from "@/utils/get-asset-url";
 import { usePedidoStore } from '@/stores/pedido';
-import { useCheckoutStore } from '@/stores/checkout';
+import { useCheckoutStore } from '~~/stores/checkout';
 import { Form, Field, ErrorMessage } from 'vee-validate'; 
 const storePedido = usePedidoStore();
  
@@ -171,35 +171,7 @@ onMounted(() => {
  
 
 </script> 
-<!-- <script>
-export default {
-    methods: {
-        formSubmit() {
-
-            this.formRequest().then( (result) => {
-                console.log(result)
-            }).catch( (error) => {
-                console.error('Contact form could not be send', error)
-            });
-        },
-
-        async formRequest() {
-            const hostName = 'vericheck.transactiongateway.com';
-    const path = '/api/transact.php';
-            return await $fetch( 'https://vericheck.transactiongateway.com/api/transact.php', { 
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                method: 'POST',
-                body: {
-                    'message': <your-form-data>,
-                    'name': <your-form-data>
-                }
-            } );
-        }
-    }
-}
-</script> -->
+ 
 <template>
 <main class="auto">  
     <article> 
@@ -257,8 +229,8 @@ export default {
                     </p>   
             </section> 
 
-        <button id="payButton" type="button">Submit Payment</button>
-            <!-- <button type="submit">Submit</button>  -->
+        <!-- <button id="payButton" type="button">Submit Payment</button> -->
+            <button type="submit">Submit</button> 
         </form>
         <!--   <footer>  
           <NuxtLink to="/checkout">

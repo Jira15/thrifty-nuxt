@@ -1,14 +1,108 @@
-import { useSucursalStore } from './sucursal';
-import { defineStore } from 'pinia'
-import moment from 'moment'; 
+import { defineStore } from 'pinia' 
 import { useForm } from 'vee-validate';
 import * as Yup from 'yup'; 
-import { usePedidoStore } from '@/stores/pedido'; 
-import { create } from 'yup/lib/Reference';
+import { usePedidoStore } from '@/stores/pedido';    
+import { Buffer } from 'buffer';
+ 
 
+class DirectPost {
+    constructor(security_key) {
+      this.security_key = security_key;
+    }
+  
+    setBilling(billingInformation) {
+      // Validate that passed in information contains valid keys
+      const validBillingKeys = ['first_name', 'last_name', 'company', 'address1',
+          'address2', 'city', 'state', 'zip', 'country', 'phone', 'fax', 'email'];
+  
+      for (let key in billingInformation) {
+        if (!validBillingKeys.includes(key)) {
+          throw new Error(`Invalid key provided in billingInformation. '${key}'
+              is not a valid billing parameter.`)
+        }
+      };
+  
+      this.billing = billingInformation;
+    }
+  
+    setShipping(shippingInformation) {
+      // Validate that passed in information contains valid keys
+      const validShippingKeys = [
+        'shipping_first_name', 'shipping_last_name', 'shipping_company',
+        'shipping_address1', 'address2', 'shipping_city', 'shipping_state',
+        'shipping_zip', 'shipping_country', 'shipping_email'
+      ];
+  
+      for (let key in shippingInformation) {
+        if (!validShippingKeys.includes(key)) {
+          throw new Error(`Invalid key provided in shippingInformation. '${key}'
+              is not a valid shipping parameter.`)
+        }
+      };
+  
+      this.shipping = shippingInformation;
+    }
+  
+    doSale(amount, ccNum, ccExp, cvv) {
+      let requestOptions = {
+        'type': 'sale',
+        'amount': amount,
+        'ccnumber': ccNum,
+        'ccexp': ccExp,
+        'cvv': cvv
+      };
+  
+      // Merge together all request options into one object
+      Object.assign(requestOptions, this.billing, this.shipping);
+  
+      // Make request
+      this._doRequest(requestOptions);
+    }
+  
+    _doRequest(postData) {
+      const hostName = 'secure.networkmerchants.com';
+      const path = '/api/transact.php';
+  
+      postData.security_key = this.security_key;
+      postData = JSON.stringify(postData);
+  
+      const options = {
+        hostname: hostName,
+        path: path,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
+        }
+      };
+  
+      // Make request to Payment API
+      const req = $fetch(options, (response) => {
+  
+        // hacer return?
+        console.log(`STATUS: ${response.statusCode}`);
+        console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
+  
+        response.on('data', (chunk) => {
+          console.log(`BODY: ${chunk}`);
+        });
+        response.on('end', () => {
+          console.log('No more data in response.');
+        });
+      });
+  
+      // req.on('error', (e) => {
+      //   console.error(`Problem with request: ${e.message}`);
+      // });
+  
+      // Write post data to request body
+      req.body(postData);
+      // req.end(); 
+    }
+  }
 
-
-
+  
+  
 const checkoutSchema = Yup.object({ 
     nombre: Yup.string().required(),
     apellido: Yup.string().required(),
@@ -16,10 +110,28 @@ const checkoutSchema = Yup.object({
     // telefono: Yup.string().required(),
     // licencia: Yup.string().required(),
     // nacimiento: Yup.string().required(),
-});
+}); 
 
 export const useCheckoutStore = defineStore('checkout',  () => { 
-    
+   const billingInfo = {
+        'first_name': 'Test',
+        'last_name': 'User',
+        'address1': '123 Main St',
+        'city': 'New York',
+        'state': 'NY',
+        'zip' : '12345',
+      }
+      const shippingInfo = {
+        'shipping_first_name': 'User',
+        'shipping_last_name': 'Test',
+        'shipping_address1': '987 State St',
+        'shipping_city': 'Los Angeles',
+        'shipping_state': 'CA',
+        'shipping_zip' : '98765',
+      }
+      
+
+
     const { createItems } = useDirectusItems(); 
     const storePedido = usePedidoStore();
     const totalPedido = storePedido.total();  
@@ -78,8 +190,15 @@ export const useCheckoutStore = defineStore('checkout',  () => {
         console.log("Hora",  JSON.stringify(storePedido.pedido.horaRetiro, null, 2));
         
         // storePedido.pedido.cliente = values.nombre;  
-        
+         
         try {
+            const dp = new DirectPost('wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4'); 
+ 
+            dp.setBilling(billingInfo);
+            dp.setShipping(shippingInfo);
+            // Set dummy data for sale
+            dp.doSale('100.00', '4111111111111111', '1221', '123');  
+
             var items: Pedido[] = [
                 {
                     nombre: values.nombre,
@@ -88,10 +207,10 @@ export const useCheckoutStore = defineStore('checkout',  () => {
                     telefono: values.telefono, 
                     licencia: values.licencia,
                     nacimiento:  storePedido.pedido.nacimiento,
-                    retiro: storePedido.pedido.sucursal.nombre,
+                    retiro: storePedido.pedido.sucursal.name,
                     fecha_retiro: storePedido.pedido.diaRetiro,
                     hora_retiro:  horaRetiroString,
-                    retorno: storePedido.pedido.sucursalRetorno.nombre,
+                    retorno: storePedido.pedido.sucursalRetorno.name,
                     fecha_retorno: storePedido.pedido.diaRetorno,
                     hora_retorno: horaRetornoString,
                     carro: storePedido.pedido.carro.modelo,
@@ -101,15 +220,11 @@ export const useCheckoutStore = defineStore('checkout',  () => {
                 } 
             ]; 
             createItems<Pedido>({ collection: "pedidos", items });
+
+
             } catch (e) {} 
         router.push('/thanks/'); 
-    }); 
-    
- 
-
-
-
-
+    });  
     return {
         errors,
         nombre,
@@ -120,5 +235,4 @@ export const useCheckoutStore = defineStore('checkout',  () => {
         nacimiento,
         finalizar
     };
-});  
- 
+});   

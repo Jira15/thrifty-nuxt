@@ -43,8 +43,9 @@ export default defineNuxtConfig({
     plugins: [ 
         '@/plugins/fontawesome.js',  
         '@/plugins/vue-datepicker.js',
-        '@/plugins/vue-gtm.client.js', 
-        '@/plugins/vee-validate.js'
+        '@/plugins/vue-gtm.client.js',
+        '@/plugins/vee-validate.js', 
+        '@/plugins/direct-post.js'
     ],   
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [ 
