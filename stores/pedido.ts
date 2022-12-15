@@ -10,6 +10,14 @@ export const usePedidoStore = defineStore(
 // a function that returns a fresh state - STATE ES COMO DATA 
         state: () => ({  
             pedido: {
+                cliente: {
+                    nombre: String,
+                    apellido: String,
+                    email: String,
+                    telefono: String,
+                    licencia: String, 
+                    nacimiento: Date
+                },
                 carro:  {
                     id: Number,
                     modelo: String,
@@ -81,7 +89,6 @@ export const usePedidoStore = defineStore(
                 prepago: null,
                 totalDeDias: number,
                 subTotal: number,
-                nacimiento: Date
             } 
         }), 
         // optional getters GETTER SON COMO COMPUTED 

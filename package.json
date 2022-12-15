@@ -21,6 +21,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@gtm-support/vue-gtm": "^2.0.0",
+    "@paypal/paypal-js": "^5.1.4",
     "@pinia/nuxt": "^0.4.3",
     "@vee-validate/i18n": "^4.7.3",
     "@vee-validate/rules": "^4.7.3",

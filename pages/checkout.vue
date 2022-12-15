@@ -2,176 +2,177 @@
 import { getAssetURL } from "@/utils/get-asset-url";
 import { usePedidoStore } from '@/stores/pedido';
 import { useCheckoutStore } from '~~/stores/checkout';
-import { Form, Field, ErrorMessage } from 'vee-validate'; 
-const storePedido = usePedidoStore();
- 
+import { usePaypalStore } from '@/stores/paypal';
+import { Form, Field, ErrorMessage } from 'vee-validate';  
+
+const storePaypal = usePaypalStore(); 
+const storePedido = usePedidoStore(); 
+const storeCheckout = useCheckoutStore();
+
 const pedido = computed(() => {
     return storePedido.pedido
 })   
 
-const storeCheckout = useCheckoutStore(); 
-onMounted(() => {
-    CollectJS.configure({
-                    "paymentSelector" : "#demoPayButton",
-                    "variant" : "inline",
-                    "styleSniffer" : "false",
-                    "googleFont": "Montserrat:400",
-                    "customCss" : {
-                        "color": "#0000ff",
-                        "background-color": "#d0d0ff"
-                    },
-                    "invalidCss": {
-                        "color": "white",
-                        "background-color": "red"
-                    },
-                    "validCss": {
-                        "color": "black",
-                        "background-color": "#d0ffd0"
-                    },
-                    "placeholderCss": {
-                        "color": "green",
-                        "background-color": "#687C8D"
-                    },
-                    "focusCss": {
-                        "color": "yellow",
-                        "background-color": "#202020"
-                    },
-                    "fields": {
-                        "ccnumber": {
-                            "selector": "#demoCcnumber",
-                            "title": "Card Number",
-                            "placeholder": "0000 0000 0000 0000"
-                        },
-                        "ccexp": {
-                            "selector": "#demoCcexp",
-                            "title": "Card Expiration",
-                            "placeholder": "00 / 00"
-                        },
-                        "cvv": {
-                            "display": "show",
-                            "selector": "#demoCvv",
-                            "title": "CVV Code",
-                            "placeholder": "***"
-                        },
-                        "checkaccount": {
-                            "selector": "#demoCheckaccount",
-                            "title": "Account Number",
-                            "placeholder": "0000000000"
-                        },
-                        "checkaba": {
-                            "selector": "#demoCheckaba",
-                            "title": "Routing Number",
-                            "placeholder": "000000000"
-                        },
-                        "checkname": {
-                            "selector": "#demoCheckname",
-                            "title": "Name on Checking Account",
-                            "placeholder": "Customer McCustomerface"
-                        },
-                        "googlePay": {
-                            "selector": ".googlePayButton",
-                            "shippingAddressRequired": true,
-                            "shippingAddressParameters": {
-                                "phoneNumberRequired": true,
-                                "allowedCountryCodes": ['US', 'CA']
-                            },
-                            "billingAddressRequired": true,
-                            "billingAddressParameters": {
-                                "phoneNumberRequired": true,
-                                "format": "MIN"
-                            },
-                            'emailRequired': true,
-                            "buttonType": "buy",
-                            "buttonColor": "white",
-                            "buttonLocale": "en"
-                        },
-                        'applePay' : {
-                            'selector' : '.applePayButton',
-                            'shippingMethods': [
-                                {
-                                    'label': 'Free Standard Shipping',
-                                    'amount': '0.00',
-                                    'detail': 'Arrives in 5-7 days',
-                                    'identifier': 'standardShipping'
-                                },
-                                {
-                                    'label': 'Express Shipping',
-                                    'amount': '10.00',
-                                    'detail': 'Arrives in 2-3 days',
-                                    'identifier': 'expressShipping'
-                                }
-                            ],
-                            'shippingType': 'delivery',
-                            'requiredBillingContactFields': [
-                                'postalAddress',
-                                'name'
-                            ],
-                            'requiredShippingContactFields': [
-                                'postalAddress',
-                                'name'
-                            ],
-                            'contactFields': [
-                                'phone',
-                                'email'
-                            ],
-                            'contactFieldsMappedTo': 'shipping',
-                            'lineItems': [
-                                {
-                                    'label': 'Foobar',
-                                    'amount': '3.00'
-                                },
-                                {
-                                    'label': 'Arbitrary Line Item #2',
-                                    'amount': '1.00'
-                                }
-                            ],
-                            'totalLabel': 'foobar',
-                            'type': 'buy',
-                            'style': {
-                                'button-style': 'white-outline',
-                                'height': '50px',
-                                'border-radius': '0'
-                            }
-                        }
-                    },
-                    'price': '1.00',
-                    'currency':'USD',
-                    'country': 'US',
-                    'validationCallback' : function(field, status, message) {
-                        if (status) {
-                            var message = field + " is now OK: " + message;
-                        } else {
-                            var message = field + " is now Invalid: " + message;
-                        }
-                        console.log(message);
-                    },
-                    "timeoutDuration" : 10000,
-                    "timeoutCallback" : function () {
-                        console.log("The tokenization didn't respond in the expected timeframe.  This could be due to an invalid or incomplete field or poor connectivity");
-                    },
-                    "fieldsAvailableCallback" : function () {
-                        console.log("Collect.js loaded the fields onto the form");
-                    },
-                    'callback' : function(response) {
-                        alert(response.token);
-                        var input = document.createElement("input");
-                        input.type = "hidden";
-                        input.name = "payment_token";
-                        input.value = response.token;
-                        var form = document.getElementsByTagName("form")[0];
-                        form.appendChild(input);
-                        form.submit();
-                    }
-                }); 
-
-})
-
-
-
+ 
  
 
+// onMounted(() => {
+//     CollectJS.configure({
+//                     "paymentSelector" : "#demoPayButton",
+//                     "variant" : "inline",
+//                     "styleSniffer" : "false",
+//                     "googleFont": "Montserrat:400",
+//                     "customCss" : {
+//                         "color": "#0000ff",
+//                         "background-color": "#d0d0ff"
+//                     },
+//                     "invalidCss": {
+//                         "color": "white",
+//                         "background-color": "red"
+//                     },
+//                     "validCss": {
+//                         "color": "black",
+//                         "background-color": "#d0ffd0"
+//                     },
+//                     "placeholderCss": {
+//                         "color": "green",
+//                         "background-color": "#687C8D"
+//                     },
+//                     "focusCss": {
+//                         "color": "yellow",
+//                         "background-color": "#202020"
+//                     },
+//                     "fields": {
+//                         "ccnumber": {
+//                             "selector": "#demoCcnumber",
+//                             "title": "Card Number",
+//                             "placeholder": "0000 0000 0000 0000"
+//                         },
+//                         "ccexp": {
+//                             "selector": "#demoCcexp",
+//                             "title": "Card Expiration",
+//                             "placeholder": "00 / 00"
+//                         },
+//                         "cvv": {
+//                             "display": "show",
+//                             "selector": "#demoCvv",
+//                             "title": "CVV Code",
+//                             "placeholder": "***"
+//                         },
+//                         "checkaccount": {
+//                             "selector": "#demoCheckaccount",
+//                             "title": "Account Number",
+//                             "placeholder": "0000000000"
+//                         },
+//                         "checkaba": {
+//                             "selector": "#demoCheckaba",
+//                             "title": "Routing Number",
+//                             "placeholder": "000000000"
+//                         },
+//                         "checkname": {
+//                             "selector": "#demoCheckname",
+//                             "title": "Name on Checking Account",
+//                             "placeholder": "Customer McCustomerface"
+//                         },
+//                         "googlePay": {
+//                             "selector": ".googlePayButton",
+//                             "shippingAddressRequired": true,
+//                             "shippingAddressParameters": {
+//                                 "phoneNumberRequired": true,
+//                                 "allowedCountryCodes": ['US', 'CA']
+//                             },
+//                             "billingAddressRequired": true,
+//                             "billingAddressParameters": {
+//                                 "phoneNumberRequired": true,
+//                                 "format": "MIN"
+//                             },
+//                             'emailRequired': true,
+//                             "buttonType": "buy",
+//                             "buttonColor": "white",
+//                             "buttonLocale": "en"
+//                         },
+//                         'applePay' : {
+//                             'selector' : '.applePayButton',
+//                             'shippingMethods': [
+//                                 {
+//                                     'label': 'Free Standard Shipping',
+//                                     'amount': '0.00',
+//                                     'detail': 'Arrives in 5-7 days',
+//                                     'identifier': 'standardShipping'
+//                                 },
+//                                 {
+//                                     'label': 'Express Shipping',
+//                                     'amount': '10.00',
+//                                     'detail': 'Arrives in 2-3 days',
+//                                     'identifier': 'expressShipping'
+//                                 }
+//                             ],
+//                             'shippingType': 'delivery',
+//                             'requiredBillingContactFields': [
+//                                 'postalAddress',
+//                                 'name'
+//                             ],
+//                             'requiredShippingContactFields': [
+//                                 'postalAddress',
+//                                 'name'
+//                             ],
+//                             'contactFields': [
+//                                 'phone',
+//                                 'email'
+//                             ],
+//                             'contactFieldsMappedTo': 'shipping',
+//                             'lineItems': [
+//                                 {
+//                                     'label': 'Foobar',
+//                                     'amount': '3.00'
+//                                 },
+//                                 {
+//                                     'label': 'Arbitrary Line Item #2',
+//                                     'amount': '1.00'
+//                                 }
+//                             ],
+//                             'totalLabel': 'foobar',
+//                             'type': 'buy',
+//                             'style': {
+//                                 'button-style': 'white-outline',
+//                                 'height': '50px',
+//                                 'border-radius': '0'
+//                             }
+//                         }
+//                     },
+//                     'price': '1.00',
+//                     'currency':'USD',
+//                     'country': 'US',
+//                     'validationCallback' : function(field, status, message) {
+//                         if (status) {
+//                             var message = field + " is now OK: " + message;
+//                         } else {
+//                             var message = field + " is now Invalid: " + message;
+//                         }
+//                         console.log(message);
+//                     },
+//                     "timeoutDuration" : 10000,
+//                     "timeoutCallback" : function () {
+//                         console.log("The tokenization didn't respond in the expected timeframe.  This could be due to an invalid or incomplete field or poor connectivity");
+//                     },
+//                     "fieldsAvailableCallback" : function () {
+//                         console.log("Collect.js loaded the fields onto the form");
+//                     },
+//                     'callback' : function(response) {
+//                         alert(response.token);
+//                         var input = document.createElement("input");
+//                         input.type = "hidden";
+//                         input.name = "payment_token";
+//                         input.value = response.token;
+//                         var form = document.getElementsByTagName("form")[0];
+//                         form.appendChild(input);
+//                         form.submit();
+//                     }
+//                 }); 
+
+// }) 
 </script> 
- 
+
 <template>
 <main class="auto">  
     <article> 
@@ -181,44 +182,45 @@ onMounted(() => {
     </article> 
     <section class="detalles-conductor"> 
         <h3>Finaliza tu reserva</h3>
-        <form 
-        @submit="storeCheckout.finalizar" >
+        <Form @submit="storeCheckout.onSubmit">
             <p>
                 <label for="nombre">Nombre</label>
-                <Field type="text" id="nombre" name="nombre" rules="required" />  
+                <Field v-model="pedido.cliente.nombre" type="text" id="nombre" name="nombre" rules="required" />  
+                <ErrorMessage name="nombre" />
+        
             </p> 
             <p>
                 <label for="apellido">Apellido</label>
-                <Field type="text" id="apellido" name="apellido" rules="required" /> 
+                <Field v-model="pedido.cliente.apellido"  type="text" id="apellido" name="apellido" rules="required" /> 
+                <ErrorMessage name="apellido" /> 
             </p>  
             <p>
                 <label for="telefono">Teléfono</label>
-                <Field type="text" id="telefono" name="telefono" /> 
+                <Field  v-model="pedido.cliente.telefono"  type="text" id="telefono" name="telefono" /> 
             </p>  
             <p>
                 <label for="email">Dirección de correo electrónico</label>
-                <Field type="text" id="email" name="email" rules="required"  /> 
+                <Field   v-model="pedido.cliente.email"  type="text" id="email" name="email" rules="required"  /> 
+                <ErrorMessage name="email" />
+        
             </p>  
             <p>
                 <label for="licencia">Licencia</label>
-                <Field type="text" id="licencia" name="licencia" rules="required" /> 
+                <Field  v-model="pedido.cliente.licencia"  type="text" id="licencia" name="licencia" rules="required" /> 
+                <ErrorMessage name="licencia" />
+        
             </p>  
-            <!-- <p>
+            <p>
                 <label for="nacimiento">Fecha de Nacimiento</label> 
-                <date-picker  :enableTimePicker="false" v-model="pedido.nacimiento"
-                locale="es" 
-                name="nacimiento"
-                rules="required" 
-                id="nacimiento"  
-                /> 
-            </p> -->
+                <date-picker  :enableTimePicker="false" v-model="pedido.cliente.nacimiento"
+                locale="es" name="nacimiento" rules="required" id="nacimiento" />  
+            </p>
 
-            <section class="tarjeta">  
+            <!-- <section class="tarjeta">  
                     <p>
                         <label>CC Number</label>  
                         <div id="demoCcnumber"></div> 
-                    </p> 
-             
+                    </p>  
                     <p>
                         <label>CVV Collect</label>  
                         <div id="demoCvv"></div> 
@@ -227,19 +229,17 @@ onMounted(() => {
                         <label>MM/YY</label> 
                         <div id="demoCcexp"></div>
                     </p>   
-            </section> 
 
-        <!-- <button id="payButton" type="button">Submit Payment</button> -->
-            <button type="submit">Submit</button> 
-        </form>
-        <!--   <footer>  
-          <NuxtLink to="/checkout">
-                <button>PAGAR / PAYPAL</button>
-            </NuxtLink>
-        </footer>   -->
+            </section> -->
 
+            <button type="submit">Submit</button>
 
- 
+            
+            <!-- <button id="payButton" type="submit">Submit Payment</button> -->
+
+            <div id="paypal-button">
+            </div>
+        </Form> 
         <ErrorMessage name="licencia" >
             <p>Todos los Campos son requeridos</p> 
           </ErrorMessage>
@@ -357,6 +357,7 @@ onMounted(() => {
                 font-weight: 600;
                 color: white;    
                 text-align: center;
+                cursor:pointer;
             } 
         }
     }
@@ -391,7 +392,6 @@ onMounted(() => {
                     flex-direction: column;
                     justify-content: space-between; 
                 }
-      
             }
         }
         
