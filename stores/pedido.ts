@@ -40,6 +40,20 @@ export const usePedidoStore = defineStore(
                     precio_2: Number,
                     precio_3: Number
                 },
+                cobertura_o: {
+                    nombre: String,
+                    explicacion: String,
+                    precio: 0.00,
+                    precio_2: Number,
+                    precio_3: Number
+                },
+                cobertura_e: {
+                    nombre: String,
+                    explicacion: String,
+                    precio: 0.00,
+                    precio_2: Number,
+                    precio_3: Number
+                },
                 extras: [],
                 sucursal: { 
                             id: Number,

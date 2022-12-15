@@ -226,7 +226,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
         fecha_retorno: DateConstructor,
         hora_retorno: string,
         carro: StringConstructor,
-        cobertura: StringConstructor,
+        cobertura_e: object,
         extras: string,
         total: string
     } 
@@ -260,7 +260,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
             'cvv': '123'
           } 
           
-          fetch( 'https://secure.networkmerchants.com/api/transact.php', {
+          useFetch( 'https://secure.networkmerchants.com/api/transact.php', {
                   method: 'POST',
                   headers: {
                       // 'Authorization': 'security_key'+'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
@@ -310,7 +310,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
                     fecha_retorno: storePedido.pedido.diaRetorno,
                     hora_retorno: horaRetornoString,
                     carro: storePedido.pedido.carro.modelo,
-                    cobertura:storePedido.pedido.cobertura.nombre,
+                    cobertura_e: storePedido.pedido.cobertura,
                     extras: JSON.stringify(storePedido.pedido.extras), 
                     total: totalPedido
                 } 
