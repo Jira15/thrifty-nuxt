@@ -15,7 +15,7 @@ const checkoutSchema = Yup.object({
 }); 
 
 export const usePaypalStore = defineStore('paypal',  () => { 
-    const { createItems } = useDirectusItems(); 
+    const { createItems, updateItem } = useDirectusItems(); 
     const storePedido = usePedidoStore();
     const totalPedido = storePedido.total();  
     const horaRetiro = storePedido.pedido.horaRetiro; 
@@ -58,6 +58,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
         carro: StringConstructor,
         cobertura: StringConstructor,
         extras: string,
+        status: string,
         total: string
     }   
     loadScript({ 
@@ -101,7 +102,8 @@ export const usePaypalStore = defineStore('paypal',  () => {
                         // },
                         purchase_units: [{
                           amount: {
-                              value: totalPedido
+                            //   value: totalPedido
+                            value: '88.88'
                           }
                         }], 
                     });
@@ -110,7 +112,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
                     // This function captures the funds from the transaction.
                     return actions.order.capture().then(function(details) {
                       // This function shows a transaction success message to your buyer.
-
+                    
                       var items: Pedido[] = [
                         {
                             nombre: storePedido.pedido.cliente.nombre,
@@ -128,17 +130,19 @@ export const usePaypalStore = defineStore('paypal',  () => {
                             carro: storePedido.pedido.carro.modelo,
                             cobertura:storePedido.pedido.cobertura.nombre,
                             extras: JSON.stringify(storePedido.pedido.extras), 
+                            status: 'Pagado', 
                             total: totalPedido
                         } 
-                    ]; 
-                    createItems<Pedido>({ collection: "pedidos", items });
+                    ];  
+          
+                    createItems<Pedido>({ collection: "pedidos", items }); 
                     router.push('/thanks/');  
                     });
                   },
                   onError: function (err) {
                     // For example, redirect to a specific error page
                     // hacer un mensaje/function de error quedar en la misma pagina
-                    window.location.href = "/error";
+                    // window.location.href = "/error";
                   }
               })    
               .render("#paypal-button")

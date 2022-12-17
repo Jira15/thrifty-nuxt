@@ -103,6 +103,7 @@ export const usePedidoStore = defineStore(
                 prepago: null,
                 totalDeDias: number,
                 subTotal: number,
+                status:String
             } 
         }), 
         // optional getters GETTER SON COMO COMPUTED 

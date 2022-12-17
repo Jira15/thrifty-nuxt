@@ -225,8 +225,8 @@ export const useCheckoutStore = defineStore('checkout',  () => {
         retorno: StringConstructor,
         fecha_retorno: DateConstructor,
         hora_retorno: string,
-        carro: StringConstructor,
-        cobertura_e: object,
+        carro: object,
+        cobertura: object,
         extras: string,
         total: string
     } 
@@ -309,8 +309,8 @@ export const useCheckoutStore = defineStore('checkout',  () => {
                     retorno: storePedido.pedido.sucursalRetorno.name,
                     fecha_retorno: storePedido.pedido.diaRetorno,
                     hora_retorno: horaRetornoString,
-                    carro: storePedido.pedido.carro.modelo,
-                    cobertura_e: storePedido.pedido.cobertura,
+                    carro: storePedido.pedido.carro,
+                    cobertura: storePedido.pedido.cobertura,
                     extras: JSON.stringify(storePedido.pedido.extras), 
                     total: totalPedido
                 } 
