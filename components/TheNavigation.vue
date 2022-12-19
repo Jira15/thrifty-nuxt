@@ -26,12 +26,7 @@ export default {
 
             <ul class="nav-items">
                 <li><NuxtLink to="/"><img src="../assets/images/logo.png"></NuxtLink></li>
-                <li><a href="#">Reservas</a>
-                    <ul class="dropdown" aria-label="submenu">
-                        <li><NuxtLink to="/reserva">Reservas</NuxtLink></li>
-                        <li><a href="#">Reservas a USA </a></li> 
-                    </ul> 
-                </li>
+ 
                 <li><NuxtLink to="/flota">Flota</NuxtLink></li>
                 <li><NuxtLink to="/sucursales">Sucursales</NuxtLink></li>
                 <li><a href="#">Corporativo</a>
@@ -40,7 +35,8 @@ export default {
                         <li><NuxtLink to="/paginas/corporativo">Planes Corporativos</NuxtLink></li> 
                     </ul>
                 </li> 
-                <!-- <li><NuxtLink to="/modify">Maneja tu Reserva</NuxtLink></li> -->
+                <li><NuxtLink href="https://wa.link/n4yy20" target="_blank">Reservas a USA</NuxtLink></li> 
+                <li><NuxtLink to="/clientes">Paga/Mira tu Reserva</NuxtLink></li>
             </ul>
         </div>
     </nav>   

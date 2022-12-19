@@ -34,6 +34,7 @@
     "v-viewer": "^3.0.10",
     "vee-validate": "^4.7.3",
     "vue-colorful-slider": "^1.0.1",
+    "vue-money-format": "^1.2.4",
     "vue-ssr-carousel": "^1.4.2",
     "vue3-google-map": "^0.15.0",
     "yup": "^0.32.11"

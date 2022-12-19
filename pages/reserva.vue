@@ -4,7 +4,9 @@ import { useAutosStore } from '@/stores/autos'
 import { storeToRefs } from 'pinia'
 import { getAssetURL } from "@/utils/get-asset-url";
 
+
 import { useSearchStore } from '@/stores/search'
+const route = useRoute();
 
 const storeSearch = useSearchStore(); 
 const storeAutos = useAutosStore();
@@ -15,9 +17,14 @@ return storeAutos.getAutos
 const autos = computed(() => {
 return storeAutos.autos
 })
+const precioFormat = function(value) {
+    if (value) {
+        return value.toLocaleString('es-US', { style: 'currency', currency: 'USD' }) 
+    }
+}
 
 onMounted(() => {
-storeAutos.fetchAutos();
+storeAutos.fetchAutos(); 
 storeSearch.searchIs = 'TheProgress';
 }) 
 </script> 
@@ -88,7 +95,7 @@ storeSearch.searchIs = 'TheProgress';
             <footer>
                 <div>
                     <em>Por día</em>
-                    <h4>B/. {{ auto.precio_thrifty }}</h4>  
+                    <h4> {{  precioFormat(auto.precio_thrifty) }}</h4>  
                     <NuxtLink  
                     :to="'/flota/' +
                     auto.id">
@@ -97,7 +104,7 @@ storeSearch.searchIs = 'TheProgress';
                 </div> 
                 <div>
                     <em>Prepago</em>
-                    <h4>B/. {{ auto.precio_thrifty }}</h4> 
+                    <h4> {{  precioFormat(auto.precio_thrifty) }}</h4> 
                     <NuxtLink  
                     :to="'/flota/' +
                     auto.id">

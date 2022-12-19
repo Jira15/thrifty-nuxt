@@ -228,6 +228,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
         carro: object,
         cobertura: object,
         extras: string,
+        dropoff: string,
         total: string
     } 
 
@@ -311,11 +312,13 @@ export const useCheckoutStore = defineStore('checkout',  () => {
                     hora_retorno: horaRetornoString,
                     carro: storePedido.pedido.carro,
                     cobertura: storePedido.pedido.cobertura,
+                    dropoff: storePedido.pedido.dropoff,
                     extras: JSON.stringify(storePedido.pedido.extras), 
                     total: totalPedido
                 } 
             ]; 
             createItems<Pedido>({ collection: "pedidos", items });
+            /// si mando el order id custom desde aqui lo puedo agregar a la pagina de gracias
             router.push('/thanks/'); 
 
             } catch (e) { 

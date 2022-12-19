@@ -68,20 +68,7 @@ const sucursalABuscador = function(value) {
                         position: { lat: sucursal.mapa.coordinates[1], lng: sucursal.mapa.coordinates[0] } }" 
                         />
                 </GoogleMap>
-            </aside>  
-
-            <!-- <NuxtLink class="verificar" 
-            :to="'/search/' +
-                sucursal.codigo_rentworks  +
-                '/' +
-                sucursal.codigo_rentworks +
-                '/' +
-                 sucursal.horario_apertura +
-                '/' +
-                 sucursal.horario_apertura +
-                '/'">
-                Reservar Aqui  
-            </NuxtLink>  -->
+            </aside>   
 
             <NuxtLink to="#prompt"   class="verificar" 
               @click="sucursalABuscador(sucursal)">

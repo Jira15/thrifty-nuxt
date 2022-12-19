@@ -6314,6 +6314,13 @@
   "resolved" "https://registry.npmjs.org/vue-devtools-stub/-/vue-devtools-stub-0.1.0.tgz"
   "version" "0.1.0"
 
+"vue-money-format@^1.2.4":
+  "integrity" "sha512-Y0/MmUc40JbPtjPh0R+8F7PihNEMeBsJDaU7y4jiYoLDzPXgk2kydeG+iKfHEKdnUvD8tbJQhBEl5J8o2AH7Ow=="
+  "resolved" "https://registry.npmjs.org/vue-money-format/-/vue-money-format-1.2.4.tgz"
+  "version" "1.2.4"
+  dependencies:
+    "vue" "^2.6.11"
+
 "vue-router@^4.1.0", "vue-router@^4.1.6":
   "integrity" "sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ=="
   "resolved" "https://registry.npmjs.org/vue-router/-/vue-router-4.1.6.tgz"

@@ -10,12 +10,13 @@ export const usePedidoStore = defineStore(
 // a function that returns a fresh state - STATE ES COMO DATA 
         state: () => ({  
             pedido: {
+                id: '',
                 cliente: {
-                    nombre: String,
-                    apellido: String,
-                    email: String,
-                    telefono: String,
-                    licencia: String, 
+                    nombre: '',
+                    apellido: '',
+                    email: '',
+                    telefono: '',
+                    licencia: '', 
                     nacimiento: Date
                 },
                 carro:  {
@@ -63,7 +64,7 @@ export const usePedidoStore = defineStore(
                             telefono_1: String,
                             telefono_2: null,
                             horario_cierre: Number,
-                            codigo_rentworks: String,
+                            LocationCode: String,
                             horario_apertura: Number,
                             horario_cierre_sabado: Number,
                             horario_cierre_domingo: Number,
@@ -78,7 +79,7 @@ export const usePedidoStore = defineStore(
                             telefono_1: String,
                             telefono_2: null,
                             horario_cierre: Number,
-                            codigo_rentworks: String,
+                            LocationCode: String,
                             horario_apertura: Number,
                             horario_cierre_sabado: Number,
                             horario_cierre_domingo: Number,
@@ -121,20 +122,20 @@ export const usePedidoStore = defineStore(
             checkDropoff(sucursalDeRetiro, sucursalDeRetorno) { 
                 let dropoff 
                 const tier = {
-                    uno: 0,
-                    dos: 16,
-                    tres: 20,
-                    cuatro: 25,
-                    cinco: 30,
-                    seis: 52,
-                    siete: 55,
-                    ocho: 85,
-                    nueve: 90, 
-                    diez: 125,
-                    once: 177,  
-                    doce: 190, 
-                    trece: 235, 
-                    catorce: 290
+                    uno: 0.00,
+                    dos: 16.00,
+                    tres: 20.00,
+                    cuatro: 25.00,
+                    cinco: 30.00,
+                    seis: 52.00,
+                    siete: 55.00,
+                    ocho: 85.00,
+                    nueve: 90.00, 
+                    diez: 125.00,
+                    once: 177.00,  
+                    doce: 190.00, 
+                    trece: 235.00, 
+                    catorce: 290.00
                 } 
         
                 if (sucursalDeRetiro === sucursalDeRetorno)
@@ -169,6 +170,7 @@ export const usePedidoStore = defineStore(
                     dropoff = tier.seis;
                 } 
                 return  dropoff; 
+                // return new Intl.NumberFormat('en-US').format(dropoff); 
             }, 
             total() {
                 let precioDias = this.pedido.totalDeDias; 

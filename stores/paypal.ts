@@ -59,6 +59,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
         cobertura: StringConstructor,
         extras: string,
         status: string,
+        dropoff: string,
         total: string
     }   
     loadScript({ 
@@ -130,6 +131,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
                             carro: storePedido.pedido.carro.modelo,
                             cobertura:storePedido.pedido.cobertura.nombre,
                             extras: JSON.stringify(storePedido.pedido.extras), 
+                            dropoff: storePedido.pedido.dropoff,
                             status: 'Pagado', 
                             total: totalPedido
                         } 

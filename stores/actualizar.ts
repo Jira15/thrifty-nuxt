@@ -11,10 +11,10 @@ const horaRetiroString = horaRetiro.hours.toString() + ':' + horaRetiro.minutes.
 const horaRetorno = storePedido.pedido.horaRetorno;
 const horaRetornoString = horaRetorno.hours.toString() + ':' + horaRetorno.minutes.toString(); 
 console.log(totalPedido);   
-const router = useRouter() 
+const route = useRoute() 
 
 
-interface Pedido { 
+interface Pedido {  
     nombre: StringConstructor;
     apellido: StringConstructor;
     email: StringConstructor,
@@ -42,7 +42,7 @@ async function onCancelar() {
         var status = {  status: 'Cancelado'  }   // var newItem = { status: "Draft" };
         await updateItem<Pedido>({ 
             collection: "pedidos",
-            id: '6d1ced9e-ae42-43a8-a736-a601f44c2d00', 
+            id: storePedido.pedido.id,
             item: status });  
             await refreshNuxtData()
             window.location.reload()
@@ -89,7 +89,7 @@ async function onSubmit() {
                     try {
                     await updateItem<Pedido>({ 
                         collection: "pedidos",
-                        id: '6d1ced9e-ae42-43a8-a736-a601f44c2d00', 
+                        id: storePedido.pedido.id,
                         item: status }) 
                         await refreshNuxtData()
                         window.location.reload() 

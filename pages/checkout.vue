@@ -12,10 +12,7 @@ const storeCheckout = useCheckoutStore();
 const pedido = computed(() => {
     return storePedido.pedido
 })   
-
  
- 
-
 // onMounted(() => {
 //     CollectJS.configure({
 //                     "paymentSelector" : "#demoPayButton",
@@ -185,28 +182,29 @@ const pedido = computed(() => {
         <Form @submit="storeCheckout.onSubmit">
             <p>
                 <label for="nombre">Nombre</label>
-                <Field v-model="pedido.cliente.nombre" type="text" id="nombre" name="nombre" rules="required" />  
-                <ErrorMessage name="nombre" />
-        
+                <Field v-model="pedido.cliente.nombre" type="text" id="nombre" name="nombre" rules="required" placeholder="Nombre" />  
+                <ErrorMessage name="nombre"  class="warning">
+                    <p>Todos los Campos son requeridos</p> 
+                  </ErrorMessage>
             </p> 
             <p>
                 <label for="apellido">Apellido</label>
-                <Field v-model="pedido.cliente.apellido"  type="text" id="apellido" name="apellido" rules="required" /> 
+                <Field v-model="pedido.cliente.apellido"  type="text" id="apellido" name="apellido" rules="required"   placeholder="Apellido"/> 
                 <ErrorMessage name="apellido" /> 
             </p>  
             <p>
                 <label for="telefono">Teléfono</label>
-                <Field  v-model="pedido.cliente.telefono"  type="text" id="telefono" name="telefono" /> 
+                <Field  v-model="pedido.cliente.telefono"  type="text" id="telefono" name="telefono"   placeholder="Teléfono"/> 
             </p>  
             <p>
                 <label for="email">Dirección de correo electrónico</label>
-                <Field   v-model="pedido.cliente.email"  type="text" id="email" name="email" rules="required"  /> 
+                <Field   v-model="pedido.cliente.email"  type="text" id="email" name="email" rules="required"   placeholder="Correo" /> 
                 <ErrorMessage name="email" />
         
             </p>  
             <p>
                 <label for="licencia">Licencia</label>
-                <Field  v-model="pedido.cliente.licencia"  type="text" id="licencia" name="licencia" rules="required" /> 
+                <Field  v-model="pedido.cliente.licencia"  type="text" id="licencia" name="licencia" rules="required"  placeholder="Licencia" /> 
                 <ErrorMessage name="licencia" />
         
             </p>  
@@ -240,16 +238,22 @@ const pedido = computed(() => {
             <div id="paypal-button">
             </div>
         </Form> 
-        <ErrorMessage name="licencia" >
-            <p>Todos los Campos son requeridos</p> 
-          </ErrorMessage>
+ 
 
 
     </section> 
 </main> 
 </template>
 <style scoped lang="scss">  
+
+.warning{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
   /* autos flota id */ 
+
 .auto {  
     article {
         background-color: white;

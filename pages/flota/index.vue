@@ -3,7 +3,10 @@
 import { useAutosStore } from '@/stores/autos'
 import { storeToRefs } from 'pinia' 
 import { getAssetURL } from "@/utils/get-asset-url";
- 
+import { useSearchStore } from '~~/stores/search';
+const route = useRoute();
+
+const storeSearch = useSearchStore()
 const storeAutos = useAutosStore()
 
 const getAutos = computed(() => {
@@ -15,9 +18,20 @@ const autos = computed(() => {
 onMounted(() => {
     storeAutos.fetchAutos(); 
 })
+
+// const abrirBuscador = function(auto) {
+//     if (auto)
+//     { 
+//         storeSearch.searchIs = 'TheSearch';
+//     } 
+//     else { 
+//         route.push('/thanks/'+ auto); 
+//     }
+// }
 </script> 
 <template>
-<main class="auto">
+<main class="auto"  id="prompt">
+    <ThePrompt /> 
     <h2>Flota</h2>
     <div class="wrapper">
         <article v-for="auto in autos" :key="auto.id">
@@ -77,12 +91,16 @@ onMounted(() => {
                 </dl>   
             </section>  
 
-            <NuxtLink  
+            <!-- <NuxtLink  
             :to="'/flota/' +
             auto.id">
                Reservar   
             </NuxtLink>
- 
+  -->
+    <NuxtLink to="#prompt"   class="verificar" 
+    @click="storeSearch.searchIs = 'TheSearch'">
+        Reservar    
+    </NuxtLink> 
         </article> 
     </div>
 </main> 

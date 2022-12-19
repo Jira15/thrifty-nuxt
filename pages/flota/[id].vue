@@ -14,7 +14,7 @@ onMounted(() => {
 }) 
 </script> 
 <template>
-    <main class="auto">   
+    <main class="auto" >   
             <article> 
                 <CarroSeleccionado />
                 <Desglose />  

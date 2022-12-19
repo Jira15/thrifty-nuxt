@@ -13,7 +13,7 @@ state: () => ({
                 telefono_1: String,
                 telefono_2: null,
                 horario_cierre: Number,
-                codigo_rentworks: String,
+                LocationCode: String,
                 horario_apertura: Number,
                 horario_cierre_sabado: Number,
                 horario_cierre_domingo: Number,

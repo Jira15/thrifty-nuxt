@@ -1,15 +1,15 @@
 <script setup> 
 import { usePedidoStore } from '@/stores/pedido'; 
 import moment from 'moment';
-
+import MoneyFormat from 'vue-money-format'
 const pedidoStore = usePedidoStore();
  
 const pedido = computed(() => { 
     return pedidoStore.pedido
 })   
 const precioDropoff = computed(() => {
-    return pedidoStore.pedido.dropoff = pedidoStore.checkDropoff(pedidoStore.pedido.sucursal.codigo_rentworks, pedidoStore.pedido.sucursalRetorno.codigo_rentworks); 
-})   
+    return pedidoStore.pedido.dropoff = pedidoStore.checkDropoff(pedidoStore.pedido.sucursal.LocationCode, pedidoStore.pedido.sucursalRetorno.LocationCode); 
+}) 
 
 const totalDeDias = computed(() => {
     return pedidoStore.pedido.totalDeDias = pedidoStore.diffDias(pedidoStore.pedido.diaRetorno, pedidoStore.pedido.diaRetiro); 
@@ -31,6 +31,13 @@ const horaFormat = function(value) {
     }
 }
 
+const precioFormat = function(value) {
+    if (value) {
+        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) 
+    }
+}
+
+
 onMounted(() => { 
     pedidoStore.pedido.totalDeDias = pedidoStore.diffDias(pedidoStore.pedido.diaRetorno, pedidoStore.pedido.diaRetiro);  
 }) 
@@ -38,7 +45,13 @@ onMounted(() => {
 
 
 </script>
-
+<script>
+  export default {
+    components: {
+    'money-format': MoneyFormat
+    },
+}
+</script>
 <template>
     <section class="desglose">
         <h6>Detalles:</h6> 
@@ -74,14 +87,14 @@ onMounted(() => {
                     {{ fechaFormat(pedido.diaRetorno) }}  {{ horaFormat(pedido.horaRetorno)  }}
                 </dd>
             </dl>   
-            <dl v-if="(precioDropoff > 0)">
+            <dl v-if="(precioDropoff > 0)"> 
                 <dt>
                     Drop-off 
                 </dt> 
                 <dd>
-                    {{ precioDropoff }}
+                    {{  precioFormat(precioDropoff) }}
                 </dd>
-            </dl>
+            </dl>   
         
         <h6>Modelo:</h6>
         <dl>
@@ -89,18 +102,17 @@ onMounted(() => {
                 {{ pedido.carro.marca }} {{ pedido.carro.modelo }} 
             </dt> 
             <dd>
-                {{ pedido.carro.precio_thrifty }} 
+                {{ precioFormat(pedido.carro.precio_thrifty) }} 
             </dd>
-        </dl>
-        
+        </dl> 
         <h6>Coberturas:</h6>
 
-        <dl v-if="pedido.cobertura">
+        <dl v-if="pedido.cobertura.precio">
             <dt> 
                 {{ pedido.cobertura.nombre }} 
             </dt> 
             <dd>
-                {{ pedido.cobertura.precio}} 
+                {{  precioFormat(pedido.cobertura.precio)}} 
             </dd> 
         </dl> 
         <dl >
@@ -108,7 +120,7 @@ onMounted(() => {
                 Asistencia Vial(ERA)
             </dt> 
             <dd>
-                {{ pedido.era }} 
+                {{  precioFormat(pedido.era) }} 
             </dd> 
         </dl> 
 
@@ -119,7 +131,7 @@ onMounted(() => {
                     {{ extra.nombre }}
                 </dt>  
                 <dd>
-                    {{ extra.precio }}
+                    {{ precioFormat(extra.precio) }}
                 </dd> 
             </div>
         </dl>
@@ -133,6 +145,13 @@ onMounted(() => {
                 B/.  {{ totalPedido }} 
             </dd> 
         </dl>  
+        <dl v-if="!pedido.cobertura.precio">
+            <dt class="warn"> 
+                Te Falta elegir un tipo de cobertura para poder continuar
+            </dt> 
+            <dd> 
+            </dd> 
+        </dl> 
     </section>
 </template>
 <style lang="scss">
@@ -140,6 +159,11 @@ onMounted(() => {
     display: flex;
     flex-direction: column; 
     line-height: 1.5;
+    .warn {
+        font-weight: bold;
+        font-size:14px
+
+    }
     h6 {
         font-weight:bold;
         background-color: #cde4ff;
