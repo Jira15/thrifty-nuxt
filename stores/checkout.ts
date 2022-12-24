@@ -3,7 +3,7 @@ import { useForm } from 'vee-validate';
 import * as Yup from 'yup'; 
 import { usePedidoStore } from '@/stores/pedido';    
 import { Buffer } from 'buffer'; 
-
+import { Pedido } from '~~/types/interfaces';
 
 
 
@@ -183,11 +183,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
 
     const { createItems } = useDirectusItems(); 
     const storePedido = usePedidoStore();
-    const totalPedido = storePedido.total();  
-    const horaRetiro = storePedido.pedido.horaRetiro; 
-    const horaRetiroString = horaRetiro.hours.toString() + ':' + horaRetiro.minutes.toString();  
-    const horaRetorno = storePedido.pedido.horaRetorno;
-    const horaRetornoString = horaRetorno.hours.toString() + ':' + horaRetorno.minutes.toString(); 
+    const totalPedido = storePedido.total();   
     console.log(totalPedido);   
 
     const router = useRouter()
@@ -212,25 +208,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
         'nacimiento'
         ]);
 
-    interface Pedido { 
-        nombre: StringConstructor;
-        apellido: StringConstructor;
-        email: StringConstructor,
-        telefono: StringConstructor,
-        licencia: StringConstructor,
-        nacimiento: DateConstructor,
-        retiro: StringConstructor,
-        fecha_retiro: DateConstructor, 
-        hora_retiro: string,
-        retorno: StringConstructor,
-        fecha_retorno: DateConstructor,
-        hora_retorno: string,
-        carro: object,
-        cobertura: object,
-        extras: string,
-        dropoff: string,
-        total: string
-    } 
+ 
 
     function onSubmit(values) {
       // Submit values to API... 
@@ -305,14 +283,14 @@ export const useCheckoutStore = defineStore('checkout',  () => {
                     licencia: storePedido.pedido.cliente.licencia,
                     nacimiento:  storePedido.pedido.cliente.nacimiento,
                     retiro: storePedido.pedido.sucursal.name,
-                    fecha_retiro: storePedido.pedido.diaRetiro,
-                    hora_retiro:  horaRetiroString,
+                    fecha_retiro: storePedido.pedido.diaRetiro, 
                     retorno: storePedido.pedido.sucursalRetorno.name,
-                    fecha_retorno: storePedido.pedido.diaRetorno,
-                    hora_retorno: horaRetornoString,
+                    fecha_retorno: storePedido.pedido.diaRetorno, 
                     carro: storePedido.pedido.carro,
                     cobertura: storePedido.pedido.cobertura,
                     dropoff: storePedido.pedido.dropoff,
+                    sucursal_detail: storePedido.pedido.sucursal,
+                    sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
                     extras: JSON.stringify(storePedido.pedido.extras), 
                     total: totalPedido
                 } 

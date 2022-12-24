@@ -5,20 +5,29 @@ import { useActualizarStore } from '@/stores/actualizar'
 import { usePedidoStore } from '@/stores/pedido';  
 import moment from 'moment';  
  
-const { getItemById } = useDirectusItems(); 
+const { getItemById, getItems } = useDirectusItems(); 
 const storeActualizar = useActualizarStore();
 const storePedido = usePedidoStore();
 const route = useRoute()
-const pedido = await  getItemById({
-        collection: "pedidos", 
-        id: route.params.id,
-    });   
+// const pedido = await getItemById({
+//         collection: "pedidos", 
+//         id:  route.params.id, 
+//         // id: route.params.id,
+//     });
+let filters = { order_id: route.params.id };
+const pedidos = await getItems({ 
+    collection: "pedidos",
+    params: {
+        filter: filters
+    }
+})
+const pedido = pedidos[0]; 
 onMounted(() => {  
     storePedido.pedido = pedido;
 }) 
 const fechaFormat = function(value) {
     if (value) {
-        return moment(value).format('DD MMM YYYY')
+        return moment(value).format('DD MMM YYYY hh:mm A')
     }
 }
 const precioFormat = function(value) {
@@ -27,8 +36,7 @@ const precioFormat = function(value) {
     }
 }
 
-
-onMounted(() => {
+onBeforeMount(() => {
     CollectJS.configure({
                     "paymentSelector" : "#demoPayButton",
                     "variant" : "inline",
@@ -263,7 +271,7 @@ onMounted(() => {
                             Día de Retiro:
                         </dt> 
                         <dd>
-                            {{ fechaFormat(pedido.fecha_retiro) }}   {{  pedido.hora_retiro  }}
+                            {{ fechaFormat(pedido.fecha_retiro) }}  
                         </dd>
                     </dl> 
                     <dl>
@@ -271,7 +279,7 @@ onMounted(() => {
                             Día de Retorno: 
                         </dt> 
                         <dd>
-                            {{ fechaFormat(pedido.fecha_retorno) }}  {{  pedido.hora_retorno   }}
+                            {{ fechaFormat(pedido.fecha_retorno) }}  
                         </dd>
                     </dl>   
                     <dl v-if="(precioDropoff > 0)">

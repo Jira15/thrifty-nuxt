@@ -25,7 +25,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
 
 const fechaFormat = function(value) {
     if (value) {
-        return moment(value).format('DD MMM')
+        return moment(value).format('DD MMM  hh:mm')
     }
 }
 
@@ -44,15 +44,13 @@ const horaFormat = function(value) {
         <section class="retiro" v-if="storeSearch.sucursal"> 
             <h3> {{ storeSearch.sucursal.name }}</h3>  
             <p>   
-                {{ fechaFormat(storeSearch.diaRetiro) }}<br /> 
-                {{ horaFormat(storeSearch.horaRetiro) }}  
+                {{ fechaFormat(storePedido.pedido.diaRetiro) }} 
             </p>  
         </section>   
         <section  class="retorno" v-if="storeSearch.sucursalRetorno">
             <h3>{{ storeSearch.sucursalRetorno.name }}</h3> 
             <p>  
-                {{ fechaFormat(storeSearch.diaRetorno) }}<br /> 
-                {{ horaFormat(storeSearch.horaRetorno) }} 
+                {{ fechaFormat(storePedido.pedido.diaRetorno) }} 
             </p>  
         </section> 
     </div>

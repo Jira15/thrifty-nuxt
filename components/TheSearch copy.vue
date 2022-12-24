@@ -36,9 +36,9 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
 </script> 
 <template>
     
-<form  class="reservador" @submit="storeSearch.siguiente" >
+<form  class="reservador" @submit="storeSearch.siguiente" >   
     <article>
-        <div class="sucursales">
+        <div class="retiro">
             <section>
                 <legend>sucursal de retiro</legend> 
                 <label class="sucursal">
@@ -52,7 +52,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
             </section>    
             <section>
                 <legend>sucursal de retorno</legend> 
-                <label class="sucursal">
+                <label class="sucursales">
                     <select  v-model="storeSearch.sucursalRetorno"  name="sucursalRetorno" as="select"   rules="required" > 
                         <option disabled value="">Selecciona una sucursal</option>
                         <option v-for="option in  sucursales" :key="option" :value="option">
@@ -60,37 +60,80 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
                         </option> 
                     </select> 
                 </label>  
+            </section> 
+            
+        </div> 
+        <div class="retorno">   
+            <section>
+                <legend>Días de reserva</legend> 
+                    <fieldset class="fechas">  
+                    <date-picker
+                        v-model="storeSearch.fechas"  
+                        :minDate="new Date()"
+                        range  
+                        minutesIncrement="30"    
+                        locale="es" 
+                        name="diaRetiro"
+                        rules="required"
+                        class="dpicker"
+                        format="yyyy/MM/dd HH:mm"
+                        />   
+                    <!-- <date-picker 
+                        class="hora"
+                        v-model="storeSearch.diaRetiro"
+                        :startTime="startTime"
+                        timePicker
+                        minutesIncrement="30"    
+                        name="horaRetiro" 
+                        >
+                        <template  #input-icon> 
+                            <img class="slot-icon"  src="@/assets/images/clock.png"/> 
+                        </template>
+                    </date-picker>   -->
+                </fieldset>  
             </section>  
-        </div>   
 
-        <section class="fechas">
-            <label>Días de reserva</label>
-            <div>
-                <date-picker
-                    v-model="storeSearch.fechas"  
-                    :minDate="new Date()"
-                    range  
-                    minutesIncrement="30"    
-                    locale="es" 
-                    name="diaRetiro"
-                    rules="required"
-                    class="dpicker"
-                    format="yyyy/MM/dd HH:mm"
-                    />  
-                    <button class="verificar"  type="submit" @click="submit">Buscar</button>  
-            </div>
-        </section>     
-            <!-- <ErrorMessage name="sucursal" >
-                <p class="warn">Todos los Campos son requeridos</p> 
-            </ErrorMessage>  --> 
-    </article> 
+
+            <!-- <section> 
+                <legend>Día de retorno</legend>  
+                <fieldset class="fechas">
+                    <date-picker
+                        v-model="storeSearch.diaRetorno" 
+                        :minDate="storeSearch.diaRetiro"
+                        :enableTimePicker="false"
+                        locale="es" 
+                        rules="required"
+                        />  
+                    <date-picker
+                        class="hora"
+                        v-model="storeSearch.horaRetorno"
+                        :startTime="startTime"
+                        timePicker
+                        minutesIncrement="30"  
+                        name="horaRetorno"
+                        rules="required"
+                        > 
+                        <template  #input-icon> 
+                            <img class="slot-icon"  src="@/assets/images/clock.png"/> 
+                        </template>
+                    </date-picker>  
+                </fieldset> 
+            </section>  -->
+        </div>
+        <div class="siguiente">  
+            <!-- <NuxtLink  @click="storeSearch.searchIs = 'ThePrompt'">Esconder</NuxtLink> 
+            <br/><br/><br/><br/> -->
+            <button class="verificar"  type="submit" @click="submit">Buscar</button> 
+
+            <ErrorMessage name="sucursal" >
+                <p>Todos los Campos son requeridos</p> 
+            </ErrorMessage> 
+        </div>
+    </article>  
 </form>
 
 </template> 
 <style lang="scss">
-.warn {
-    font-size: 12px;
-}
 .dpicker {
     width: 100%;
 }
@@ -101,7 +144,7 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
 }
 .reservador {   
     background: linear-gradient(180deg, rgba(1, 45, 85, 1) 0%, rgba(0, 45, 80, 1) 30%, rgba(26, 77, 129, 1) 100%);
-    padding:5px;
+    padding: 15px;
     box-sizing: border-box;  
     border-radius: 8px;  
     width: 100%;    
@@ -132,20 +175,17 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
 }  
 .fechas{
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    width: 100%;
+    
     .hora {
         margin-left: 30px;
         width:150px
     }
 }
-.sucursales {
-    width: 100%;
-    h2 {
-        font-size: 16px;
-    }
-} 
+
+.sucursales h2 {
+    font-size: 16px;
+}
 
 .siguiente { 
     padding: 8px; 
@@ -159,7 +199,6 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
     color: white;
     border-radius:10px;
     align-self: flex-end; 
-    margin-top: 5px;
 }  
 
 // Desktop  
@@ -168,24 +207,14 @@ const startTime = ref({ hours: tiempoMinimo.getHours(), minutes: 0 });
         align-self: flex-end;
         margin-bottom: 10px;
     } 
-    .reservador {     
-        margin-top: -5px;   
-        justify-content: space-around; 
-
-        .sucursales {
-            display: flex;
-            justify-content: space-around; 
-        }
-        .fechas {
-            max-width: 1000px;
-            .dpicker{
-            padding-right: 20px;
-        }
-            div { 
-            display: flex;
-            flex-direction: row; 
-            flex: 1;
-            }
+    .reservador {    
+        display: flex; 
+        margin-top: -5px;  
+        width: 100%;
+        article {
+            display:flex;
+            width: 100%;
+            justify-content: center;
         }
         footer 
         {

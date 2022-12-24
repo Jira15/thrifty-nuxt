@@ -17,7 +17,7 @@ onMounted(() => {
 <template>
 <main class="coberturas">   
 <h2>Coberturas</h2>
-<section> 
+<section>  
     <ul>
         <li v-for="cobertura in coberturas" :key="cobertura.id">
             <article> 
@@ -29,7 +29,11 @@ onMounted(() => {
                         {{ cobertura.explicacion }}
                     </p>
                 </div>
-                <footer> 
+                <footer v-if="storePedido.pedido.carro.tipo != 'Sedan'"> 
+                    <input required  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura">
+                    <h4>B/. {{ cobertura.precio_2 }} / por día</h4>  
+                </footer>
+                <footer  v-else> 
                     <input required  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura">
                     <h4>B/. {{ cobertura.precio }} / por día</h4>  
                 </footer>

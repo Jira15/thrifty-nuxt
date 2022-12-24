@@ -11,8 +11,8 @@ const storePedido = usePedidoStore();
     <article class="pagar-pedido">
         <h2> Para pagar o ver tu reserva,  sólo ingresa el número de la reserva:</h2>
         <form  @submit="toReserva">  
-            <input  type="text"  v-model="storePedido.id" required > 
-            <NuxtLink :to="'/orden/' + storePedido.id">
+            <input  type="text"  v-model="storePedido.order_id" required > 
+            <NuxtLink :to="'/orden/' + storePedido.order_id">
                 <button>Verficiar</button>
             </NuxtLink>
         </form>

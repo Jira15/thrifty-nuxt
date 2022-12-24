@@ -10,7 +10,7 @@ export const usePedidoStore = defineStore(
 // a function that returns a fresh state - STATE ES COMO DATA 
         state: () => ({  
             pedido: {
-                id: '',
+                pedidos_id: '',
                 cliente: {
                     nombre: '',
                     apellido: '',
@@ -38,21 +38,14 @@ export const usePedidoStore = defineStore(
                     nombre: String,
                     explicacion: String,
                     precio: 0.00,
-                    precio_2: Number,
+                    precio_2: 0.00,
                     precio_3: Number
-                },
-                cobertura_o: {
-                    nombre: String,
-                    explicacion: String,
-                    precio: 0.00,
-                    precio_2: Number,
-                    precio_3: Number
-                },
+                }, 
                 cobertura_e: {
                     nombre: String,
                     explicacion: String,
                     precio: 0.00,
-                    precio_2: Number,
+                    precio_2: 0.00,
                     precio_3: Number
                 },
                 extras: [],
@@ -67,9 +60,10 @@ export const usePedidoStore = defineStore(
                             LocationCode: String,
                             horario_apertura: Number,
                             horario_cierre_sabado: Number,
-                            horario_cierre_domingo: Number,
+                            horario_cierre_domingo: Number,    
                             horario_apertura_sabado: Number,
-                            horario_apertura_domingo: Number
+                            horario_apertura_domingo: Number,
+                            impuesto: 0
                         },
                 sucursalRetorno: { 
                             id: Number,
@@ -84,36 +78,28 @@ export const usePedidoStore = defineStore(
                             horario_cierre_sabado: Number,
                             horario_cierre_domingo: Number,
                             horario_apertura_sabado: Number,
-                            horario_apertura_domingo: Number
+                            horario_apertura_domingo: Number,
+                            impuesto: Number
                         },
-                diaRetiro: Date, 
-                horaRetiro: {
-                    hours: Number,
-                    minutes: Number,
-                    seconds: Number
-                }, 
-                diaRetorno: Date, 
-                horaRetorno: {
-                    hours: Number,
-                    minutes: Number,
-                    seconds: Number
-                }, 
+                diaRetiro: Date,  
+                diaRetorno: Date,  
                 dropoff:number,
                 era: 3.99,
                 cupon: null,
                 prepago: null,
                 totalDeDias: number,
-                subTotal: number,
+                sub_total: number,
+                impuesto: number,
+                impuesto_aeropuerto: number, 
+                total: number,
+                order_id:String,
                 status:String
             } 
         }), 
         // optional getters GETTER SON COMO COMPUTED 
-        getters: {  
-
+        getters: {   
             },  
-        actions: {  
-
-            
+        actions: {   
             diffDias(retiro, retorno){
                     let difference = new Date(retiro).getTime() - new Date(retorno).getTime();
                     let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
@@ -171,31 +157,122 @@ export const usePedidoStore = defineStore(
                 } 
                 return  dropoff; 
                 // return new Intl.NumberFormat('en-US').format(dropoff); 
-            }, 
-            total() {
+            },
+            subTotal() {
+                let precioCobertura
+                let tipoCarro = this.pedido.carro.tipo;
+                if(tipoCarro !== 'Sedan'){
+                 precioCobertura = this.pedido.cobertura.precio_2; 
+                }
+                else {
+                    precioCobertura = this.pedido.cobertura.precio; 
+                }
+                
+                console.log('precio de cobertura' + precioCobertura)
+
                 let precioDias = this.pedido.totalDeDias; 
                 let precioAuto = this.pedido.carro.precio_thrifty ;  
-                let precioCobertura = this.pedido.cobertura.precio;
+ 
                 let precioEra = this.pedido.era; 
                 let precioDropoff = this.pedido.dropoff;
                 const precioExtra = this.pedido.extras;   
                 const preciosASumar = []; 
-        
+                 
                 // sumo todos los extras
                 const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0); 
                 //  agrego los precios de cobertura y carro y todos los extras ya sumados al array
                 // preciosASumar.push(extrasSumados, precioCobertura, precioAuto, precioEra, precioDropoff); 
 
-                console.log(extrasSumados);
+                // console.log(extrasSumados);
                 preciosASumar.push( precioAuto, precioEra, precioCobertura, extrasSumados); 
                 // sumo todo en el array
                 const suma = preciosASumar.map(element => element).reduce((a, b) => a + b, 0);
 
                 const resultado = suma * precioDias;
+                const subTotal = +(resultado.toFixed(2));
 
                 // que siempre formattee como dolares 
-                return new Intl.NumberFormat('en-US').format(resultado); 
+                return subTotal; 
+            },
+            impuestoAeropuerto(){ 
+                let subTotal = this.subTotal();   
+                let impuestoAeropuerto = this.pedido.sucursal.impuesto;   
+                const impuestoAeropuertoCalculado = subTotal * (impuestoAeropuerto / 100); 
+                // const nuevoSubtotal = subTotal + impuestoAeropuertoCalculado; 
+                const impuestoAeropuertoADeber = +(impuestoAeropuertoCalculado.toFixed(2));
+
+                return  impuestoAeropuertoADeber 
+            }, 
+            impuesto(){ 
+                let subTotal = this.subTotal();
+                console.log('subtotal inicial' + subTotal);
+                let impuestoAeropuerto = this.pedido.sucursal.impuesto;  
+                console.log('impuestoAeropuerto viene de sucursal  ' +  impuestoAeropuerto)  
+                // Calculate tax due
+                const impuestoAeropuertoCalculado = subTotal * (impuestoAeropuerto / 100);
+                console.log('impuestoAeropuertoCalculado  ' + impuestoAeropuertoCalculado); 
+
+
+                const nuevoSubtotal = subTotal + impuestoAeropuertoCalculado;
+                console.log('nuevo subtotal, no lo ocupo, solo referencia' + nuevoSubtotal);   
+                let impuesto = 7; 
+                // Calculate tax due
+                const impuestoCalculado = nuevoSubtotal * (impuesto / 100); 
+                // console.log(impuestoCalculado);
+
+                const impuestoADeber = +(impuestoCalculado.toFixed(2));
+                console.log('impuesto con aeropuerto y nuevo total sumado:' + impuestoADeber);
+                
+
+                // que siempre formattee como dolares 
+                return  impuestoADeber  
+            }, 
+            total() {
+                // cuando llamamos la funcion es store.total y el state es store.pedido.total
+                let subTotal = this.subTotal(); 
+                let impuestoAeropuerto = this.pedido.sucursal.impuesto;     
+                let impuesto = 7;  
+                const impuestoAeropuertoCalculado = subTotal * (impuestoAeropuerto / 100);
+
+                const nuevoSubtotal = subTotal + impuestoAeropuertoCalculado;
+                // Calculate tax due
+                const impuestoADeber = nuevoSubtotal * (impuesto / 100);
+                // Calculate final price
+                const impuestoSumado = nuevoSubtotal * (1 + (impuesto / 100));
+                
+                let precioFinal = +(impuestoSumado.toFixed(2)); 
+                console.log(
+                    "Subtotal: $" + subTotal + 
+                    'impuestoAeropuerto viene de sucursal  ' +  impuestoAeropuerto +
+                    "\n Impuesto Aeropuerto: " + impuestoAeropuertoCalculado + 
+                    "\n nuevo Subtotal: " + nuevoSubtotal + 
+                    "%\n Impuesto Final: $" + impuestoADeber + 
+                    "\n\nFinal price: $" + precioFinal);
+                    
+                return new Intl.NumberFormat('en-US').format(precioFinal); 
             }   
         } 
     }   
 )    
+
+// total() {
+//     let subTotal = this.subTotal();  
+//     let impuesto = 7;
+    
+    
+//     // Calculate tax due
+//     const impuestoADeber = subTotal * (impuesto / 100);
+//     // Calculate final price
+//     const impuestoSumado = subTotal * (1 + (impuesto / 100));
+    
+//     const precioFinal = +(impuestoSumado.toFixed(2));
+
+
+//     // console.log(
+//     //     "Cart value: $" + subTotal + 
+//     //     "\nTax rate: " + impuesto + 
+//     //     "%\nTax due: $" + impuestoADeber + 
+//     //     "\n\nFinal price: $" + precioFinal); 
+//     // que siempre formattee como dolares 
+//     return new Intl.NumberFormat('en-US').format(precioFinal); 
+// }  

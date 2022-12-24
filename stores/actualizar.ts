@@ -1,40 +1,13 @@
 import { defineStore } from 'pinia'  
 import { usePedidoStore } from '@/stores/pedido';    
 import { loadScript } from "@paypal/paypal-js";
-
+import { Pedido } from '~~/types/interfaces';
 export const useActualizarStore = defineStore('actualizar',() =>{
 const { updateItem  } = useDirectusItems();     
 const storePedido = usePedidoStore();
-const totalPedido = storePedido.total();  
-const horaRetiro = storePedido.pedido.horaRetiro; 
-const horaRetiroString = horaRetiro.hours.toString() + ':' + horaRetiro.minutes.toString();  
-const horaRetorno = storePedido.pedido.horaRetorno;
-const horaRetornoString = horaRetorno.hours.toString() + ':' + horaRetorno.minutes.toString(); 
+const totalPedido = storePedido.total();   
 console.log(totalPedido);   
-const route = useRoute() 
-
-
-interface Pedido {  
-    nombre: StringConstructor;
-    apellido: StringConstructor;
-    email: StringConstructor,
-    telefono: StringConstructor,
-    licencia: StringConstructor,
-    nacimiento: DateConstructor,
-    retiro: StringConstructor,
-    fecha_retiro: DateConstructor, 
-    hora_retiro: string,
-    retorno: StringConstructor,
-    fecha_retorno: DateConstructor,
-    hora_retorno: string,
-    carro: StringConstructor,
-    cobertura: StringConstructor,
-    extras: string,
-    status: string,
-    total: string
-}   
-
-
+const route = useRoute()  
 
 async function onCancelar() { 
     // Submit values to API...   
@@ -42,7 +15,7 @@ async function onCancelar() {
         var status = {  status: 'Cancelado'  }   // var newItem = { status: "Draft" };
         await updateItem<Pedido>({ 
             collection: "pedidos",
-            id: storePedido.pedido.id,
+            id: storePedido.pedido.pedidos_id,
             item: status });  
             await refreshNuxtData()
             window.location.reload()
@@ -55,7 +28,7 @@ async function onSubmit() {
         try {
         await updateItem<Pedido>({ 
             collection: "pedidos",
-            id: '6d1ced9e-ae42-43a8-a736-a601f44c2d00', 
+            id: storePedido.pedido.pedidos_id,
             item: status }) 
             await refreshNuxtData()
             window.location.reload() 

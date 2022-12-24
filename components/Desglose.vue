@@ -15,13 +15,23 @@ const totalDeDias = computed(() => {
     return pedidoStore.pedido.totalDeDias = pedidoStore.diffDias(pedidoStore.pedido.diaRetorno, pedidoStore.pedido.diaRetiro); 
 })
 
+
+const impuestoPedido = computed(() => {
+    return pedidoStore.pedido.impuesto = pedidoStore.impuesto(); 
+})  
+const impuestoAeropuerto = computed(() => {
+    return pedidoStore.pedido.impuesto_aeropuerto = pedidoStore.impuestoAeropuerto(); 
+})  
+const subTotal = computed(() => {
+    return pedidoStore.pedido.sub_total = pedidoStore.subTotal(); 
+})  
 const totalPedido = computed(() => {
-    return pedidoStore.pedido.subTotal = pedidoStore.total(); 
+    return pedidoStore.pedido.total = pedidoStore.total(); 
 })  
 
 const fechaFormat = function(value) {
     if (value) {
-        return moment(value).format('DD MMM YYYY')
+        return moment(value).format('DD MMM YYYY hh:mm A')
     }
 }
 
@@ -76,7 +86,7 @@ onMounted(() => {
                     Día de Retiro:
                 </dt> 
                 <dd>
-                    {{ fechaFormat(pedido.diaRetiro) }}   {{ horaFormat(pedido.horaRetiro) }}
+                    {{ fechaFormat(pedido.diaRetiro) }}  
                 </dd>
             </dl> 
             <dl>
@@ -84,7 +94,7 @@ onMounted(() => {
                     Día de Retorno: 
                 </dt> 
                 <dd>
-                    {{ fechaFormat(pedido.diaRetorno) }}  {{ horaFormat(pedido.horaRetorno)  }}
+                    {{ fechaFormat(pedido.diaRetorno) }}   
                 </dd>
             </dl>   
             <dl v-if="(precioDropoff > 0)"> 
@@ -105,9 +115,17 @@ onMounted(() => {
                 {{ precioFormat(pedido.carro.precio_thrifty) }} 
             </dd>
         </dl> 
-        <h6>Coberturas:</h6>
-
-        <dl v-if="pedido.cobertura.precio">
+        <h6>Coberturas:</h6> 
+ 
+        <dl v-if="pedido.carro.tipo != 'Sedan'">
+            <dt> 
+                {{ pedido.cobertura.nombre }} 
+            </dt> 
+            <dd>
+                {{  precioFormat(pedido.cobertura.precio_2)}} 
+            </dd> 
+        </dl>
+        <dl v-else>
             <dt> 
                 {{ pedido.cobertura.nombre }} 
             </dt> 
@@ -134,17 +152,44 @@ onMounted(() => {
                     {{ precioFormat(extra.precio) }}
                 </dd> 
             </div>
-        </dl>
-        
-        <h6>Sub-Total:  </h6> 
+        </dl> 
 
+        <h6>Sub-Total:  </h6> 
+        <dl>
+            <dt> 
+                Sub-Total
+            </dt>
+            <dd >
+                {{  precioFormat(subTotal) }} 
+            </dd> 
+        </dl>
+        <dl v-if="impuestoAeropuerto > 0">
+            <dt> 
+                Impuesto de Aeropuerto
+            </dt>
+            <dd >
+               {{  precioFormat(impuestoAeropuerto) }} 
+            </dd> 
+        </dl> 
+        <dl>
+            <dt> 
+                ITBMS
+            </dt>
+            <dd >
+                {{  precioFormat(impuestoPedido) }} 
+            </dd> 
+        </dl> 
+        <h6>Total:  </h6> 
         <dl v-if="totalPedido">
             <dt> 
             </dt>
             <dd >
-                B/.  {{ totalPedido }} 
+                B/.  {{  precioFormat(totalPedido) }} 
             </dd> 
         </dl>  
+
+
+
         <dl v-if="!pedido.cobertura.precio">
             <dt class="warn"> 
                 Te Falta elegir un tipo de cobertura para poder continuar
@@ -161,7 +206,7 @@ onMounted(() => {
     line-height: 1.5;
     .warn {
         font-weight: bold;
-        font-size:14px
+        font-size:14px;
 
     }
     h6 {

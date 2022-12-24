@@ -11,6 +11,7 @@ const auto = computed(() => {
 <section>  
     <header> 
         <div> 
+             
             <h3>
                 {{ auto.marca }} {{ auto.modelo }}  
             </h3>   

@@ -3,7 +3,7 @@ import { useForm } from 'vee-validate';
 import * as Yup from 'yup'; 
 import { usePedidoStore } from '@/stores/pedido';
 import { loadScript } from "@paypal/paypal-js";
- 
+import { Pedido } from '~~/types/interfaces';
   
 const checkoutSchema = Yup.object({ 
     nombre: Yup.string().required(),
@@ -17,11 +17,7 @@ const checkoutSchema = Yup.object({
 export const usePaypalStore = defineStore('paypal',  () => { 
     const { createItems, updateItem } = useDirectusItems(); 
     const storePedido = usePedidoStore();
-    const totalPedido = storePedido.total();  
-    const horaRetiro = storePedido.pedido.horaRetiro; 
-    const horaRetiroString = horaRetiro.hours.toString() + ':' + horaRetiro.minutes.toString();  
-    const horaRetorno = storePedido.pedido.horaRetorno;
-    const horaRetornoString = horaRetorno.hours.toString() + ':' + horaRetorno.minutes.toString();  
+    const totalPedido = storePedido.total();   
     const router = useRouter() 
     const { errors, useFieldModel,  } = useForm({
         validationSchema: checkoutSchema,
@@ -42,26 +38,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
         'nacimiento'
         ]);
 
-    interface Pedido { 
-        nombre: StringConstructor;
-        apellido: StringConstructor;
-        email: StringConstructor,
-        telefono: StringConstructor,
-        licencia: StringConstructor,
-        nacimiento: DateConstructor,
-        retiro: StringConstructor,
-        fecha_retiro: DateConstructor, 
-        hora_retiro: string,
-        retorno: StringConstructor,
-        fecha_retorno: DateConstructor,
-        hora_retorno: string,
-        carro: StringConstructor,
-        cobertura: StringConstructor,
-        extras: string,
-        status: string,
-        dropoff: string,
-        total: string
-    }   
+ 
     loadScript({ 
       "client-id": "Aa2-lyJOfSxdyNqdMX_91EI24gW16qkYhzIJKxg4rq_dYC5HFDz7Sjb5FUp_UZ54dFDQ46lNQ2ykix-u",
       "currency": "USD",
@@ -123,11 +100,9 @@ export const usePaypalStore = defineStore('paypal',  () => {
                             licencia: storePedido.pedido.cliente.licencia,
                             nacimiento:  storePedido.pedido.cliente.nacimiento,
                             retiro: storePedido.pedido.sucursal.name,
-                            fecha_retiro: storePedido.pedido.diaRetiro,
-                            hora_retiro:  horaRetiroString,
+                            fecha_retiro: storePedido.pedido.diaRetiro, 
                             retorno: storePedido.pedido.sucursalRetorno.name,
-                            fecha_retorno: storePedido.pedido.diaRetorno,
-                            hora_retorno: horaRetornoString,
+                            fecha_retorno: storePedido.pedido.diaRetorno, 
                             carro: storePedido.pedido.carro.modelo,
                             cobertura:storePedido.pedido.cobertura.nombre,
                             extras: JSON.stringify(storePedido.pedido.extras), 
