@@ -2,9 +2,7 @@
 <script setup>
 import { useAutosStore } from '@/stores/autos'
 import { storeToRefs } from 'pinia'
-import { getAssetURL } from "@/utils/get-asset-url";
-
-
+import { getAssetURL } from "@/utils/get-asset-url"; 
 import { useSearchStore } from '@/stores/search'
 const route = useRoute();
 
@@ -23,6 +21,19 @@ const precioFormat = function(value) {
     }
 }
 
+const precioPrepago = function(value) {
+    if (value) {
+        let descuento = 10;  
+        const descuentoCalculado = value * (descuento / 100);
+
+        const nuevoPrecio = value - descuentoCalculado;
+        // // Calculate tax due
+        // const impuestoADeber = nuevoSubtotal * (impuesto / 100);
+        // // Calculate final price
+        // const impuestoSumado = nuevoSubtotal * (1 + (impuesto / 100)); 
+        return nuevoPrecio.toLocaleString('es-US', { style: 'currency', currency: 'USD' }) 
+    }
+}
 onMounted(() => {
 storeAutos.fetchAutos(); 
 storeSearch.searchIs = 'TheProgress';
@@ -98,15 +109,17 @@ storeSearch.searchIs = 'TheProgress';
                     <h4> {{  precioFormat(auto.precio_thrifty) }}</h4>  
                     <NuxtLink  
                     :to="'/flota/' +
+                    'reserva/' +
                     auto.id">
                     Reservar   
                     </NuxtLink>
                 </div> 
                 <div>
                     <em>Prepago</em>
-                    <h4> {{  precioFormat(auto.precio_thrifty) }}</h4> 
+                    <h4> {{  precioPrepago(auto.precio_thrifty) }}</h4> 
                     <NuxtLink  
                     :to="'/flota/' +
+                    'prepago/' +
                     auto.id">
                     Reservar y pagar   
                     </NuxtLink>

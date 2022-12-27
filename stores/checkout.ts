@@ -248,9 +248,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
                       'Content-Type': 'application/x-www-form-urlencoded',
                   },
                   body: JSON.stringify( bodyData )
-            } ) 
-       
-
+            } )  
 
           // const bodyData = {
           //   'first_name': 'Prueba',

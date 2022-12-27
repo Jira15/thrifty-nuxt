@@ -8,20 +8,30 @@ const { getItemById } = useDirectusItems();
 const auto = await  getItemById({
         collection: "flota",
         id: route.params.id, 
-    });   
+    });  
+ 
 onMounted(() => {
     storePedido.pedido.carro = auto;
+    storePedido.pedido.reserva = route.params.reserva; 
 }) 
+ 
+
+
 </script> 
 <template>
     <main class="auto" >   
+        <!-- <h1> {{ storePedido.pedido.reserva  }}</h1>   -->
             <article> 
                 <CarroSeleccionado />
                 <Desglose />  
-                <footer v-if="storePedido.pedido.cobertura.precio > 0">   
-                    <NuxtLink to="/checkout" >
+                <footer v-if="storePedido.pedido.cobertura.precio > 0">
+                    
+                    <NuxtLink :to="'/flota/' +
+                    'reserva/' +
+                    'checkout/'"
+                    >
                         <button>Siguiente</button>
-                    </NuxtLink> 
+                    </NuxtLink>  
                 </footer> 
             </article> 
             <section class="coberturas">

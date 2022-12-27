@@ -46,6 +46,21 @@ const precioFormat = function(value) {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) 
     }
 }
+const prepago = function(precio){ 
+        let descuento = 10;  
+        const descuentoCalculado = precio * (descuento / 100);  
+        const nuevoPrecio = precio - descuentoCalculado;
+        console.log('precio' + precio +
+                    'descuento' + descuento+
+                    'descuento calculado' +  descuentoCalculado +
+                    'nuevo precio' + nuevoPrecio)
+        // // Calculate tax due
+        // const impuestoADeber = nuevoSubtotal * (impuesto / 100);
+        // // Calculate final price
+        // const impuestoSumado = nuevoSubtotal * (1 + (impuesto / 100)); 
+        pedidoStore.pedido.carro.precio_prepago = nuevoPrecio
+        return nuevoPrecio.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) ; 
+} 
 
 
 onMounted(() => { 
@@ -111,7 +126,10 @@ onMounted(() => {
             <dt>
                 {{ pedido.carro.marca }} {{ pedido.carro.modelo }} 
             </dt> 
-            <dd>
+            <dd v-if="pedido.reserva === 'prepago'">
+                {{ prepago(pedido.carro.precio_thrifty) }} 
+            </dd>
+            <dd v-else>
                 {{ precioFormat(pedido.carro.precio_thrifty) }} 
             </dd>
         </dl> 
