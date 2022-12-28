@@ -296,12 +296,20 @@ onBeforeMount(() => {
            
         <section class="info-coberturas">
             <h6>Coberturas:</h6> 
-            <dl>
+            <dl v-if="pedido.carro.tipo != 'Sedan'">
                 <dt> 
                     {{ pedido.cobertura.nombre }} 
                 </dt> 
                 <dd>
-                    {{ precioFormat(pedido.cobertura.precio)}} 
+                    {{  precioFormat(pedido.cobertura.precio_2)}} 
+                </dd> 
+            </dl>
+            <dl v-else>
+                <dt> 
+                    {{ pedido.cobertura.nombre }} 
+                </dt> 
+                <dd>
+                    {{  precioFormat(pedido.cobertura.precio)}} 
                 </dd> 
             </dl> 
             <dl >

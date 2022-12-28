@@ -13,7 +13,7 @@ const storePedido = usePedidoStore();
         <form  @submit="toReserva">  
             <input  type="text"  v-model="storePedido.order_id" required > 
             <NuxtLink :to="'/orden/' + storePedido.order_id">
-                <button>Verficiar</button>
+                <button>Verificar</button>
             </NuxtLink>
         </form>
 

@@ -110,52 +110,72 @@ export const usePedidoStore = defineStore(
             checkDropoff(sucursalDeRetiro, sucursalDeRetorno) { 
                 let dropoff 
                 const tier = {
-                    uno: 0.00,
-                    dos: 16.00,
-                    tres: 20.00,
-                    cuatro: 25.00,
-                    cinco: 30.00,
-                    seis: 52.00,
-                    siete: 55.00,
-                    ocho: 85.00,
-                    nueve: 90.00, 
-                    diez: 125.00,
-                    once: 177.00,  
-                    doce: 190.00, 
-                    trece: 235.00, 
-                    catorce: 290.00
-                } 
-        
-                if (sucursalDeRetiro === sucursalDeRetorno)
-                {
-                    dropoff = tier.uno;
-                }
-                if (sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'ALBROOK' 
-                || sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'V ESPANA' )
-                {
-                    dropoff = tier.dos;
-                } 
-                if ( sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'APOTOCUMEN' 
-                ||  sucursalDeRetiro === 'APOTOCUMEN' && sucursalDeRetorno === 'V ESPANA' )
-                {
-                    dropoff = tier.tres;
-                } 
-                if ( sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'CHORRERA' 
-                ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'V ESPANA' )
-                {
-                    dropoff = tier.cuatro;
-                } 
-                if ( sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'APOTOCUMEN' 
-                ||  sucursalDeRetiro === 'APOTOCUMEN' && sucursalDeRetorno === 'CHORRERA' )
+                    uno: 0.00, 
+                    dos: 20.00,
+                    tres: 25.00,
+                    cuatro: 30.00,
+                    cinco: 52.00,
+                    seis: 55.00,
+                    siete: 85.00,
+                    ocho: 90.00, 
+                    nueve: 125.00,
+                    diez: 177.00,  
+                    once: 190.00, 
+                    doce: 290.00
+                }  
+                // tier 2 TORREMOLIN APOTOCUM ALBROOK
+                if (  
+                    sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'ALBROOK' 
+                    || sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'TORREMOLIN'  
+                    || sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'APOTOCUM' 
+                    || sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'ALBROOK' 
+                    )
+                    { dropoff = tier.dos; }  
+
+                // tier tres: 25.00
+                if ( sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'CHORRERA' 
+                    ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'ALBROOK' 
+
+                    ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'CHORRERA' 
+                    ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'V ESPANA' 
+
+                    ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'CHORRERA' 
+                    ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'VVENETTO' 
+
+                    ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'CHORRERA' 
+                    ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'THCDELESTE' 
+                    ) 
+                    { dropoff = tier.tres;  } 
+
+                // tier cuatro: 30.00,
+                if ( sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'CHORRERA' 
+                    ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'TORREMOLIN'  
+                    ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'CHORRERA' 
+                    ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'APOTOCUM'  
+                    ) 
+                { dropoff = tier.cuatro; } 
+
+                //tier cinco: 52.00,
+                if ( sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'COLON' 
+                ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'ALBROOK' 
+                ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'V ESPANA'
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'COLON')
                 {
                     dropoff = tier.cinco;
                 } 
+
+
                 if ( sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'COLON' 
                 ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'ALBROOK' 
                 ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'V ESPANA'
                 ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'COLON')
                 {
                     dropoff = tier.seis;
+                } 
+                //tier uno // 0 dolares (sucursalDeRetiro === sucursalDeRetorno)
+                else
+                {
+                    dropoff = tier.uno;
                 } 
                 return  dropoff; 
                 // return new Intl.NumberFormat('en-US').format(dropoff); 
@@ -169,15 +189,8 @@ export const usePedidoStore = defineStore(
                     let descuento = 10;  
                     const descuentoCalculado = precio * (descuento / 100);  
                     const nuevoPrecio = precio - descuentoCalculado;
-                    console.log('precio' + precio +
-                                'descuento' + descuento+
-                                'descuento calculado' +  descuentoCalculado +
-                                'nuevo precio' + nuevoPrecio)
-                    // // Calculate tax due
-                    // const impuestoADeber = nuevoSubtotal * (impuesto / 100);
-                    // // Calculate final price
-                    // const impuestoSumado = nuevoSubtotal * (1 + (impuesto / 100));
-                    // this.pedido.precio_prepago = nuevoPrecio
+ 
+ 
                     precioAuto = nuevoPrecio 
                 }
                 else{

@@ -213,8 +213,7 @@ onMounted(() => {
                 <label for="nacimiento">Fecha de Nacimiento</label> 
                 <date-picker  :enableTimePicker="false" v-model="pedido.cliente.nacimiento"
                 locale="es" name="nacimiento" rules="required" id="nacimiento" />  
-            </p>
-            <h1> {{ storePedido.pedido.reserva  }}</h1>  
+            </p> 
             <div class="reserva" v-if="storePedido.pedido.reserva === 'reserva'"> 
                 <button type="submit">Submit</button>
             </div>
