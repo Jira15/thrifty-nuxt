@@ -1,7 +1,4 @@
-import { defineStore } from 'pinia'
-import { mapWritableState } from 'pinia'
-import { useExtrasStore } from '@/stores/extras';
-import { useCoberturasStore } from '@/stores/coberturas'; 
+import { defineStore } from 'pinia' 
 import { number } from 'yup';
 
 export const usePedidoStore = defineStore(
@@ -108,7 +105,7 @@ export const usePedidoStore = defineStore(
                 return TotalDays;
             },
             checkDropoff(sucursalDeRetiro, sucursalDeRetorno) { 
-                let dropoff 
+                let dropoff = 0;
                 const tier = {
                     uno: 0.00, 
                     dos: 20.00,
@@ -123,7 +120,7 @@ export const usePedidoStore = defineStore(
                     once: 190.00, 
                     doce: 290.00
                 }  
-                // tier 2 TORREMOLIN APOTOCUM ALBROOK
+                // tier 2  
                 if (  
                     sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'ALBROOK' 
                     || sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'TORREMOLIN'  
@@ -158,25 +155,195 @@ export const usePedidoStore = defineStore(
                 //tier cinco: 52.00,
                 if ( sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'COLON' 
                 ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'ALBROOK' 
+
                 ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'V ESPANA'
-                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'COLON')
-                {
-                    dropoff = tier.cinco;
-                } 
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'COLON'
+
+                ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'THCDELESTE'
+                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'COLON'
+
+                ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'VVENETTO'
+                ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'COLON' 
+                )
+                {  dropoff = tier.cinco;  } 
+
+                // tier seis: 55
+                if (
+                    sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'SANTIAGO' 
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'CHITRE'  )
+                {  dropoff = tier.seis; } 
 
 
-                if ( sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'COLON' 
-                ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'ALBROOK' 
-                ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'V ESPANA'
-                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'COLON')
-                {
-                    dropoff = tier.seis;
-                } 
-                //tier uno // 0 dolares (sucursalDeRetiro === sucursalDeRetorno)
-                else
-                {
-                    dropoff = tier.uno;
-                } 
+                // tier siete: 85
+                if ( 
+                        sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'CHORRERA'
+                    ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'COLON'
+    
+                    ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'TORREMOLIN'
+                    ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'COLON'
+    
+                    ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'APOTOCUM'
+                    ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'COLON' 
+                    )
+                {  dropoff = tier.siete; } 
+
+
+
+                // tier ocho: 90  
+                if ( 
+                    sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'CHORRERA'
+                ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'SANTIAGO'
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'DAVIDC'
+
+                ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'SANTIAGO'
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'APODAVID'
+
+                ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'SANTIAGO'
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'CHORRERA' 
+                )
+                { dropoff = tier.ocho; } 
+
+
+
+                // tier nueve: 125   
+                if ( 
+                    sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'DAVIDC'
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'ALBROOK'
+                ||  sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'ALBROOK'
+                ||  sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'SANTIAGO'
+
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'APOTOCUM'
+                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'SANTIAGO'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'APOTOCUM'
+                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'CHITRE' 
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'V ESPANA'
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'THCDELESTE'
+                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'VVENETTO'
+                ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'CHITRE'  
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'TORREMOLIN'
+                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'CHITRE' 
+
+ 
+                )
+                { dropoff = tier.nueve; } 
+
+                // tier diez: 177   
+                if ( 
+                    sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'DAVIDC'
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'ALBROOK'
+                ||  sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'APOTOCUM'
+                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'CHITRE' 
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'V ESPANA'
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'THCDELESTE'
+                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'VVENETTO'
+                ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'CHITRE'  
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'TORREMOLIN'
+                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'CHITRE' 
+
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'TORREMOLIN'
+                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'SANTIAGO' 
+
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'APOTOCUM'
+                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'SANTIAGO'  
+
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'V ESPANA'
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'SANTIAGO'
+
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'THCDELESTE'
+                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'SANTIAGO'
+
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'VVENETTO'
+                ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'SANTIAGO'   
+
+                )
+                { dropoff = tier.diez; } 
+
+
+                // tier once: 190   
+                if ( 
+                    
+                    sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'ALBROOK'
+                ||  sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'APODAVID' 
+                ||  sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'DAVIDC'
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'ALBROOK'
+
+                ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'APOTOCUM'
+                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'APODAVID' 
+                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'DAVIDC'
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'APOTOCUM'
+
+
+                ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'CHORRERA'
+                ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'APODAVID' 
+                ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'DAVIDC'
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'CHORRERA'
+
+
+                ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'TORREMOLIN'
+                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'APODAVID' 
+                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'DAVIDC'
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'TORREMOLIN'
+
+
+
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'V ESPANA'
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'DAVIDC'
+                ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'V ESPANA'
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'APODAVID'
+         
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'THCDELESTE'
+                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'DAVIDC'
+                ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'THCDELESTE'
+                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'APODAVID'
+
+
+                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'VVENETTO'
+                ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'DAVIDC'  
+                ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'VVENETTO'
+                ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'APODAVID'   
+                
+                )
+                { dropoff = tier.once; } 
+
+
+                // tier doce: 290  APODAVID DAVIDC SANTIAGO CHORRERA CHITRE ALBROOK TORREMOLIN APOTOCUM ALBROOK
+                if (  
+                        sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'COLON'
+                    ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'DAVIDC'  
+                    ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'COLON'
+                    ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'APODAVID'   
+                )
+                { dropoff = tier.doce; }  
+
+                //tier uno  0 dolares (sucursalDeRetiro === sucursalDeRetorno)
+                // else
+                // {
+                //     dropoff = tier.uno;
+                // } 
+                console.log('dropoff' + dropoff)
                 return  dropoff; 
                 // return new Intl.NumberFormat('en-US').format(dropoff); 
             },

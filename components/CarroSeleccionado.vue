@@ -10,8 +10,7 @@ const auto = computed(() => {
 <template>
 <section>  
     <header> 
-        <div> 
-             
+        <div>  
             <h3>
                 {{ auto.marca }} {{ auto.modelo }}  
             </h3>   
@@ -174,6 +173,7 @@ const auto = computed(() => {
         flex-direction: column;
         min-width: 400px; 
         margin:10px; 
+        height:100%;
         // justify-content: space-around;
     }
     header { 
@@ -182,19 +182,16 @@ const auto = computed(() => {
     } 
     img {
         object-fit:contain;
-        width: 100%;
-        height: 400px;
-        padding: 5px;
+ 
+        padding: 0px;
         border-radius: 5px; 
     } //650 x 411
     .specs { 
-        display:flex;
-        flex-wrap: wrap; 
+        display:flex; 
         div {
             text-align: center; 
             text-transform:capitalize;
-            width: 90px; 
-            margin-top: 3px;
+            width: 90px;  
         }
         dl {
             display: flex;

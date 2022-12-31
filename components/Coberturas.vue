@@ -23,12 +23,16 @@ onMounted(() => {
             <article> 
                 <div> 
                     <header>  
-                        <h3>{{ cobertura.nombre }}</h3>
-                    </header> 
-                    <p>
-                        {{ cobertura.explicacion }}
-                    </p>
+                        <h3 v-on:click="cobertura.descripcion = !cobertura.descripcion" >{{ cobertura.nombre }} <span>i</span></h3>
+                         
+                    </header>   
+                    <Transition mode="out-in"> 
+                        <p v-show="cobertura.descripcion === true">
+                            {{ cobertura.explicacion }}
+                        </p>
+                    </Transition> 
                 </div>
+               
                 <footer v-if="storePedido.pedido.carro.tipo != 'Sedan'"> 
                     <input required  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura">
                     <h4>B/. {{ cobertura.precio_2 }} / por día</h4>  
@@ -37,6 +41,7 @@ onMounted(() => {
                     <input required  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura">
                     <h4>B/. {{ cobertura.precio }} / por día</h4>  
                 </footer>
+        
             </article>
         </li>  
         <li>
@@ -71,7 +76,18 @@ onMounted(() => {
     } 
     header { 
         display: flex;
-        text-align: center; 
+        text-align: center;  
+            cursor: pointer;
+            span{ 
+                background-color: #8aacc5;
+                border: none;
+                border-radius: 15px 15px 15px 0px;
+                color: white;
+                font-weight: bold;
+                font-family: initial;
+                font-size: 11px; 
+                padding: 3px 3px 0px 3px; 
+            } 
     }
     h2 {
         font-weight: bold;
@@ -127,11 +143,15 @@ onMounted(() => {
             background-color: rgba(255, 255, 255, 0.644);
             border-radius: 5px;  
             display: flex; 
-            flex-direction: row-reverse;
-            min-width: 350px; 
+            flex-direction: row-reverse; 
             margin:10px;
             padding: 0px;
-        }
+            justify-content: space-between;
+        } 
+        div{
+            width: 100%; 
+    
+        } 
         footer {  
             align-items: center;
             max-width: 150px;

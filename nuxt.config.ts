@@ -50,6 +50,7 @@ export default defineNuxtConfig({
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [ 
             'nuxt-directus', 
+            'nuxt-proxy',
             [
                 '@pinia/nuxt',
                 {
@@ -65,6 +66,15 @@ export default defineNuxtConfig({
 	directus: {
 		url: "https://admin.intermarketing.com.pa",
 	}, 
+    runtimeConfig: {
+        proxy: {
+          options: {
+             target: 'https://secure.networkmerchants.com/', 
+             changeOrigin: true, 
+
+            }
+        }
+      },
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
         transpile: ['@vuepic/vue-datepicker' ]

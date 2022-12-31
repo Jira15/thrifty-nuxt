@@ -3,7 +3,11 @@ import { defineStore } from 'pinia'
 export const useCoberturasStore = defineStore('coberturas', {
     // a function that returns a fresh state - STATE ES COMO DATA
 state: () => ({ 
-    coberturas: [] 
+    coberturas: [
+        {    descripcion: true}
+    ],
+
+ 
 }),
 // optional getters GETTER SON COMO COMPUTED 
 getters: {
