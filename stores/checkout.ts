@@ -5,7 +5,7 @@ import { usePedidoStore } from '@/stores/pedido';
 import { Buffer } from 'buffer'; 
 import { Pedido } from '~~/types/interfaces'; 
 
-import axios, {isCancel, AxiosError} from 'axios';
+// import axios, {isCancel, AxiosError} from 'axios';
 
 
 
@@ -126,17 +126,17 @@ export const useCheckoutStore = defineStore('checkout',  () => {
           //   changeOrigin: true,
           // });
 
-          axios({
-            method: 'post',
-            url:'http://localhost:3000/api/transact.php',
-              headers: {
-                // 'Authorization': 'security_key'+'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
-                // 'Accept': 'application/json',
-                'security_key': 'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            data: JSON.stringify( bodyData )
-          });
+          // axios({
+          //   method: 'post',
+          //   url:'http://localhost:3000/api/transact.php',
+          //     headers: {
+          //       // 'Authorization': 'security_key'+'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
+          //       // 'Accept': 'application/json',
+          //       'security_key': 'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
+          //       'Content-Type': 'application/x-www-form-urlencoded',
+          //   },
+          //   data: JSON.stringify( bodyData )
+          // });
 
  
           // useFetch( 'https://secure.networkmerchants.com/api/transact.php', {

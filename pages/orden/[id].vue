@@ -365,7 +365,7 @@ onBeforeMount(() => {
                                 <label>MM/YY</label> 
                                 <div id="demoCcexp"></div>
                             </p>   
-                         <button type="submit" @click="storeActualizar.onSubmit">Pagar</button>
+                        <button type="submit" @click="storeActualizar.onSubmit">Pagar</button>
                     </section> 
                 <div id="paypal-button">
                 </div>

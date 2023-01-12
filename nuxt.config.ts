@@ -63,18 +63,18 @@ export default defineNuxtConfig({
                 },
             ],
         ],
+    proxy: {
+        options: {
+            target: 'https://secure.networkmerchants.com/api/transact.php',
+            changeOrigin: true,
+            pathRewrite: {
+            '^/api/': '' 
+            }
+        },
+    },
 	directus: {
 		url: "https://admin.intermarketing.com.pa",
-	}, 
-    runtimeConfig: {
-        proxy: {
-          options: {
-             target: 'https://secure.networkmerchants.com/', 
-             changeOrigin: true, 
-
-            }
-        }
-      },
+	},  
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
         transpile: ['@vuepic/vue-datepicker' ]
