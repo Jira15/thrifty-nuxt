@@ -11,11 +11,11 @@ export const usePedidoStore = defineStore(
                 precio_prepago: Number,
                 pedidos_id: '',
                 cliente: {
-                    nombre: '',
-                    apellido: '',
-                    email: '',
-                    telefono: '',
-                    licencia: '', 
+                    nombre: String,
+                    apellido: String,
+                    email: String,
+                    telefono: String,
+                    licencia: String, 
                     nacimiento: Date
                 },
                 carro:  {
@@ -82,7 +82,7 @@ export const usePedidoStore = defineStore(
                         },
                 diaRetiro: Date,  
                 diaRetorno: Date,  
-                dropoff:number,
+                dropoff:Number,
                 era: 3.99,
                 cupon: null,
                 prepago: null,
@@ -90,13 +90,17 @@ export const usePedidoStore = defineStore(
                 sub_total: number,
                 impuesto: number,
                 impuesto_aeropuerto: number, 
-                total: number,
+                total: '',
                 order_id:String,
                 status:String
             } 
         }), 
         // optional getters GETTER SON COMO COMPUTED 
-        getters: {   
+        getters: {
+                getPedido: (state) => { 
+                    return state.pedido 
+                },  
+            
             },  
         actions: {   
             diffDias(retiro, retorno){
@@ -432,8 +436,12 @@ export const usePedidoStore = defineStore(
             }, 
             total() {
                 // cuando llamamos la funcion es store.total y el state es store.pedido.total
-                let subTotal = this.subTotal(); 
-                let impuestoAeropuerto = this.pedido.sucursal.impuesto;     
+                let impuestoAeropuerto = 0;
+                if ( this.pedido.sucursal.impuesto)
+                {
+                    impuestoAeropuerto = this.pedido.sucursal.impuesto;    
+                }
+                let subTotal = this.subTotal();   
                 let impuesto = 7;  
                 const impuestoAeropuertoCalculado = subTotal * (impuestoAeropuerto / 100);
 

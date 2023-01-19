@@ -1,13 +1,22 @@
 <script setup>   
 import { getAssetURL } from "@/utils/get-asset-url";
-import { storeToRefs } from 'pinia' 
+import { storeToRefs } from 'pinia'  
+import { usePedidoStore } from '@/stores/pedido';   
 import { useActualizarStore } from '@/stores/actualizar'
-import { usePedidoStore } from '@/stores/pedido';  
+import { useTarjetaStore } from '@/stores/tarjeta' 
+import { usePaypalStore } from '@/stores/paypal';  
 import moment from 'moment';  
- 
-const { getItemById, getItems } = useDirectusItems(); 
-const storeActualizar = useActualizarStore();
+
+const storePaypal = usePaypalStore(); 
 const storePedido = usePedidoStore();
+const storeActualizar = useActualizarStore(); 
+const storeTarjeta = useTarjetaStore(); 
+const { getItemById, getItems } = useDirectusItems();  
+
+const getPedido = computed(() => {
+    return storePedido.getPedido
+})
+ 
 const route = useRoute()
 // const pedido = await getItemById({
 //         collection: "pedidos", 
@@ -20,11 +29,13 @@ const pedidos = await getItems({
     params: {
         filter: filters
     }
-})
+}) 
 const pedido = pedidos[0]; 
 onMounted(() => {  
-    storePedido.pedido = pedido;
-}) 
+    storePedido.pedido = pedido; 
+    storeActualizar.orden = pedido; 
+    storeTarjeta.orden = pedido; 
+})  
 const fechaFormat = function(value) {
     if (value) {
         return moment(value).format('DD MMM YYYY hh:mm A')
@@ -34,163 +45,7 @@ const precioFormat = function(value) {
     if (value) {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) 
     }
-}
-
-onBeforeMount(() => {
-    CollectJS.configure({
-                    "paymentSelector" : "#demoPayButton",
-                    "variant" : "inline",
-                    "styleSniffer" : "false",
-                    "googleFont": "Montserrat:400",
-                    "customCss" : {
-                        "color": "#0000ff",
-                        "background-color": "#d0d0ff"
-                    },
-                    "invalidCss": {
-                        "color": "white",
-                        "background-color": "red"
-                    },
-                    "validCss": {
-                        "color": "black",
-                        "background-color": "#d0ffd0"
-                    },
-                    "placeholderCss": {
-                        "color": "green",
-                        "background-color": "#687C8D"
-                    },
-                    "focusCss": {
-                        "color": "yellow",
-                        "background-color": "#202020"
-                    },
-                    "fields": {
-                        "ccnumber": {
-                            "selector": "#demoCcnumber",
-                            "title": "Card Number",
-                            "placeholder": "0000 0000 0000 0000"
-                        },
-                        "ccexp": {
-                            "selector": "#demoCcexp",
-                            "title": "Card Expiration",
-                            "placeholder": "00 / 00"
-                        },
-                        "cvv": {
-                            "display": "show",
-                            "selector": "#demoCvv",
-                            "title": "CVV Code",
-                            "placeholder": "***"
-                        },
-                        "checkaccount": {
-                            "selector": "#demoCheckaccount",
-                            "title": "Account Number",
-                            "placeholder": "0000000000"
-                        },
-                        "checkaba": {
-                            "selector": "#demoCheckaba",
-                            "title": "Routing Number",
-                            "placeholder": "000000000"
-                        },
-                        "checkname": {
-                            "selector": "#demoCheckname",
-                            "title": "Name on Checking Account",
-                            "placeholder": "Customer McCustomerface"
-                        },
-                        "googlePay": {
-                            "selector": ".googlePayButton",
-                            "shippingAddressRequired": true,
-                            "shippingAddressParameters": {
-                                "phoneNumberRequired": true,
-                                "allowedCountryCodes": ['US', 'CA']
-                            },
-                            "billingAddressRequired": true,
-                            "billingAddressParameters": {
-                                "phoneNumberRequired": true,
-                                "format": "MIN"
-                            },
-                            'emailRequired': true,
-                            "buttonType": "buy",
-                            "buttonColor": "white",
-                            "buttonLocale": "en"
-                        },
-                        'applePay' : {
-                            'selector' : '.applePayButton',
-                            'shippingMethods': [
-                                {
-                                    'label': 'Free Standard Shipping',
-                                    'amount': '0.00',
-                                    'detail': 'Arrives in 5-7 days',
-                                    'identifier': 'standardShipping'
-                                },
-                                {
-                                    'label': 'Express Shipping',
-                                    'amount': '10.00',
-                                    'detail': 'Arrives in 2-3 days',
-                                    'identifier': 'expressShipping'
-                                }
-                            ],
-                            'shippingType': 'delivery',
-                            'requiredBillingContactFields': [
-                                'postalAddress',
-                                'name'
-                            ],
-                            'requiredShippingContactFields': [
-                                'postalAddress',
-                                'name'
-                            ],
-                            'contactFields': [
-                                'phone',
-                                'email'
-                            ],
-                            'contactFieldsMappedTo': 'shipping',
-                            'lineItems': [
-                                {
-                                    'label': 'Foobar',
-                                    'amount': '3.00'
-                                },
-                                {
-                                    'label': 'Arbitrary Line Item #2',
-                                    'amount': '1.00'
-                                }
-                            ],
-                            'totalLabel': 'foobar',
-                            'type': 'buy',
-                            'style': {
-                                'button-style': 'white-outline',
-                                'height': '50px',
-                                'border-radius': '0'
-                            }
-                        }
-                    },
-                    'price': '1.00',
-                    'currency':'USD',
-                    'country': 'US',
-                    'validationCallback' : function(field, status, message) {
-                        if (status) {
-                            var message = field + " is now OK: " + message;
-                        } else {
-                            var message = field + " is now Invalid: " + message;
-                        }
-                        console.log(message);
-                    },
-                    "timeoutDuration" : 10000,
-                    "timeoutCallback" : function () {
-                        console.log("The tokenization didn't respond in the expected timeframe.  This could be due to an invalid or incomplete field or poor connectivity");
-                    },
-                    "fieldsAvailableCallback" : function () {
-                        console.log("Collect.js loaded the fields onto the form");
-                    },
-                    'callback' : function(response) {
-                        alert(response.token);
-                        var input = document.createElement("input");
-                        input.type = "hidden";
-                        input.name = "payment_token";
-                        input.value = response.token;
-                        var form = document.getElementsByTagName("form")[0];
-                        form.appendChild(input);
-                        form.submit();
-                    }
-                }); 
-
-}) 
+} 
 </script> 
 <template>  
     <article class="manage-pedido"> 
@@ -245,15 +100,7 @@ onBeforeMount(() => {
                                 {{ pedido.licencia }}
                             </dd>
                         </dl> 
-                        <h6>Modelo:</h6>
-                        <dl>
-                            <dt>
-                                {{ pedido.carro.tipo }} 
-                            </dt> 
-                            <dd>
-                                {{ precioFormat(pedido.carro.precio_thrifty) }} 
-                            </dd>
-                        </dl>
+                    
                 </section> 
 
                 <section class="info-sucursal">
@@ -295,6 +142,15 @@ onBeforeMount(() => {
                 </section> 
            
         <section class="info-coberturas">
+            <h6>Modelo:</h6>
+            <dl>
+                <dt>
+                    {{ pedido.carro.tipo }} 
+                </dt> 
+                <dd>
+                    {{ precioFormat(pedido.carro.precio_thrifty) }} 
+                </dd>
+            </dl>
             <h6>Coberturas:</h6> 
             <dl v-if="pedido.carro.tipo != 'Sedan'">
                 <dt> 
@@ -354,31 +210,29 @@ onBeforeMount(() => {
             <section class="metodos" v-if="pedido.status === 'Pendiente de Pago'">   
                     <section class="tarjeta">  
                             <p>
-                                <label>CC Number</label>  
-                                <div id="demoCcnumber"></div> 
+                                <label>Número de la Tarjeta</label>  
+                                <input type="text" placeholder="0000 0000 0000 000" name="ccnumber" v-model="storeTarjeta.tarjeta.ccnumber" />
+                            </p>
+                            <p>
+                                <label>Fecha de Expiración</label>  
+                                <input type="text" placeholder="01 / 26" name="ccexp"  class="ccexp" v-model="storeTarjeta.tarjeta.ccexp" />
                             </p>  
                             <p>
-                                <label>CVV Collect</label>  
-                                <div id="demoCvv"></div> 
-                            </p> 
-                            <p>
-                                <label>MM/YY</label> 
-                                <div id="demoCcexp"></div>
+                                <label>CCV</label>  
+                                <input type="text" placeholder="123" name="cvv" class="cvv" v-model="storeTarjeta.tarjeta.cvv" />
                             </p>   
-                        <button type="submit" @click="storeActualizar.onSubmit">Pagar</button>
-                    </section> 
-                <div id="paypal-button">
-                </div>
+                        <button type="submit" @click="storeTarjeta.onSubmit">Pagar</button>
+                    </section>  
+
+                    <div id="paypal-button">
+                    </div>
             </section> 
 
             <div class="status" v-if="pedido.status === 'Pendiente de Pago'"> 
                 <button type="submit" @click="storeActualizar.onCancelar">Cancelar Reserva</button>  
             </div>
         </footer> 
-    </section> 
- 
- 
-    <!-- Botones de Pago -->
+    </section>  
 </article> 
 </template>
 
@@ -485,8 +339,23 @@ onBeforeMount(() => {
             color: white;   
             width: 100%;
             text-align: center;
-            margin-top: 10px;
-            margin-bottom: 40px;
+            margin-top: 10px; 
+        }
+        .tarjeta {
+            background-color: #c5d4e4;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            p {
+                display: flex;
+                flex-direction: column;
+            }
+            .ccexp {
+                width: 60px;
+            }
+            .cvv {
+                width: 50px;
+            }
         }
     }
 

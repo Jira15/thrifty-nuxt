@@ -19,15 +19,9 @@ export const useCheckoutStore = defineStore('checkout',  () => {
     const storePedido = usePedidoStore();
     const totalPedido = storePedido.total();   
     console.log(totalPedido);   
- 
-    const metodos = ref('none')
 
+    const router = useRouter()
 
-    const tarjeta = ref( {
-      ccnumber: '',
-      ccexp: '',
-      cvv: ''
-  })
     const { errors, useFieldModel, handleSubmit, values } = useForm({
         validationSchema: checkoutSchema,
     });
@@ -51,23 +45,27 @@ export const useCheckoutStore = defineStore('checkout',  () => {
     async function onSubmit(values) {
       // Submit values to API... 
       console.log('Submit', JSON.stringify(values, null, 2));
-      console.log("Values", values);   
+      console.log("Values", values);  
+      try { 
+        // var status  =  { status: 'Pagado'  } 
+        const orderId = this.orden.pedidos_id 
+        console.log(orderId)
         const bodyData = {
             'security_key': 'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
-            'first_name': storePedido.pedido.cliente.nombre,
-            'last_name': storePedido.pedido.cliente.apellido,
-            'address1': storePedido.pedido.sucursal.name,
+            'first_name': this.orden.nombre,
+            'last_name': this.orden.apellido,
+            'address1': this.orden.retiro,
             'city': 'Panama City',
             'state': 'PTY',
             'zip' : '12345', 
-            'shipping_first_name': storePedido.pedido.cliente.nombre,
-            'shipping_last_name': storePedido.pedido.cliente.apellido,
+            'shipping_first_name': this.orden.nombre, 
+            'shipping_last_name': this.orden.apellido,
             'shipping_address1': '987 State St',
             'shipping_city': 'Panama City',
             'shipping_state': 'PTY',
             'shipping_zip' : '98765', 
             'type': 'sale',
-            'amount': totalPedido,
+            'amount': this.orden.total,
             'ccnumber': this.tarjeta.ccnumber, 
             'ccexp': this.tarjeta.ccexp,
             'cvv': this.tarjeta.cvv
@@ -80,17 +78,39 @@ export const useCheckoutStore = defineStore('checkout',  () => {
             params: bodyData,
             body: bodyData ,   
         }).then(function (response) {    
-            const router = useRouter();  
-
+            const router = useRouter(); 
+            console.log('THEN' + orderId)   
             let respuesta = response; 
             let codigoAprobado = 'response=1';
             let codigoTransaccionDeclinada = 'response=2';
             let codigoErrorSistema = 'response=3'; 
 
-            if (respuesta.includes(codigoAprobado)){   
-              
-              console.log('codigoAprobado')   
-              var items: Pedido[] = [
+            if (respuesta.includes(codigoAprobado)){  
+                const { updateItem  } = useDirectusItems();  
+
+                console.log('Transacción Aprobada' + orderId)    
+                var status = { status: 'Pagado' }   
+                updateItem<Pedido>({ 
+                    collection: "pedidos",
+                    id: orderId,
+                    item: status });  
+                
+                router.push('/thanks/'); 
+            }
+
+            if (respuesta.includes(codigoTransaccionDeclinada)){ 
+                console.log('Transacción Declinada')   
+                router.push('/error/'); 
+            } 
+            if (respuesta.includes(codigoErrorSistema)){
+                
+                console.log('declinada' + orderId)   
+                console.log('Error en el sistema')   
+                router.push('/error/'); 
+            } 
+        }) 
+        //    
+            var items: Pedido[] = [
                 {
                     nombre: storePedido.pedido.cliente.nombre,
                     apellido: storePedido.pedido.cliente.apellido, 
@@ -108,23 +128,17 @@ export const useCheckoutStore = defineStore('checkout',  () => {
                     sucursal_detail: storePedido.pedido.sucursal,
                     sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
                     extras: JSON.stringify(storePedido.pedido.extras), 
-                    status: 'Pagado',
                     total: totalPedido
-                } ]; 
-                createItems<Pedido>({ collection: "pedidos", items });
-                router.push('/thanks/'); 
-            }
+                } 
+            ]; 
+            createItems<Pedido>({ collection: "pedidos", items });
+            /// si mando el order id custom desde aqui lo puedo agregar a la pagina de gracias
+            router.push('/thanks/'); 
 
-            if (respuesta.includes(codigoTransaccionDeclinada)){ 
-                console.log('Transacción Declinada')   
-                router.push('/error/'); 
-            } 
-            if (respuesta.includes(codigoErrorSistema)){
-                
-                console.log('Error en el sistema')   
-                router.push('/error/'); 
-            } 
-        })     
+            } catch (e) { 
+              console.log('error')
+              // router.push('/error/'); 
+            }   
     }  
     return {
         errors,
@@ -133,8 +147,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
         email,
         telefono,
         licencia,
-        nacimiento,
-        tarjeta,
+        nacimiento, 
         onSubmit
     };
 });   

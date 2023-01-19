@@ -31,19 +31,15 @@ export default defineNuxtConfig({
         // Reset file in the project 
         '@/assets/css/reset.css',
         // SCSS file in the project
-        '@/assets/css/main.scss',
-        // https://fontawesome.com/docs/web/use-with/vue/use-with
-        '@fortawesome/fontawesome-svg-core/styles.css',
+        '@/assets/css/main.scss', 
         // https://vue3datepicker.com/installation/#nuxt
         '@vuepic/vue-datepicker/dist/main.css', 
         "@/layout/global.css"
     ], 
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: [ 
-        '@/plugins/fontawesome.js',  
-        '@/plugins/vue-datepicker.js',
-        '@/plugins/vue-gtm.client.js',
+    plugins: [  
+        '@/plugins/vue-datepicker.js', 
         '@/plugins/vee-validate.js', 
         '@/plugins/direct-post.js'
     ],   
@@ -67,9 +63,12 @@ export default defineNuxtConfig({
         options: {
             target: 'https://secure.networkmerchants.com/api/transact.php',
             changeOrigin: true,
-            pathRewrite: {
-            '^/api/': '' 
-            }
+            headers: {  
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            pathFilter: [
+                '/api/tarjeta', 
+              ]
         },
     },
 	directus: {

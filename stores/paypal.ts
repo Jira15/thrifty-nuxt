@@ -1,53 +1,26 @@
-import { defineStore } from 'pinia' 
-import { useForm } from 'vee-validate';
-import * as Yup from 'yup'; 
-import { usePedidoStore } from '@/stores/pedido';
+import { defineStore } from 'pinia'  
+import { usePedidoStore } from '@/stores/pedido'; 
 import { loadScript } from "@paypal/paypal-js";
-import { Pedido } from '~~/types/interfaces';
-  
-const checkoutSchema = Yup.object({ 
-    nombre: Yup.string().required(),
-    apellido: Yup.string().required(),
-    // email: Yup.string().required(),
-    // telefono: Yup.string().required(),
-    // licencia: Yup.string().required(),
-    // nacimiento: Yup.string().required(),
-}); 
+import { Pedido } from '~~/types/interfaces'; 
 
 export const usePaypalStore = defineStore('paypal',  () => { 
     const { createItems, updateItem } = useDirectusItems(); 
-    const storePedido = usePedidoStore();
-    const totalPedido = storePedido.total();   
-    const router = useRouter() 
-    const { errors, useFieldModel,  } = useForm({
-        validationSchema: checkoutSchema,
-    }); 
-    const [
-        nombre,
-        apellido,
-        email,
-        telefono,
-        licencia,
-        nacimiento
-        ] = useFieldModel([
-        'nombre',
-        'apellido',
-        'email',
-        'telefono',
-        'licencia',
-        'nacimiento'
-        ]);
+    const storePedido = usePedidoStore(); 
+    const totalPedido = storePedido.pedido.total; 
 
- 
+    const router = useRouter();
+    
     loadScript({ 
       "client-id": "Aa2-lyJOfSxdyNqdMX_91EI24gW16qkYhzIJKxg4rq_dYC5HFDz7Sjb5FUp_UZ54dFDQ46lNQ2ykix-u",
       "currency": "USD",
       "data-page-type": "checkout",
-   })
-      .then((paypal) => {
-          paypal
-              .Buttons({
+    }).then((paypal) => {
+      
+          paypal.Buttons({
                   createOrder: function(data, actions) {
+                    const storePedido = usePedidoStore(); 
+                    const totalPedido = storePedido.pedido.total; 
+                
                   // Set up the transaction
                     return actions.order.create({
                         // payer: { 
@@ -80,8 +53,8 @@ export const usePaypalStore = defineStore('paypal',  () => {
                         // },
                         purchase_units: [{
                           amount: {
-                            //   value: totalPedido
-                            value: '88.88'
+                              value: totalPedido
+                            // value: '88.88'
                           }
                         }], 
                     });
@@ -111,7 +84,19 @@ export const usePaypalStore = defineStore('paypal',  () => {
                             total: totalPedido
                         } 
                     ];  
-          
+ 
+
+                    if (storePedido.pedido.pedidos_id !== ""){   
+  
+                      console.log('Transacción Aprobada' + storePedido.pedido.pedidos_id)    
+                      var status = { status: 'Pagado' }   
+                      updateItem<Pedido>({ 
+                          collection: "pedidos",
+                          id: storePedido.pedido.pedidos_id,
+                          item: status });  
+                      
+                      router.push('/thanks/'); 
+                  }
                     createItems<Pedido>({ collection: "pedidos", items }); 
                     router.push('/thanks/');  
                     });
@@ -125,20 +110,12 @@ export const usePaypalStore = defineStore('paypal',  () => {
               .render("#paypal-button")
               .catch((error) => {
                   console.error("failed to render the PayPal Buttons", error);
-              });
-     
+              }); 
       })
       .catch((error) => {
           console.error("failed to load the PayPal JS SDK script", error);
       });
 
-    return {
-        errors,
-        nombre,
-        apellido,
-        email,
-        telefono,
-        licencia,
-        nacimiento
+    return { 
     };
 });   

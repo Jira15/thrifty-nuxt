@@ -9,6 +9,11 @@ const storeCheckout = useCheckoutStore();
 const pedido = computed(() => {
     return storePedido.pedido
 })    
+
+
+onMounted(() => { 
+    storeCheckout.metodos = 'none';
+})
 </script> 
 
 <template>
@@ -67,16 +72,26 @@ const pedido = computed(() => {
                     <p class="warning">Todos los Campos son requeridos</p> 
                 </ErrorMessage> 
             </p> 
+
+
+
+
             <div class="reserva" v-if="storePedido.pedido.reserva === 'reserva'"> 
                 <button type="submit">Reservar</button>
             </div>
 
-            <div  v-if="storePedido.pedido.reserva === 'prepago'">
-                <FormaPago />
+
+<div class="reserva"  v-if="storePedido.pedido.reserva === 'prepago' && storeCheckout.metodos === 'none'" > 
+                <button type="submit" @click="storeCheckout.metodos = 'metodos'"> 
+                    Siguiente
+                </button>  
             </div>
-          
-        </Form>  
-         
+
+            <div  v-if="storeCheckout.metodos === 'metodos'">
+                <h2>Metodos de Pago</h2>
+                <FormaPago />
+            </div>  
+        </Form>   
     </section> 
 </main> 
 </template>
