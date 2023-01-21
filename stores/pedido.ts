@@ -11,11 +11,11 @@ export const usePedidoStore = defineStore(
                 precio_prepago: Number,
                 pedidos_id: '',
                 cliente: {
-                    nombre: String,
-                    apellido: String,
-                    email: String,
-                    telefono: String,
-                    licencia: String, 
+                    nombre: '',
+                    apellido: '',
+                    email: '',
+                    telefono: '',
+                    licencia: '', 
                     nacimiento: Date
                 },
                 carro:  {

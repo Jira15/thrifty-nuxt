@@ -5,8 +5,8 @@ import { usePedidoStore } from '@/stores/pedido';
 import { Pedido } from '~~/types/interfaces';  
 
 const checkoutSchema = Yup.object({ 
-    // nombre: Yup.string().required(),
-    // apellido: Yup.string().required(),
+    nombre: Yup.string().required(),
+    apellido: Yup.string().required(),
     // email: Yup.string().required(),
     // telefono: Yup.string().required(),
     // licencia: Yup.string().required(),

@@ -5,7 +5,7 @@ import { usePedidoStore } from '@/stores/pedido';
 
 const checkoutSchema = Yup.object({ 
     nombre: Yup.string().required(),
-    // apellido: Yup.string().required(),
+    apellido: Yup.string().required(),
     // email: Yup.string().required(),
     // telefono: Yup.string().required(),
     // licencia: Yup.string().required(),
@@ -69,53 +69,42 @@ export const useNoPagoStore = defineStore('nopago',  () => {
       alert(JSON.stringify(values, null, 2));
       console.log('Submit', JSON.stringify(values, null, 2));
       console.log("Values", values); 
+
+
+      try {
+
+            var items: Pedido[] = [
+                {
+                    nombre: values.nombre,
+                    apellido: values.apellido, 
+                    email: values.email,
+                    telefono: values.telefono, 
+                    licencia: values.licencia,
+                    nacimiento:  values.nacimiento,
+                    retiro: storePedido.pedido.sucursal.name,
+                    fecha_retiro: storePedido.pedido.diaRetiro,
+                    hora_retiro:  horaRetiroString,
+                    retorno: storePedido.pedido.sucursalRetorno.name,
+                    fecha_retorno: storePedido.pedido.diaRetorno,
+                    hora_retorno: horaRetornoString,
+                    carro: storePedido.pedido.carro.modelo,
+                    cobertura:storePedido.pedido.cobertura.nombre,
+                    extras: JSON.stringify(storePedido.pedido.extras), 
+                    total: totalPedido
+                } 
+            ]; 
+            createItems<Pedido>({ collection: "pedidos", items });
+            router.push('/thanks/'); 
+
+            } catch (e) { 
+              console.log('error'); 
+            } 
+
+
     }
     
  
-    const tarjeta = handleSubmit((values) => {
-        // send values to API
-        
-       alert(JSON.stringify(values, null, 2));
-        console.log('Submit', JSON.stringify(values, null, 2));
-        console.log("Values", values); 
- 
-
-
-
-        
-
-        // storePedido.pedido.cliente = values.nombre;   
-        // try {
-
-        //     var items: Pedido[] = [
-        //         {
-        //             nombre: values.nombre,
-        //             apellido: values.apellido, 
-        //             email: values.email,
-        //             telefono: values.telefono, 
-        //             licencia: values.licencia,
-        //             nacimiento:  values.nacimiento,
-        //             retiro: storePedido.pedido.sucursal.name,
-        //             fecha_retiro: storePedido.pedido.diaRetiro,
-        //             hora_retiro:  horaRetiroString,
-        //             retorno: storePedido.pedido.sucursalRetorno.name,
-        //             fecha_retorno: storePedido.pedido.diaRetorno,
-        //             hora_retorno: horaRetornoString,
-        //             carro: storePedido.pedido.carro.modelo,
-        //             cobertura:storePedido.pedido.cobertura.nombre,
-        //             extras: JSON.stringify(storePedido.pedido.extras), 
-        //             total: totalPedido
-        //         } 
-        //     ]; 
-        //     createItems<Pedido>({ collection: "pedidos", items });
-        //     router.push('/thanks/'); 
-
-        //     } catch (e) { 
-        //       console.log('error'); 
-        //     } 
       
-    }); 
-
     return {
         errors,
         nombre,
@@ -123,8 +112,7 @@ export const useNoPagoStore = defineStore('nopago',  () => {
         email,
         telefono,
         licencia,
-        nacimiento,
-        tarjeta,
+        nacimiento, 
         onSubmit
     };
 });   

@@ -24,8 +24,8 @@ onMounted(() => {
     </article> 
     
     <section class="detalles-conductor"> 
-        <h3>Finaliza tu reserva</h3>
-        <Form @submit="storeCheckout.onSubmit">
+        <h3>Finaliza tu reserva</h3> 
+        <Form @submit="storeCheckout.metodos = 'metodos'">
             <p>
                 <label for="nombre">Nombre</label>
                 <Field v-model="pedido.cliente.nombre" type="text" id="nombre" name="nombre" rules="required" placeholder="Nombre" />  
@@ -42,13 +42,13 @@ onMounted(() => {
             </p>  
             <p>
                 <label for="telefono">Teléfono</label>
-                <Field  v-model="pedido.cliente.telefono"  type="text" id="telefono" name="telefono"   placeholder="Teléfono"/>
+                <Field  v-model="pedido.cliente.telefono"  type="text" id="telefono" name="telefono"   placeholder="Teléfono" rules="required"   />
                 <ErrorMessage name="telefono" > 
                     <p class="warning">Todos los Campos son requeridos</p> 
                 </ErrorMessage> 
             </p>  
             <p>
-                <label for="email">Dirección de correo electrónico</label>
+                <label for="email">Correo electrónico</label>
                 <Field   v-model="pedido.cliente.email"  type="text" id="email" name="email" rules="required"   placeholder="Correo" /> 
                 <ErrorMessage name="email" > 
                     <p class="warning">Todos los Campos son requeridos</p> 
@@ -66,8 +66,7 @@ onMounted(() => {
             <p>
                 <label for="nacimiento">Fecha de Nacimiento</label> 
                 <date-picker  :enableTimePicker="false" v-model="pedido.cliente.nacimiento"
-                locale="es" name="nacimiento" rules="required" id="nacimiento" />  
-             
+                locale="es" name="nacimiento" rules="required" id="nacimiento" />   
                 <ErrorMessage name="nacimiento" > 
                     <p class="warning">Todos los Campos son requeridos</p> 
                 </ErrorMessage> 
@@ -81,8 +80,8 @@ onMounted(() => {
             </div>
 
 
-<div class="reserva"  v-if="storePedido.pedido.reserva === 'prepago' && storeCheckout.metodos === 'none'" > 
-                <button type="submit" @click="storeCheckout.metodos = 'metodos'"> 
+            <div class="reserva"  v-if="storePedido.pedido.reserva === 'prepago' && storeCheckout.metodos === 'none'" > 
+                <button type="submit"  > 
                     Siguiente
                 </button>  
             </div>

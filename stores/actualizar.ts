@@ -1,7 +1,6 @@
 import { defineStore, storeToRefs } from 'pinia'  
 import { usePedidoStore } from '@/stores/pedido';   
-import { Pedido } from '~~/types/interfaces';
- 
+import { Pedido } from '~~/types/interfaces'; 
 
 export const useActualizarStore = defineStore
 ('actualizar', 
@@ -30,7 +29,6 @@ export const useActualizarStore = defineStore
             } catch (e) { 
                     console.log('error') 
             } 
-        },
-         
+        }, 
     }
 }) 
