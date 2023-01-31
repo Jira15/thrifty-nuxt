@@ -67,16 +67,13 @@ export const useTarjetaStore = defineStore
                     router.push('/thanks/'); 
                 }
 
-                if (respuesta.includes(codigoTransaccionDeclinada)){ 
-                    console.log('Transacción Declinada')   
+                else if (respuesta.includes(codigoTransaccionDeclinada)) { 
+                    console.log('Transacción Declinada');   
                     router.push('/error/'); 
-                } 
-                if (respuesta.includes(codigoErrorSistema)){
-                    
-                    console.log('declinada' + orderId)   
-                    console.log('Error en el sistema')   
+                  } else if (respuesta.includes(codigoErrorSistema)) {
+                    console.log('Error en el sistema');   
                     router.push('/error/'); 
-                } 
+                  }
             })
         }   
     }

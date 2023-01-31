@@ -2,7 +2,9 @@
 import { getAssetURL } from "@/utils/get-asset-url";
 import { usePedidoStore } from '@/stores/pedido';
 import { useCheckoutStore } from '@/stores/checkout'; 
-import { Form, Field, ErrorMessage } from 'vee-validate';   
+import { Form, Field, ErrorMessage } from 'vee-validate';  
+import { useNoPagoStore } from "@/stores/nopago"; 
+const storeNoPago = useNoPagoStore();
 const storePedido = usePedidoStore(); 
 const storeCheckout = useCheckoutStore();
 
@@ -25,7 +27,8 @@ onMounted(() => {
     
     <section class="detalles-conductor"> 
         <h3>Finaliza tu reserva</h3> 
-        <Form @submit="storeCheckout.metodos = 'metodos'">
+        <Form @submit="preventDefault();">
+            <!-- <Form @submit="storeCheckout.metodos = 'metodos'"> -->
             <p>
                 <label for="nombre">Nombre</label>
                 <Field v-model="pedido.cliente.nombre" type="text" id="nombre" name="nombre" rules="required" placeholder="Nombre" />  
@@ -74,14 +77,18 @@ onMounted(() => {
 
 
 
-
             <div class="reserva" v-if="storePedido.pedido.reserva === 'reserva'"> 
-                <button type="submit">Reservar</button>
+                <button type="submit"  @click="storeNoPago.onSubmit" >Reservar</button>
             </div>
 
 
-            <div class="reserva"  v-if="storePedido.pedido.reserva === 'prepago' && storeCheckout.metodos === 'none'" > 
-                <button type="submit"  > 
+            <!-- <div class="reserva" v-if="storePedido.pedido.reserva === 'reserva'"> 
+                <button type="submit">Reservar</button>
+            </div> -->
+
+
+            <div class="reserva"  v-if="storePedido.pedido.reserva === 'prepago' " > 
+                <button type="submit" @click="storeCheckout.metodos = 'metodos'" > 
                     Siguiente
                 </button>  
             </div>
