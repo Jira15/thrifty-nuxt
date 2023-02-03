@@ -36,12 +36,16 @@ export default defineNuxtConfig({
         '@vuepic/vue-datepicker/dist/main.css', 
         "@/layout/global.css"
     ], 
+    // hace que nuxt busque en la direccion para importar
+    imports: {
+        dirs: ['stores'],
+      },
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [  
         '@/plugins/vue-datepicker.js', 
         '@/plugins/vee-validate.js', 
-        '@/plugins/direct-post.js'
+        '@/plugins/direct-post.js', 
     ],   
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [ 
@@ -52,7 +56,8 @@ export default defineNuxtConfig({
                 {
                     autoImports: [ 
                         // automatically imports `defineStore`  //  'autoStore',  'sucursalStore'
-                        'defineStore', // import { defineStore } from 'pinia'
+                        'defineStore', 
+                        'storeToRefs',// import { defineStore } from 'pinia'
                         // automatically imports `defineStore` as `definePiniaStore`
                         ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
                     ],

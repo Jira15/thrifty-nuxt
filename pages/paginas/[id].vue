@@ -1,22 +1,30 @@
 <script setup>   
-import { getAssetURL } from "@/utils/get-asset-url";
-import { storeToRefs } from 'pinia' 
- 
-
+import { getAssetURL } from "@/utils/get-asset-url";  
+import { useLenguajesStore } from '@/stores/lenguajes'; 
+const storeLenguaje = useLenguajesStore();
 const route = useRoute()
 const { getItemById } = useDirectusItems(); 
-const pagina = await  getItemById({
-        collection: "paginas",
-        id: route.params.id,
-    });  
+// const pagina = await  getItemById({
+//         collection: "paginas",
+//         id: route.params.id,
+//     });  
+    
+const pagina = computed(() => {
+    return storeLenguaje.paginas
+})   
+onMounted(() => {
+    storeLenguaje.fetchPaginas(); 
+    // storeLenguaje.setEN(); 
+
+})
 
 </script> 
 <template> 
     <ThePrompt/>
-    <article class="page-content">  
+    <article class="page-content">    
         <img :src="getAssetURL(pagina.banner)"  loading="lazy" />  
             <h2>
-                {{ pagina.titulo }}
+                {{pagina.titulo }}
             </h2> 
             <div class="format-content"  v-html="pagina.contenido"></div> 
     </article> 

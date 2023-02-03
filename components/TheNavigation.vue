@@ -1,5 +1,12 @@
+<script setup>  
+import { useLenguajesStore } from '@/stores/lenguajes'; 
+const storeLenguaje = useLenguajesStore();
+    // onMounted(() => {
+    //     storeLenguaje.setES(); 
+    // }) 
+</script>
 
-<script>
+<!-- <script>
 export default {
     data() {
         return {
@@ -14,7 +21,7 @@ export default {
             },
         },
     };
-</script>
+</script> -->
 
 <template>
 <header class="menu">
@@ -37,8 +44,13 @@ export default {
                 </li> 
                 <li><NuxtLink href="https://wa.link/n4yy20" target="_blank">Reservas a USA</NuxtLink></li> 
                 <li><NuxtLink to="/clientes">Paga/Mira tu Reserva</NuxtLink></li>
+                <li>
+                    <button @click="storeLenguaje.setEN()"> EN </button> |
+                    <button @click="storeLenguaje.setES()"> ES </button>
+                </li> 
             </ul>
         </div>
+        LENGUAJE ACTUAL:   {{ storeLenguaje.lenguaje }} 
     </nav>   
 </header>
 </template>
