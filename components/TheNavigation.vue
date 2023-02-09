@@ -32,8 +32,7 @@ export default {
         <div class="nav-content" :class="showMobileMenu ? 'open-menu' : 'closed-menu'">   
 
             <ul class="nav-items">
-                <li><NuxtLink to="/"><img src="../assets/images/logo.png"></NuxtLink></li>
- 
+                <li><NuxtLink to="/"><img src="../assets/images/logo.png"></NuxtLink></li> 
                 <li><NuxtLink to="/flota">Flota</NuxtLink></li>
                 <li><NuxtLink to="/sucursales">Sucursales</NuxtLink></li>
                 <li><a href="#">Corporativo</a>
@@ -44,13 +43,13 @@ export default {
                 </li> 
                 <li><NuxtLink href="https://wa.link/n4yy20" target="_blank">Reservas a USA</NuxtLink></li> 
                 <li><NuxtLink to="/clientes">Paga/Mira tu Reserva</NuxtLink></li>
-                <li>
+                <li>  
                     <button @click="storeLenguaje.setEN()"> EN </button> |
                     <button @click="storeLenguaje.setES()"> ES </button>
                 </li> 
-            </ul>
+            </ul> 
         </div>
-        LENGUAJE ACTUAL:   {{ storeLenguaje.lenguaje }} 
+        <!-- LENGUAJE ACTUAL:   {{ storeLenguaje.lenguaje }}  -->
     </nav>   
 </header>
 </template>

@@ -10,8 +10,7 @@ state: () => ({
         EN: {
             titulo: 'Ingles',
             contenido: 'Ingles',
-            },
-       
+            }, 
         ES: {  
             titulo: 'Español',
             contenido: 'Español',        
@@ -43,7 +42,7 @@ actions: {
     
                     if(this.lenguaje === 'EN'){
                         
-                    this.paginas = pagina 
+                        this.paginas = pagina 
                         this.paginas.contenido = paginaTranslations.contenido
                         this.paginas.titulo = paginaTranslations.titulo 
                     }
@@ -56,40 +55,13 @@ actions: {
                     console.error(error); 
             }
         }, 
-        async setEN(){
-            // const { getItemById } = useDirectusItems();  
-
-            // const route = useRoute() 
-            // const pagina = await  getItemById({
-            //         collection: "paginas",
-            //         id: route.params.id,
-            //     });   
-            // const paginaTranslations =  await  getItemById({
-            //     collection: "paginas_translations",
-            //     id: pagina.translations,
-            // });  
-
+        async setEN(){ 
             this.lenguaje = 'EN'
-            this.fetchPaginas()
-            // this.paginas.contenido = paginaTranslations.contenido
-            // this.paginas.titulo = paginaTranslations.titulo
-            // // this.traducciones.seleccionado.contenido = paginaTranslations.contenido 
-            // // this.traducciones.seleccionado.titulo = paginaTranslations.titulo 
+            this.fetchPaginas() 
         },
-        async setES(){
-            // const { getItemById } = useDirectusItems();  
-
-            // const route = useRoute() 
-            // const pagina = await  getItemById({
-            //         collection: "paginas",
-            //         id: route.params.id,
-            //     });  
-
+        async setES(){ 
             this.lenguaje = 'ES'
-            this.fetchPaginas()
-            // this.paginas = pagina 
-            // this.traducciones.seleccionado.contenido = pagina.contenido  
-            // this.traducciones.seleccionado.titulo = pagina.titulo
+            this.fetchPaginas() 
         } 
     },
 })  
