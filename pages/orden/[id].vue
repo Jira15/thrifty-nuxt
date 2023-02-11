@@ -129,12 +129,12 @@ const precioFormat = function(value) {
                             {{ fechaFormat(pedido.fecha_retorno) }}  
                         </dd>
                     </dl>   
-                    <dl v-if="(precioDropoff > 0)">
+                    <dl >
                         <dt>
                             Drop-off 
                         </dt> 
                         <dd>
-                            {{ precioFormat(precioDropoff) }}
+                            {{ precioFormat(pedido.dropoff) }}
                         </dd>
                     </dl>
                 

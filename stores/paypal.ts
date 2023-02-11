@@ -66,22 +66,24 @@ export const usePaypalStore = defineStore('paypal',  () => {
                     
                       var items: Pedido[] = [
                         {
-                            nombre: storePedido.pedido.cliente.nombre,
-                            apellido: storePedido.pedido.cliente.apellido, 
-                            email: storePedido.pedido.cliente.email,
-                            telefono: storePedido.pedido.cliente.telefono, 
-                            licencia: storePedido.pedido.cliente.licencia,
-                            nacimiento:  storePedido.pedido.cliente.nacimiento,
-                            retiro: storePedido.pedido.sucursal.name,
-                            fecha_retiro: storePedido.pedido.diaRetiro, 
-                            retorno: storePedido.pedido.sucursalRetorno.name,
-                            fecha_retorno: storePedido.pedido.diaRetorno, 
-                            carro: storePedido.pedido.carro.modelo,
-                            cobertura:storePedido.pedido.cobertura.nombre,
-                            extras: JSON.stringify(storePedido.pedido.extras), 
-                            dropoff: storePedido.pedido.dropoff,
-                            status: 'Pagado', 
-                            total: totalPedido
+                          nombre: storePedido.pedido.cliente.nombre,
+                          apellido: storePedido.pedido.cliente.apellido, 
+                          email: storePedido.pedido.cliente.email,
+                          telefono: storePedido.pedido.cliente.telefono, 
+                          licencia: storePedido.pedido.cliente.licencia,
+                          nacimiento:  storePedido.pedido.cliente.nacimiento,
+                          retiro: storePedido.pedido.sucursal.name,
+                          fecha_retiro: storePedido.pedido.diaRetiro, 
+                          retorno: storePedido.pedido.sucursalRetorno.name,
+                          fecha_retorno: storePedido.pedido.diaRetorno, 
+                          carro: storePedido.pedido.carro,
+                          cobertura: storePedido.pedido.cobertura,
+                          dropoff: storePedido.pedido.dropoff,
+                          sucursal_detail: storePedido.pedido.sucursal,
+                          sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
+                          extras: JSON.stringify(storePedido.pedido.extras), 
+                          status: 'Pagado',
+                          total: totalPedido
                         } 
                     ];  
  

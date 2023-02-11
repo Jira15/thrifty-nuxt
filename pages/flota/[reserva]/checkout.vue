@@ -29,6 +29,7 @@ onMounted(() => {
         <h3>Finaliza tu reserva</h3> 
         <Form @submit="preventDefault();">
             <!-- <Form @submit="storeCheckout.metodos = 'metodos'"> -->
+        <fieldset>
             <p>
                 <label for="nombre">Nombre</label>
                 <Field v-model="pedido.cliente.nombre" type="text" id="nombre" name="nombre" rules="required" placeholder="Nombre" />  
@@ -74,7 +75,7 @@ onMounted(() => {
                     <p class="warning">Todos los Campos son requeridos</p> 
                 </ErrorMessage> 
             </p> 
-
+            </fieldset>
 
 
             <div class="reserva" v-if="storePedido.pedido.reserva === 'reserva'"> 
@@ -234,10 +235,13 @@ onMounted(() => {
             width: 100%; 
             margin:5px;
             line-height: 1.5;
-            
-            form { 
-                display: flex;
+            fieldset {
+                display: flex; 
                 flex-wrap: wrap; 
+            }
+            form { 
+                display: flex; 
+                flex-direction: column;
                 margin-bottom: 10px; 
                 input {
                     padding: 10px 20px;

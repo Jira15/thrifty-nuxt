@@ -82,7 +82,7 @@ export const usePedidoStore = defineStore(
                         },
                 diaRetiro: Date,  
                 diaRetorno: Date,  
-                dropoff:Number,
+                dropoff:number,
                 era: 3.99,
                 cupon: null,
                 prepago: null,
@@ -390,13 +390,19 @@ export const usePedidoStore = defineStore(
                 //  agrego los precios de cobertura y carro y todos los extras ya sumados al array
                 // preciosASumar.push(extrasSumados, precioCobertura, precioAuto, precioEra, precioDropoff); 
 
-                // console.log(extrasSumados);
+                console.log('precio drop off' + precioDropoff);
                 preciosASumar.push( precioAuto, precioEra, precioCobertura, extrasSumados); 
+
+                console.log(preciosASumar);
                 // sumo todo en el array
                 const suma = preciosASumar.map(element => element).reduce((a, b) => a + b, 0);
 
-                const resultado = suma * precioDias;
-                const subTotal = +(resultado.toFixed(2));
+                const multiplicadoPorDias = suma * precioDias;
+
+
+                const unSoloMonto = multiplicadoPorDias + precioDropoff;
+
+                const subTotal = +(unSoloMonto.toFixed(2));
 
                 // que siempre formattee como dolares 
                 return subTotal; 

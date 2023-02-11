@@ -1,65 +1,35 @@
-<script setup>  
-import { useBannerStore } from '@/stores/banner'  
-import { getAssetURL } from "@/utils/get-asset-url"; 
-const storeBanner = useBannerStore();   
-const imagenes = computed(() => {
-    return storeBanner.imagenes
-}) 
-onMounted(() => {
-    storeBanner.fetchBanners(); 
-}) 
-</script> 
-<template>
-<div> 
-    <transition-group name="slide" tag="div">   
+<script setup>
+import { getAssetURL } from "@/utils/get-asset-url";
+import { VueperSlides, VueperSlide } from 'vueperslides'
+import 'vueperslides/dist/vueperslides.css'
 
-    <img
-        v-for="banner in imagenes"
-        :key="banner.id"
-        :src="getAssetURL(banner.banner)" 
-        class="slider-item"
-        :style="{ transform: `translateX(-${index * 100}%)` }"
-    />
-    </transition-group>
-</div>
-</template>
- 
-<style>
-    .slide-enter-active,
-    .slide-leave-active {
-    transition: transform 0.5s;
-    }
-    .slide-enter,
-    .slide-leave-to {
-    transform: translateX(100%);
-    }
-    .slider-item {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    }
-</style> 
-<!-- 
+const { getItems } = useDirectusItems();
 
-<template>
-<div class="banner">
-    <img src="../assets/images/banner_thrifty_2023.jpg"/> 
-</div>
-</template>
+const banner = await getItems({ collection: "banner_principal" });
+</script>
 
-<style scoped>
-    .banner{ 
-        background-size: cover;
-        background-repeat: no-repeat;
-        min-height: 240px;
-    } 
+<template>   
+<section class="banner"> 
+    <vueper-slides :slide-ratio="1 / 2" fixed-height="350px" :arrows="false" :bullets="false" autoplay> 
+        <vueper-slide v-for="banner in banner"
+        :key="banner.id"  :image="getAssetURL(banner.banner)" />
+    </vueper-slides> 
+</section> 
+</template>  
 
-    @media screen and (min-width: 768px) { 
-        .banner{ 
-            min-height:auto;
-            background-size: cover;
-            background-repeat: no-repeat;   
-        }  
-    }
+<style scoped lang="scss"> 
+.vueperslides--fixed-height { height: 350px; }
+.banner {
+    height: 350px;
+    overflow: hidden;  
+    img { 
+        object-fit:fill; 
+        margin: 0 auto;
+        width: 100%;
+      } 
+    grid-area: banner;
+} 
+@media screen and (max-width: 768px) { 
     
-</style> -->
+}
+</style> 
