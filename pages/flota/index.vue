@@ -33,13 +33,20 @@ onMounted(() => {
 <main class="auto"  id="prompt">
     <ThePrompt /> 
     <h2>Flota</h2>
+
+    <Filtros></Filtros>
     <div class="wrapper">
         <article v-for="auto in autos" :key="auto.id">
+            <div class="promocion" v-if="auto.status === 'promocion'">
+                <img src="@/assets/images/promo.png" alt="Pasajeros" />  
+            </div>
+
+
             <figure> 
                 <img :src="getAssetURL(auto.imagen)"  loading="lazy" /> 
             </figure> 
             <section>
-            <header>
+            <header> 
                 <h3>
                     {{ auto.marca }} {{ auto.modelo }}  
                 </h3>   
@@ -94,13 +101,23 @@ onMounted(() => {
             <!-- <NuxtLink  
             :to="'/flota/' +
             auto.id">
-               Reservar   
+            Reservar   
             </NuxtLink>
-  -->
-    <NuxtLink to="#prompt"   class="verificar" 
-    @click="storeSearch.searchIs = 'TheSearch'">
-        Reservar    
-    </NuxtLink> 
+-->
+ 
+            <div class="disponibilidad" v-if="auto.status === 'disponibilidad' "> 
+                <NuxtLink to="https://api.whatsapp.com/send?phone=50766785406" target="_blank"   >
+                        Consulta disponibilidad 
+                    </NuxtLink> 
+            </div>
+
+            <div  class="verificar"  v-if="auto.status === 'published' || auto.status === 'promocion'"> 
+                <NuxtLink to="#prompt"   
+                    @click="storeSearch.searchIs = 'TheSearch'">
+                        Reservar    
+                    </NuxtLink> 
+            </div>
+                    
         </article> 
     </div>
 </main> 
@@ -151,18 +168,7 @@ onMounted(() => {
         height: 180px;
         border-radius: 5px;
     }
-    a {
-        background-color: #047EFF;
-        padding: 5px 15px;
-        border-radius: 5px; 
-        text-transform: uppercase;
-        font-size: 16px;
-        font-weight: 600;
-        color: white;   
-        width: 100%;
-        text-align: center;
-        
-    }
+
     .specs {
         display: flex;   
         width: 100%;
@@ -191,6 +197,56 @@ onMounted(() => {
     }
 } 
 
+.promocion {
+    position: absolute; 
+    opacity:80%;
+    margin-top: -5px;
+    margin-left: -5px;
+    display: flex; 
+    img {
+        max-width: 100px;
+        max-height: 100px;      
+    }
+}
+.disponibilidad
+{
+    background-color: #25D366; 
+    padding: 5px 15px;
+    border-radius: 5px; 
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;   
+    width: 100%;
+    text-align: center; 
+}
+
+.verificar { 
+    
+        background-color: #047EFF;
+        padding: 5px 15px;
+        border-radius: 5px; 
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: 600;
+        color: white;   
+        width: 100%;
+        text-align: center; 
+
+        a {
+            background-color: #047EFF;
+            padding: 5px 15px;
+            border-radius: 5px; 
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;   
+            width: 100%;
+            text-align: center;
+            
+        }
+
+} 
 
 // Desktop  
 @media screen and (min-width: 768px) { 

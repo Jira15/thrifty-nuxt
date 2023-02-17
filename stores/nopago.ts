@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 import { useForm } from 'vee-validate';
 import * as Yup from 'yup'; 
 import { usePedidoStore } from '@/stores/pedido';     
-import { Pedido } from '~~/types/interfaces';  
+import { Pedido } from '~~/types/interfaces';
+import moment from 'moment';
+
 
 const checkoutSchema = Yup.object({ 
     nombre: Yup.string().required(),
@@ -52,9 +54,9 @@ export const useNoPagoStore = defineStore('nopago',  () => {
                     licencia: storePedido.pedido.cliente.licencia,
                     nacimiento:  storePedido.pedido.cliente.nacimiento,
                     retiro: storePedido.pedido.sucursal.name,
-                    fecha_retiro: storePedido.pedido.diaRetiro, 
+                    fecha_retiro:  moment(storePedido.pedido.diaRetiro).format(), 
                     retorno: storePedido.pedido.sucursalRetorno.name,
-                    fecha_retorno: storePedido.pedido.diaRetorno, 
+                    fecha_retorno: moment(storePedido.pedido.diaRetorno).format(), 
                     carro: storePedido.pedido.carro,
                     cobertura: storePedido.pedido.cobertura,
                     dropoff: storePedido.pedido.dropoff,

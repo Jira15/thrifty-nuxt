@@ -3,8 +3,7 @@ import { useSearchStore } from '@/stores/search'
 import { usePedidoStore } from '@/stores/pedido';
 import { storeToRefs } from 'pinia' 
 import moment from 'moment';
-const storeSearch = useSearchStore();
- 
+const storeSearch = useSearchStore(); 
 const storePedido = usePedidoStore();
 
 function tiempoMinimoAntesDeReserva(date, hours){
@@ -38,8 +37,7 @@ const horaFormat = function(value) {
 </script> 
 <template> 
 
-<aside class="progreso"> 
-
+<aside class="progreso">  
     <div>
         <section class="retiro" v-if="storeSearch.sucursal"> 
             <h3> {{ storeSearch.sucursal.name }}</h3>  
@@ -64,8 +62,7 @@ const horaFormat = function(value) {
 </template> 
 <style lang="scss">  
 
-.progreso { 
- 
+.progreso {  
     box-sizing: border-box;     
     display:flex; 
     text-transform: uppercase; 
@@ -99,8 +96,7 @@ const horaFormat = function(value) {
     }
 } 
 // Desktop  
-@media screen and (min-width: 768px) { 
- 
+@media screen and (min-width: 768px) {  
 .progreso{     
     width:1000px;  
     } 

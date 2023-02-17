@@ -98,12 +98,7 @@ onMounted(() => {
     .prompt {    
         display: flex;  
         margin-top: -5px;  
-        width: 100%;
-        article {
-            display:flex;
-            width: 100%;
-            justify-content: center;
-        }
+        width: 100%; 
         footer 
         {
             align-self: end;

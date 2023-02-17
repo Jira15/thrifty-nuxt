@@ -37,7 +37,19 @@ const precioPrepago = function(value) {
 onMounted(() => {
 storeAutos.fetchAutos(); 
 storeSearch.searchIs = 'TheProgress';
-}) 
+})  
+function checkBuscar(retiro, retorno, fechaRetiro, fechaRetorno, id) {
+    const router = useRouter();  
+
+    if (retiro  === undefined || retorno === undefined || fechaRetiro === undefined || fechaRetorno === undefined){
+        storeSearch.mostrarWarning = true; 
+        console.log(storeSearch.mostrarWarning)
+    }
+    else {
+        storeSearch.mostrarWarning = false; 
+        router.push('/flota/' + 'reserva/' +  id)
+    }
+}
 </script> 
 <template>
 <main class="auto">
@@ -101,16 +113,33 @@ storeSearch.searchIs = 'TheProgress';
                         <dd>A/C</dd>
                     </div>
                 </dl>
-            </section>
+            </section> 
 
-            <footer>
+            
+            <footer class="disponibilidad"  v-if="auto.status === 'disponibilidad'"> 
+                <section> 
+                    <div>
+                        <em>Por día</em>
+                        <h4> {{  precioFormat(auto.precio_thrifty) }}</h4>   
+                    </div> 
+                    <div>
+                        <em>Prepago</em>
+                        <h4> {{  precioPrepago(auto.precio_thrifty) }}</h4>  
+                    </div> 
+                </section>
+                    <NuxtLink   to="https://api.whatsapp.com/send?phone=50766785406" target="_blank"   >
+                        Consulta disponibilidad 
+                    </NuxtLink>  
+            </footer> 
+
+            <footer  v-if="auto.status === 'published' || auto.status === 'promocion'">
+                 
                 <div>
                     <em>Por día</em>
                     <h4> {{  precioFormat(auto.precio_thrifty) }}</h4>  
-                    <NuxtLink  
-                    :to="'/flota/' +
-                    'reserva/' +
-                    auto.id">
+                    <NuxtLink   
+                    @click="checkBuscar(storeSearch.sucursal, storeSearch.sucursalRetorno, storeSearch.fechaRetiro, storeSearch.fechaRetorno, auto.id)"
+          >
                     Reservar   
                     </NuxtLink>
                 </div> 
@@ -126,7 +155,27 @@ storeSearch.searchIs = 'TheProgress';
 
                     
                 </div>
-            </footer>
+
+            
+                 
+            </footer> 
+
+
+
+            <section class="warning" v-if="storeSearch.mostrarWarning === true">
+                <!-- {{ storeSearch.sucursal }} -->
+                <strong>Necesitas especificar la fecha y sucursal antes de continuar</strong>  
+                <!-- {{ storeSearch.fechaRetiro }} -->
+            </section>
+
+
+            
+             <!-- <section class="warning" v-if="storeSearch.sucursal  === undefined || storeSearch.sucursalRetorno === undefined">
+               {{ storeSearch.sucursal }}  
+                <strong>Necesitas especificar la fecha y sucursal antes de continuar</strong>  
+                {{ storeSearch.fechaRetiro }} 
+            </section>-->
+
         </article>
 
 
@@ -138,6 +187,14 @@ storeSearch.searchIs = 'TheProgress';
 
 
 .auto {
+    .warning{
+        color: red;
+        font-size: 13px;
+        font-weight: bold;
+        margin:  0 auto;
+        padding: 5px;
+        text-align: justify;
+    }
     
     article {
         background-color: white;
@@ -215,13 +272,14 @@ storeSearch.searchIs = 'TheProgress';
             color: white;
             text-align: center;
         }
+        
     }
 
     .specs { 
         display:none;
     }
 }
-
+ 
 
 // Desktop  
 @media screen and (min-width: 768px) {
@@ -311,7 +369,7 @@ storeSearch.searchIs = 'TheProgress';
                 color: white;   
                 text-align: center; 
                 
-            }
+            } 
     
         }
 
@@ -348,4 +406,28 @@ storeSearch.searchIs = 'TheProgress';
         }
     }
 }
+
+.disponibilidad
+{  
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    section {
+        display: flex;
+    }
+    a{
+        
+        background-color: #25D366; 
+        width: 100%; 
+        padding: 5px 15px;
+        border-radius: 5px; 
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: 600;
+        color: white;    
+        text-align: center; 
+    }
+}
+
+
 </style>

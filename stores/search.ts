@@ -8,7 +8,7 @@ const schema = Yup.object({
     sucursal: Yup.object().required(),
     // diaRetiro: Yup.string().required(),
     // horaRetiro: Yup.object().required(),
-    sucursalRetorno: Yup.object().required(),
+    // sucursalRetorno: Yup.object().required(),
     // diaRetorno: Yup.string().required(),
     // horaRetorno: Yup.object().required()
 });  
@@ -16,7 +16,9 @@ const schema = Yup.object({
 export const useSearchStore = defineStore('search',  () => { 
     let searchIs = ref('default')
     const storePedido = usePedidoStore();
-    const router = useRouter()
+    const router = useRouter();
+
+    const mostrarWarning = ref(false)
 
     const { errors, useFieldModel, handleSubmit, values } = useForm({
         validationSchema: schema,
@@ -24,13 +26,16 @@ export const useSearchStore = defineStore('search',  () => {
 
     const [
         sucursal, 
-        fechas,
-        sucursalRetorno,v
+        fechaRetiro,
+        fechaRetorno,
+        sucursalRetorno,
         ] = useFieldModel([
         'sucursal', 
-        'fechas',
+        'fechaRetiro',
+        'fechaRetorno',
         'sucursalRetorno',  
         ]);
+        
         
     const siguiente = handleSubmit((values) => {
         // send values to API
@@ -38,10 +43,10 @@ export const useSearchStore = defineStore('search',  () => {
         // console.log("en Search Store", values);
         storePedido.pedido.sucursal = values.sucursal;
         // storePedido.pedido.horaRetiro = values.horaRetiro; 
-        storePedido.pedido.diaRetiro = values.fechas[0]; 
+        storePedido.pedido.diaRetiro = values.fechaRetiro; 
         storePedido.pedido.sucursalRetorno = values.sucursalRetorno;
         // storePedido.pedido.horaRetorno = values.horaRetorno; 
-        storePedido.pedido.diaRetorno = values.fechas[1];  
+        storePedido.pedido.diaRetorno = values.fechaRetorno;  
         router.push('/reserva/'); 
         searchIs = ref('TheProgress');
     });  
@@ -49,9 +54,11 @@ export const useSearchStore = defineStore('search',  () => {
     return {
         errors,
         sucursal,
-        fechas, 
+        fechaRetiro,
+        fechaRetorno,
         sucursalRetorno, 
         siguiente,
+        mostrarWarning,
         searchIs
     };
 });  

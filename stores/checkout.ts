@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import { useForm } from 'vee-validate';
 import * as Yup from 'yup'; 
 import { usePedidoStore } from '@/stores/pedido';     
-import { Pedido } from '~~/types/interfaces';  
+import { Pedido } from '~~/types/interfaces';   
+import moment from 'moment';
 
 const checkoutSchema = Yup.object({ 
     nombre: Yup.string().required(),
@@ -21,8 +22,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
     console.log(totalPedido);   
  
     const metodos = ref('none')
-
-
+ 
     const tarjeta = ref( {
       ccnumber: '',
       ccexp: '',

@@ -101,6 +101,7 @@ onMounted(() => {
                     Día de Retiro:
                 </dt> 
                 <dd>
+                    {{ moment().format()  }}    <br />
                     {{ fechaFormat(pedido.diaRetiro) }}  
                 </dd>
             </dl> 
@@ -109,6 +110,7 @@ onMounted(() => {
                     Día de Retorno: 
                 </dt> 
                 <dd>
+                    {{  pedido.diaRetorno  }}   <br />
                     {{ fechaFormat(pedido.diaRetorno) }}   
                 </dd>
             </dl>   

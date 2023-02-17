@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia' 
-import { number } from 'yup';
+import { date, number } from 'yup';
 
 export const usePedidoStore = defineStore(
     'pedido', 
@@ -80,8 +80,8 @@ export const usePedidoStore = defineStore(
                             horario_apertura_domingo: Number,
                             impuesto: Number
                         },
-                diaRetiro: Date,  
-                diaRetorno: Date,  
+                diaRetiro: String,  
+                diaRetorno: String,  
                 dropoff:number,
                 era: 3.99,
                 cupon: null,
@@ -219,62 +219,34 @@ export const usePedidoStore = defineStore(
                 ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'ALBROOK'
                 ||  sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'CHITRE'
 
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'APOTOCUM'
+                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'CHITRE' 
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'V ESPANA'
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'THCDELESTE'
+                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'CHITRE'
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'VVENETTO'
+                ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'CHITRE'  
+
+                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'TORREMOLIN'
+                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'CHITRE' 
+ 
                 ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'ALBROOK'
                 ||  sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'SANTIAGO'
 
-                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'APOTOCUM'
-                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'SANTIAGO'
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'APOTOCUM'
-                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'CHITRE' 
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'V ESPANA'
-                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'CHITRE'
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'THCDELESTE'
-                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'CHITRE'
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'VVENETTO'
-                ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'CHITRE'  
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'TORREMOLIN'
-                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'CHITRE' 
-
- 
-                )
-                { dropoff = tier.nueve; } 
-
-                // tier diez: 177   
-                if ( 
-                    sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'DAVIDC'
-                ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'CHITRE'
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'ALBROOK'
-                ||  sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'CHITRE'
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'APOTOCUM'
-                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'CHITRE' 
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'V ESPANA'
-                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'CHITRE'
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'THCDELESTE'
-                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'CHITRE'
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'VVENETTO'
-                ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'CHITRE'  
-
-                ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'TORREMOLIN'
-                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'CHITRE' 
-
-                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'TORREMOLIN'
-                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'SANTIAGO' 
-
-                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'APOTOCUM'
-                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'SANTIAGO'  
-
                 ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'V ESPANA'
                 ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'SANTIAGO'
+ 
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'APOTOCUM'
+                ||  sucursalDeRetiro === 'APOTOCUM' && sucursalDeRetorno === 'SANTIAGO'
+ 
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'TORREMOLIN'
+                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'SANTIAGO' 
+ 
 
                 ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'THCDELESTE'
                 ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'SANTIAGO'
@@ -282,10 +254,21 @@ export const usePedidoStore = defineStore(
                 ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'VVENETTO'
                 ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'SANTIAGO'   
 
+
+
+
+
+
+ 
                 )
-                { dropoff = tier.diez; } 
+                { dropoff = tier.nueve; } 
 
-
+                // tier diez: 177   
+                if ( 
+                    sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'COLON'
+                ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'CHITRE' 
+                )
+                { dropoff = tier.diez; }  
                 // tier once: 190   
                 if ( 
                     
@@ -378,8 +361,7 @@ export const usePedidoStore = defineStore(
                 
                 // console.log('precio de cobertura' + precioCobertura)
 
-                let precioDias = this.pedido.totalDeDias; 
-         
+                let precioDias = this.pedido.totalDeDias;  
                 let precioEra = this.pedido.era; 
                 let precioDropoff = this.pedido.dropoff;
                 const precioExtra = this.pedido.extras;   
@@ -390,17 +372,28 @@ export const usePedidoStore = defineStore(
                 //  agrego los precios de cobertura y carro y todos los extras ya sumados al array
                 // preciosASumar.push(extrasSumados, precioCobertura, precioAuto, precioEra, precioDropoff); 
 
-                console.log('precio drop off' + precioDropoff);
+                console.log('precio drop off ' + precioDropoff);
                 preciosASumar.push( precioAuto, precioEra, precioCobertura, extrasSumados); 
 
-                console.log(preciosASumar);
+                console.log('cosas para multiplicar x dias' + preciosASumar);
+
                 // sumo todo en el array
                 const suma = preciosASumar.map(element => element).reduce((a, b) => a + b, 0);
 
                 const multiplicadoPorDias = suma * precioDias;
 
+                
+                console.log('total de dias' + precioDias)
+                console.log('resultado multiplicado por dias' + multiplicadoPorDias);
 
                 const unSoloMonto = multiplicadoPorDias + precioDropoff;
+
+
+                
+                console.log('suma de multiplicacion y drop off / SUBTOTAL ' + unSoloMonto);
+
+
+
 
                 const subTotal = +(unSoloMonto.toFixed(2));
 
@@ -431,10 +424,10 @@ export const usePedidoStore = defineStore(
                 let impuesto = 7; 
                 // Calculate tax due
                 const impuestoCalculado = nuevoSubtotal * (impuesto / 100); 
-                // console.log(impuestoCalculado);
+                console.log(impuestoCalculado);
 
                 const impuestoADeber = +(impuestoCalculado.toFixed(2));
-                // console.log('impuesto con aeropuerto y nuevo total sumado:' + impuestoADeber);
+                console.log('impuesto con aeropuerto y nuevo total sumado:' + impuestoADeber);
                 
 
                 // que siempre formattee como dolares 
@@ -458,13 +451,13 @@ export const usePedidoStore = defineStore(
                 const impuestoSumado = nuevoSubtotal * (1 + (impuesto / 100));
                 
                 let precioFinal = +(impuestoSumado.toFixed(2)); 
-                // console.log(
-                //     "Subtotal: $" + subTotal + 
-                //     'impuestoAeropuerto viene de sucursal  ' +  impuestoAeropuerto +
-                //     "\n Impuesto Aeropuerto: " + impuestoAeropuertoCalculado + 
-                //     "\n nuevo Subtotal: " + nuevoSubtotal + 
-                //     "%\n Impuesto Final: $" + impuestoADeber + 
-                //     "\n\nFinal price: $" + precioFinal);
+                console.log(
+                    "Subtotal: $" + subTotal + 
+                    'impuestoAeropuerto viene de sucursal  ' +  impuestoAeropuerto +
+                    "\n Impuesto Aeropuerto: " + impuestoAeropuertoCalculado + 
+                    "\n nuevo Subtotal: " + nuevoSubtotal + 
+                    "%\n Impuesto Final: $" + impuestoADeber + 
+                    "\n\nFinal price: $" + precioFinal);
                     
                 return new Intl.NumberFormat('en-US').format(precioFinal); 
             }   
