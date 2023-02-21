@@ -41,16 +41,13 @@ export const useSearchStore = defineStore('search',  () => {
         // send values to API
         // console.log('Submit', JSON.stringify(values, null, 2));
         // console.log("en Search Store", values);
-        storePedido.pedido.sucursal = values.sucursal;
-        // storePedido.pedido.horaRetiro = values.horaRetiro; 
+        storePedido.pedido.sucursal = values.sucursal; 
         storePedido.pedido.diaRetiro = values.fechaRetiro; 
-        storePedido.pedido.sucursalRetorno = values.sucursalRetorno;
-        // storePedido.pedido.horaRetorno = values.horaRetorno; 
+        storePedido.pedido.sucursalRetorno = values.sucursalRetorno; 
         storePedido.pedido.diaRetorno = values.fechaRetorno;  
         router.push('/reserva/'); 
         searchIs = ref('TheProgress');
-    });  
-//    diaRetiro ["[native Date Thu Dec 22 2022 11:26:00 GMT-0500 (Eastern Standard Time)]","[native Date Sat Dec 31 2022 11:26:00 GMT-0500 (Eastern Standard Time)]"]
+    });   
     return {
         errors,
         sucursal,

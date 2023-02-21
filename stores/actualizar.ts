@@ -8,10 +8,7 @@ export const useActualizarStore = defineStore
     state: () => ({
         orden: [], 
     } ), 
-    getters: {
-        // getPedido: (state) => { 
-        //     return state.pedido 
-        // },   
+    getters: { 
     },
     actions: {  
         async onCancelar() { 

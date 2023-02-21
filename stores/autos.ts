@@ -1,35 +1,20 @@
 import { defineStore } from 'pinia'
 import { useFiltroStore } from '@/stores/filtros'
  
-export const useAutosStore = defineStore('autos', {
-    // a function that returns a fresh state - STATE ES COMO DATA
+export const useAutosStore = defineStore('autos', { 
 state: () => ({ 
     autos: [] 
-}),
-// optional getters GETTER SON COMO COMPUTED 
+}), 
 getters: {
     getAutos: (state) => { 
         return state.autos 
-    },  
-    
-    // GETTER SON COMO COMPUTED getters receive the state as first parameter 
-},
-// optional actions ACTIONS SON COMO METHODS
-
-
-// https://admin.carstogopanama.com/items/carros?filter={"city":{"_in":["David"]},"make":{"_in":["Toyota"]}}&fields=*&sort=sort&sort=price
-
-// https://admin.intermarketing.com.pa/items/flota?filter={"tipo":{"_in":["Sedan"]},"marca":{"_in":["Toyota"]}}&fields=*&sort=sort&sort=precio_thrifty
-
-
-
-actions: {
-
+    },   
+}, 
+actions: { 
     async fetchAutos(){
         try {
             const storeFiltro = useFiltroStore();
-            const { getItems } = useDirectusItems(); 
-
+            const { getItems } = useDirectusItems();  
             const filters =  
             { 
                 tipo: storeFiltro.filtros.tipo,

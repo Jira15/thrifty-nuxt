@@ -10,12 +10,9 @@ export const useTarjetaStore = defineStore
             ccexp: '',
             cvv: ''
         }
-    } ), 
-    getters: {  
-    },
+    } ),  
     actions: { 
-        async onSubmit() { 
-            // var status  =  { status: 'Pagado'  } 
+        async onSubmit() {  
             const orderId = this.orden.pedidos_id 
             console.log(orderId)
             const bodyData = {

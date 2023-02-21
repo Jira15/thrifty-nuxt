@@ -5,18 +5,13 @@ export const useCoberturasStore = defineStore('coberturas', {
 state: () => ({ 
     coberturas: [
         {    descripcion: true}
-    ],
-
- 
-}),
-// optional getters GETTER SON COMO COMPUTED 
+    ], 
+}), 
 getters: {
     getCoberturas: (state) => { 
         return state.coberturas 
-    },  
-    // GETTER SON COMO COMPUTED getters receive the state as first parameter 
-},
-// optional actions ACTIONS SON COMO METHODS
+    },   
+}, 
 actions: {
         async fetchCoberturas(){
                 try {
