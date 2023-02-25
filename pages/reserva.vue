@@ -271,6 +271,8 @@ function checkBuscar(retiro, retorno, fechaRetiro, fechaRetorno, id) {
             font-weight: 600;
             color: white;
             text-align: center;
+            
+    cursor: pointer;
         }
         
     }

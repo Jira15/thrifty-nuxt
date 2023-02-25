@@ -37,9 +37,7 @@
       <h3>Siguenos en</h3> 
       <ClientOnly>
         <p>
-          <font-awesome-icon icon="fa-brands fa-instagram" /> 
-          <font-awesome-icon :icon="['fab', 'twitter']" class="icon alt"/> 
-          <font-awesome-icon icon="fa-brands fa-facebook" />
+ 
         </p>  
       </ClientOnly>
     </section>

@@ -1,19 +1,10 @@
 import { defineStore } from 'pinia' 
-import { useForm } from 'vee-validate';
-import * as Yup from 'yup'; 
+import { useForm } from 'vee-validate'; 
 import { usePedidoStore } from '@/stores/pedido';     
 import { Pedido } from '~~/types/interfaces';
 import moment from 'moment';
+import { checkoutSchema } from '@/types/checkout-schema-yup';
 
-
-const checkoutSchema = Yup.object({ 
-    nombre: Yup.string().required(),
-    apellido: Yup.string().required(),
-    // email: Yup.string().required(),
-    // telefono: Yup.string().required(),
-    // licencia: Yup.string().required(),
-    // nacimiento: Yup.string().required(),
-});   
 
 export const useNoPagoStore = defineStore('nopago',  () => { 
 

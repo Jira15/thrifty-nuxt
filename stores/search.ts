@@ -1,17 +1,8 @@
 import { defineStore } from 'pinia'
 import moment from 'moment'; 
-import { useForm } from 'vee-validate';
-import * as Yup from 'yup'; 
+import { useForm } from 'vee-validate'; 
 import { usePedidoStore } from '@/stores/pedido';  
-
-const schema = Yup.object({
-    sucursal: Yup.object().required(),
-    // diaRetiro: Yup.string().required(),
-    // horaRetiro: Yup.object().required(),
-    // sucursalRetorno: Yup.object().required(),
-    // diaRetorno: Yup.string().required(),
-    // horaRetorno: Yup.object().required()
-});  
+import { schema } from '@/types/search-schema-yup';
 
 export const useSearchStore = defineStore('search',  () => { 
     let searchIs = ref('default')

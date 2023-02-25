@@ -1,9 +1,7 @@
  
 <script setup>  
 import { useCoberturasStore } from '@/stores/coberturas'
-import { usePedidoStore } from '@/stores/pedido'
-import { storeToRefs } from 'pinia' 
-import { getAssetURL } from "@/utils/get-asset-url";
+import { usePedidoStore } from '@/stores/pedido' 
  
 const storePedido = usePedidoStore() 
 const storeCoberturas = useCoberturasStore() 

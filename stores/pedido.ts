@@ -254,11 +254,6 @@ export const usePedidoStore = defineStore(
                 ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'VVENETTO'
                 ||  sucursalDeRetiro === 'VVENETTO' && sucursalDeRetorno === 'SANTIAGO'   
 
-
-
-
-
-
  
                 )
                 { dropoff = tier.nueve; } 
@@ -299,8 +294,7 @@ export const usePedidoStore = defineStore(
                 ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'V ESPANA'
                 ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'DAVIDC'
                 ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'V ESPANA'
-                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'APODAVID'
-         
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'APODAVID' 
                 ||  sucursalDeRetiro === 'DAVIDC' && sucursalDeRetorno === 'THCDELESTE'
                 ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'DAVIDC'
                 ||  sucursalDeRetiro === 'APODAVID' && sucursalDeRetorno === 'THCDELESTE'
@@ -357,18 +351,15 @@ export const usePedidoStore = defineStore(
                 }
                 else {
                     precioCobertura = this.pedido.cobertura.precio; 
-                }
-                
-                // console.log('precio de cobertura' + precioCobertura)
-
+                } 
                 let precioDias = this.pedido.totalDeDias;  
                 let precioEra = this.pedido.era; 
                 let precioDropoff = this.pedido.dropoff;
                 const precioExtra = this.pedido.extras;   
-                const preciosASumar = []; 
-                 
+                const preciosASumar = [];  
                 // sumo todos los extras
                 const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0); 
+
                 //  agrego los precios de cobertura y carro y todos los extras ya sumados al array
                 // preciosASumar.push(extrasSumados, precioCobertura, precioAuto, precioEra, precioDropoff); 
 
@@ -386,18 +377,10 @@ export const usePedidoStore = defineStore(
                 console.log('total de dias' + precioDias)
                 console.log('resultado multiplicado por dias' + multiplicadoPorDias);
 
-                const unSoloMonto = multiplicadoPorDias + precioDropoff;
-
-
+                const unSoloMonto = multiplicadoPorDias + precioDropoff; 
                 
-                console.log('suma de multiplicacion y drop off / SUBTOTAL ' + unSoloMonto);
-
-
-
-
-                const subTotal = +(unSoloMonto.toFixed(2));
-
-                // que siempre formattee como dolares 
+                console.log('suma de multiplicacion y drop off / SUBTOTAL ' + unSoloMonto); 
+                const subTotal = +(unSoloMonto.toFixed(2)); 
                 return subTotal; 
             },
             impuestoAeropuerto(){ 
@@ -410,27 +393,20 @@ export const usePedidoStore = defineStore(
                 return  impuestoAeropuertoADeber 
             }, 
             impuesto(){ 
-                let subTotal = this.subTotal();
-                // console.log('subtotal inicial' + subTotal);
-                let impuestoAeropuerto = this.pedido.sucursal.impuesto;  
-                // console.log('impuestoAeropuerto viene de sucursal  ' +  impuestoAeropuerto)  
+                let subTotal = this.subTotal(); 
+                let impuestoAeropuerto = this.pedido.sucursal.impuesto;   
                 // Calculate tax due
                 const impuestoAeropuertoCalculado = subTotal * (impuestoAeropuerto / 100);
-                // console.log('impuestoAeropuertoCalculado  ' + impuestoAeropuertoCalculado); 
-
-
-                const nuevoSubtotal = subTotal + impuestoAeropuertoCalculado;
-                // console.log('nuevo subtotal, no lo ocupo, solo referencia' + nuevoSubtotal);   
+                
+                const nuevoSubtotal = subTotal + impuestoAeropuertoCalculado; 
                 let impuesto = 7; 
                 // Calculate tax due
-                const impuestoCalculado = nuevoSubtotal * (impuesto / 100); 
-                console.log(impuestoCalculado);
+                const impuestoCalculado = nuevoSubtotal * (impuesto / 100);  
 
                 const impuestoADeber = +(impuestoCalculado.toFixed(2));
-                console.log('impuesto con aeropuerto y nuevo total sumado:' + impuestoADeber);
-                
+                // console.log('impuesto con aeropuerto y nuevo total sumado:' + impuestoADeber); 
 
-                // que siempre formattee como dolares 
+                // que siempre formatee como dolares 
                 return  impuestoADeber  
             }, 
             total() {
@@ -463,26 +439,4 @@ export const usePedidoStore = defineStore(
             }   
         } 
     }   
-)    
-
-// total() {
-//     let subTotal = this.subTotal();  
-//     let impuesto = 7;
-    
-    
-//     // Calculate tax due
-//     const impuestoADeber = subTotal * (impuesto / 100);
-//     // Calculate final price
-//     const impuestoSumado = subTotal * (1 + (impuesto / 100));
-    
-//     const precioFinal = +(impuestoSumado.toFixed(2));
-
-
-//     // console.log(
-//     //     "Cart value: $" + subTotal + 
-//     //     "\nTax rate: " + impuesto + 
-//     //     "%\nTax due: $" + impuestoADeber + 
-//     //     "\n\nFinal price: $" + precioFinal); 
-//     // que siempre formattee como dolares 
-//     return new Intl.NumberFormat('en-US').format(precioFinal); 
-// }  
+)     

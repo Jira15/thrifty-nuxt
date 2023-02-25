@@ -6,7 +6,7 @@ const storeLenguaje = useLenguajesStore();
     // }) 
 </script>
 
-<!-- <script>
+<script>
 export default {
     data() {
         return {
@@ -21,13 +21,13 @@ export default {
             },
         },
     };
-</script> -->
+</script>
 
 <template>
 <header class="menu">
     <nav>  
         <ClientOnly>
-            <i class="fas fa-bars" @click="showMenu()"><font-awesome-icon icon="bars" class="icon alt"/></i>
+            <i class="fas fa-bars" @click="showMenu()">Menu</i>
         </ClientOnly>
         <div class="nav-content" :class="showMobileMenu ? 'open-menu' : 'closed-menu'">   
 

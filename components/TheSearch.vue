@@ -250,6 +250,7 @@ function minimoDeDias(date, days){
     border-radius:10px; 
     margin-top: 5px;
     align-self: end;
+    cursor: pointer;
 }  
 .verificar-wrap{
     width: 100%;
