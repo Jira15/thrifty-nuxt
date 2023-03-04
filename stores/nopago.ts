@@ -10,8 +10,12 @@ export const useNoPagoStore = defineStore('nopago',  () => {
 
     const { createItems } = useDirectusItems(); 
     const storePedido = usePedidoStore();
-    const totalPedido = storePedido.total();    
- 
+    
+    const subTotal = storePedido.subTotal();    
+    const impuestoAeropuerto = storePedido.impuestoAeropuerto();    
+    const impuesto = storePedido.impuesto();     
+    const totalPedido = storePedido.total();     
+
     const { errors, useFieldModel, handleSubmit, values } = useForm({
         validationSchema: checkoutSchema,
     });
@@ -30,13 +34,13 @@ export const useNoPagoStore = defineStore('nopago',  () => {
         'telefono',
         'licencia',
         'nacimiento'
-        ]);
- 
+        ]); 
+
     async function onSubmit(values) {
       // Submit values to API...  
     //   console.log("Values", values);    
             const router = useRouter();   
-              var items: Pedido[] = [
+                var items: Pedido[] = [
                 {
                     nombre: storePedido.pedido.cliente.nombre,
                     apellido: storePedido.pedido.cliente.apellido, 
@@ -53,8 +57,12 @@ export const useNoPagoStore = defineStore('nopago',  () => {
                     dropoff: storePedido.pedido.dropoff,
                     sucursal_detail: storePedido.pedido.sucursal,
                     sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
-                    extras: JSON.stringify(storePedido.pedido.extras), 
+                    extras:storePedido.pedido.extras, 
                     status: 'Pendiente de Pago',
+                    tipo_pago: 'Sin Pago',
+                    sub_total: subTotal,
+                    impuesto_aeropuerto: impuestoAeropuerto,
+                    impuesto: impuesto,
                     total: totalPedido
                 } ]; 
                 createItems<Pedido>({ collection: "pedidos", items });

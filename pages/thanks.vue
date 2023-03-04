@@ -1,4 +1,8 @@
 <script setup>   
+
+useHead({
+        title: 'Gracias | Thrifty Car Rental Panamá'
+    });
 </script>  
 
 

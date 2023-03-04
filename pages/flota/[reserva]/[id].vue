@@ -1,4 +1,4 @@
-<script setup>    
+<script setup> 
 import { getAssetURL } from "@/utils/get-asset-url";
 import { usePedidoStore } from '@/stores/pedido';
  

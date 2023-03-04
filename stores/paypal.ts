@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'  
 import { usePedidoStore } from '@/stores/pedido'; 
 import { loadScript } from "@paypal/paypal-js";
-import { Pedido } from '~~/types/interfaces'; 
+import { Pedido } from '~~/types/interfaces';  
+import moment from 'moment';
 
 export const usePaypalStore = defineStore('paypal',  () => { 
     const { createItems, updateItem } = useDirectusItems(); 
@@ -73,9 +74,9 @@ export const usePaypalStore = defineStore('paypal',  () => {
                           licencia: storePedido.pedido.cliente.licencia,
                           nacimiento:  storePedido.pedido.cliente.nacimiento,
                           retiro: storePedido.pedido.sucursal.name,
-                          fecha_retiro: storePedido.pedido.diaRetiro, 
+                          fecha_retiro:  moment(storePedido.pedido.diaRetiro).format(),  
                           retorno: storePedido.pedido.sucursalRetorno.name,
-                          fecha_retorno: storePedido.pedido.diaRetorno, 
+                          fecha_retorno:  moment(storePedido.pedido.diaRetorno).format(), 
                           carro: storePedido.pedido.carro,
                           cobertura: storePedido.pedido.cobertura,
                           dropoff: storePedido.pedido.dropoff,
@@ -83,6 +84,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
                           sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
                           extras: JSON.stringify(storePedido.pedido.extras), 
                           status: 'Pagado',
+                          tipo_pago: 'Paypal',
                           total: totalPedido
                         } 
                     ];  
@@ -91,7 +93,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
                     if (storePedido.pedido.pedidos_id !== ""){   
   
                       console.log('Transacción Aprobada' + storePedido.pedido.pedidos_id)    
-                      var status = { status: 'Pagado' }   
+                      var status = { status: 'Pagado', tipo_pago: 'Paypal' }   
                       updateItem<Pedido>({ 
                           collection: "pedidos",
                           id: storePedido.pedido.pedidos_id,

@@ -1,37 +1,55 @@
-<script setup>  
-import { useExtrasStore } from '@/stores/extras'
-import { usePedidoStore } from '@/stores/pedido'
  
-const storePedido = usePedidoStore() 
-const storeExtras = useExtrasStore() 
-const extras = computed(() => {
-    return storeExtras.extras
-}) 
-onMounted(() => {
-    storeExtras.fetchExtras(); 
-})
-</script>  
 <template>
-<main class="extras">   
-<h2>Extras</h2>
-<section> 
-    <ul>
-        <li>
-            <article  v-for="extra in extras" :key="extra.id"> 
-                <header>  
-                    <h3> {{ extra.nombre }} </h3>
-                </header>  
-                <footer> 
-                    <input :id="extra.id" type="checkbox" v-model="storePedido.pedido.extras" :value="extra" >
-                    <h4>B/.{{ extra.precio }} / por día</h4>  
-                </footer> 
-            </article>
-        </li>  
-    </ul> 
-</section>
 
-</main> 
+    <main class="extras">   
+        <h2>Extras</h2>
+        <section> 
+            <ul>
+                <li>
+                    <article  v-for="extra in extras" :key="extra.id"> 
+                        <header>  
+                            <h3> {{ extra.nombre }} </h3>
+                        </header>  
+                        <footer> 
+                            <input type="checkbox" :value="extra" v-model="pedidoStore.pedido.extras"  >
+                            <h4>B/.{{ extra.precio }} / por día</h4>  
+                        </footer> 
+                    </article>
+                </li>  
+            </ul> 
+        </section>
+        
+        </main>  
 </template> 
+<script setup lang="ts"> 
+import { computed, ref } from 'vue'
+import { useExtrasStore } from "@/stores/extras";
+import { usePedidoStore } from "@/stores/pedido";
+import { storeToRefs } from 'pinia'
+const extrasStore = useExtrasStore()
+const pedidoStore = usePedidoStore() 
+ 
+
+const extras = computed(() => {
+    return  extrasStore.extras
+}) 
+
+
+onMounted(() => {
+    extrasStore.fetchExtras(); 
+}) 
+const selectedExtras = ref([])
+
+function addSelectedExtras() {
+  selectedExtras.value.forEach(extra => {
+    pedidoStore.addExtra(extra)
+  })
+  selectedExtras.value = []
+}
+</script>
+ 
+
+
 <style scoped lang="scss">  
 .extras {  
     ul li article {
@@ -96,4 +114,4 @@ onMounted(() => {
         } 
     } 
 }
-</style>
+</style> 

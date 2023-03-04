@@ -28,6 +28,14 @@ onMounted(() => {
 //         route.push('/thanks/'+ auto); 
 //     }
 // }
+
+
+useHead({
+        title: 'Flota | Thrifty Car Rental Panamá'
+    });
+
+
+
 </script> 
 <template>
 <main class="auto"  id="prompt">
@@ -134,7 +142,8 @@ onMounted(() => {
         min-width: 350px;
         max-width: 350px;
         margin:10px;
-        justify-content: space-between;
+        justify-content: space-between; 
+
     }
 
     h2 {

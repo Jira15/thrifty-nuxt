@@ -91,18 +91,19 @@ export const useCheckoutStore = defineStore('checkout',  () => {
                     licencia: storePedido.pedido.cliente.licencia,
                     nacimiento:  storePedido.pedido.cliente.nacimiento,
                     retiro: storePedido.pedido.sucursal.name,
-                    fecha_retiro: storePedido.pedido.diaRetiro, 
+                    fecha_retiro: moment(storePedido.pedido.diaRetiro).format(), 
                     retorno: storePedido.pedido.sucursalRetorno.name,
-                    fecha_retorno: storePedido.pedido.diaRetorno, 
+                    fecha_retorno: moment(storePedido.pedido.diaRetorno).format(),
                     carro: storePedido.pedido.carro,
                     cobertura: storePedido.pedido.cobertura,
                     dropoff: storePedido.pedido.dropoff,
                     sucursal_detail: storePedido.pedido.sucursal,
                     sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
-                    extras: JSON.stringify(storePedido.pedido.extras), 
+                    extras: storePedido.pedido.extras, 
                     status: 'Pagado',
+                    tipo_pago: 'Tarjeta',
                     total: totalPedido
-                } ]; 
+                } ];   
                 createItems<Pedido>({ collection: "pedidos", items });
                 router.push('/thanks/'); 
             }

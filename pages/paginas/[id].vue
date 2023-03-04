@@ -18,6 +18,10 @@ onMounted(() => {
 
 })
 
+useHead({
+        title: route.params.id + ' | Thrifty Car Rental Panamá'
+    });
+
 </script> 
 <template> 
     <ThePrompt/>

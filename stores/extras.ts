@@ -1,13 +1,10 @@
-import { defineStore } from 'pinia'
- 
+import { defineStore } from 'pinia' 
+import { Extra } from '@/types/extra';
 
 export const useExtrasStore = defineStore( 'extras', { 
-  state: () => ({ extras: [] }), 
-  getters: {
-      getExtras: (state) => { 
-          return state.extras 
-      },   
-  }, 
+    state: () => ({
+        extras: [] as Extra[],
+      }), 
   actions: {
     async fetchExtras(){
         try {
@@ -18,6 +15,14 @@ export const useExtrasStore = defineStore( 'extras', {
         } catch (error) {
                 console.error(error); 
         }
+      },
+      getExtras() {
+        return this.extras;
       }, 
+      getExtraById(id) {
+        return this.extras.find(extra => extra.id === id)
+      }
   }, 
 })  
+ 
+ 

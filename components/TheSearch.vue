@@ -18,7 +18,7 @@ const hoursArray = computed(() => {
 
 const minutesArray = computed(() => {
   const arr = [];
-  for (let i = 0; i < 60; i+=10) {
+  for (let i = 0; i < 60; i++) {
     arr.push({ text: i < 10 ? `0${i}` : i, value: i });
   }
   return arr;

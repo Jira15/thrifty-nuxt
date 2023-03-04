@@ -23,7 +23,7 @@ const precioFormat = function(value) {
 
 const precioPrepago = function(value) {
     if (value) {
-        let descuento = 10;  
+        let descuento = 5;  
         const descuentoCalculado = value * (descuento / 100);
 
         const nuevoPrecio = value - descuentoCalculado;
@@ -50,6 +50,12 @@ function checkBuscar(retiro, retorno, fechaRetiro, fechaRetorno, id) {
         router.push('/flota/' + 'reserva/' +  id)
     }
 }
+
+useHead({
+        title: 'Reservas | Thrifty Car Rental Panamá'
+    });
+
+
 </script> 
 <template>
 <main class="auto">

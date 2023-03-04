@@ -19,6 +19,9 @@ const sucursalABuscador = function(value) {
     storeSearch.sucursal = value;
     storeSearch.searchIs = 'TheSearch';
 }
+useHead({
+        title: 'Sucursales | Thrifty Car Rental Panamá'
+    });
 </script> 
 <template>
 <main class="sucursal" id="prompt">

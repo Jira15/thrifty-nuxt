@@ -10,7 +10,7 @@ export default defineNuxtConfig({
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
             { hid: 'description', name: 'description', content: '' },
-            { name: 'format-detection', content: 'telephone=no' }
+            { name: 'Thrifty Car Rental Panamá', content: 'Reserve su auto al mejor precio por día. 100% confiable y seguro. Alquiler de carros por día. Contamos con una gran flota de autos nuevos. Reserva online. Beneficios Para Empresas. Leasing Corporativo. Precios Especiales. Amplia cobertura. Modelos: Kia, Hyundai, Toyota.' }
             
         ],
         script:[    
@@ -20,7 +20,7 @@ export default defineNuxtConfig({
             }
         ],
         link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+            { rel: 'icon', type: 'image/x-icon', href: './favicon.ico' }
         ]
     },
 },
@@ -44,7 +44,8 @@ export default defineNuxtConfig({
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [  
         '@/plugins/vue-datepicker.js', 
-        '@/plugins/vee-validate.js'  
+        '@/plugins/vee-validate.js',
+        '@/plugins/vue-gtm.client.js' 
     ],   
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [ 

@@ -18,7 +18,7 @@
       <p>
           <NuxtLink to="/paginas/coberturas">Coberturas</NuxtLink>
           <NuxtLink to="/paginas/requisitos">Requisitos</NuxtLink>
-          <NuxtLink to="/paginas/trabajo">Bolsa de Trabajo</NuxtLink>
+          <!-- <NuxtLink to="/paginas/trabajo">Bolsa de Trabajo</NuxtLink> -->
       </p> 
     </nav> 
   </section>
@@ -35,14 +35,17 @@
 
     <section class="sociales"> 
       <h3>Siguenos en</h3> 
-      <ClientOnly>
-        <p>
- 
-        </p>  
-      </ClientOnly>
+      <span>
+        <NuxtLink to="https://www.instagram.com/thriftypanama/" taget="_blank">
+          <img class="social" src="../assets/images/instagram.svg"/>
+        </NuxtLink>
+        <NuxtLink to="https://www.facebook.com/thrifty.panama/" taget="_blank">
+          <img class="social" src="../assets/images/facebook.png"/>
+        </NuxtLink>  
+      </span>  
     </section>
 
-    <p class="copyright">Copyright © 2022 Thrifty Panamá</p>
+    <p class="copyright">Copyright © 2023 Thrifty Panamá</p>
 
   </footer>
 </template>
@@ -70,8 +73,7 @@
     flex-direction: column;   
   }
   p { 
-    font-family: sans-serif; 
- 
+    font-family: sans-serif;  
     display: flex;
     flex-direction: column;
   }
@@ -94,15 +96,31 @@
  
   font-size: 12px;
 }
-.sociales { 
-  font-size: 30px;
-}
-.sociales p { 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
 
+.sociales {
+  color: #e4e4e4;   
+  h3 {
+    font-size: 15px;
+  }
+  a:visited {
+    color: #e4e4e4;
+  }
+  a:link {
+    color: #e4e4e4;
+  }
+  a {
+    margin: 5px;
+    font-size: 34px;
+    color: #e4e4e4;
+    width: 40px;
+  }
+  img {
+    max-width: 40px;
+  }
+  span { 
+    display: flex;
+  }
+} 
 // Desktop  
 @media screen and (min-width: 768px) { 
   .footer { 

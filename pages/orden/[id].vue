@@ -12,6 +12,8 @@ const storePedido = usePedidoStore();
 const storeActualizar = useActualizarStore(); 
 const storeTarjeta = useTarjetaStore(); 
 const { getItemById, getItems } = useDirectusItems();  
+ 
+
 
 const getPedido = computed(() => {
     return storePedido.getPedido
@@ -46,6 +48,12 @@ const precioFormat = function(value) {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) 
     }
 } 
+
+ 
+
+useHead({
+        title: 'Modificando Reserva | Thrifty Car Rental Panamá'
+    });
 </script> 
 <template>  
     <article class="manage-pedido"> 
@@ -123,7 +131,7 @@ const precioFormat = function(value) {
                     </dl> 
                     <dl>
                         <dt>
-                            Día de Retorno: 
+                            Día de Retorno:   
                         </dt> 
                         <dd>
                             {{ fechaFormat(pedido.fecha_retorno) }}  
@@ -136,19 +144,17 @@ const precioFormat = function(value) {
                         <dd>
                             {{ precioFormat(pedido.dropoff) }}
                         </dd>
-                    </dl>
-                
-
-                </section> 
-           
+                    </dl> 
+                </section>  
         <section class="info-coberturas">
             <h6>Modelo:</h6>
             <dl>
                 <dt>
-                    {{ pedido.carro.tipo }} 
+                    {{ pedido.carro.tipo }}
+                      <!-- {{ precioFormat(pedido.carro.precio_thrifty) }}  x{{  storePedido.diffDias(pedido.fecha_retorno, pedido.fecha_retiro)  }}  -->
                 </dt> 
                 <dd>
-                    {{ precioFormat(pedido.carro.precio_thrifty) }} 
+                    {{ precioFormat(pedido.carro.precio_thrifty  * storePedido.diffDias(pedido.fecha_retorno, pedido.fecha_retiro)) }} 
                 </dd>
             </dl>
             <h6>Coberturas:</h6> 
@@ -157,7 +163,7 @@ const precioFormat = function(value) {
                     {{ pedido.cobertura.nombre }} 
                 </dt> 
                 <dd>
-                    {{  precioFormat(pedido.cobertura.precio_2)}} 
+                    {{  precioFormat(pedido.cobertura.precio_2   * storePedido.diffDias(pedido.fecha_retorno, pedido.fecha_retiro))}} 
                 </dd> 
             </dl>
             <dl v-else>
@@ -165,7 +171,7 @@ const precioFormat = function(value) {
                     {{ pedido.cobertura.nombre }} 
                 </dt> 
                 <dd>
-                    {{  precioFormat(pedido.cobertura.precio)}} 
+                    {{  precioFormat(pedido.cobertura.precio   * storePedido.diffDias(pedido.fecha_retorno, pedido.fecha_retiro))}} 
                 </dd> 
             </dl> 
             <dl >
@@ -173,7 +179,7 @@ const precioFormat = function(value) {
                     Asistencia Vial(ERA)
                 </dt> 
                 <dd>
-                    {{ precioFormat(pedido.era) }} 
+                    {{ precioFormat(pedido.era   * storePedido.diffDias(pedido.fecha_retorno, pedido.fecha_retiro))}} 
                 </dd> 
             </dl> 
     
@@ -184,13 +190,49 @@ const precioFormat = function(value) {
                         {{ extra.nombre }}
                     </dt>  
                     <dd>
-                        {{ precioFormat(extra.precio) }} 
+                        {{ precioFormat(extra.precio   * storePedido.diffDias(pedido.fecha_retorno, pedido.fecha_retiro)) }} 
                     </dd> 
                 </div>
             </dl> 
-        </section> 
-        <footer>
+
+
             <h6>Sub-Total:  </h6> 
+
+            <dl>
+                <dt> 
+                </dt>
+                <dd >
+                    B/.  {{ pedido.sub_total }} 
+                </dd> 
+            </dl>   
+
+
+            
+            <h6>Impuesto:  </h6> 
+
+            <dl>
+                <dt> 
+                </dt>
+                <dd >
+                    B/.  {{ pedido.impuesto }} 
+                </dd> 
+            </dl>   
+
+
+        <div v-if="pedido.impuesto_aeropuerto > 0">
+            <h6>Impuesto de Aeropuerto:  </h6> 
+
+            <dl>
+                <dt> 
+                </dt>
+                <dd >
+                    B/.  {{ pedido.impuesto_aeropuerto }} 
+                </dd> 
+            </dl>   
+        </div>
+
+            
+            <h6>Total:  </h6> 
 
             <dl>
                 <dt> 
@@ -199,6 +241,12 @@ const precioFormat = function(value) {
                     B/.  {{ pedido.total }} 
                 </dd> 
             </dl>   
+
+
+
+        </section> 
+        <footer>
+ 
           {{ pedido.status }} 
             <div class="status" v-if="pedido.status === 'Pagado'"> 
                 <h4>Esta reserva ya esta paga</h4>

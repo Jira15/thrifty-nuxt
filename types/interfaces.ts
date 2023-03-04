@@ -11,7 +11,7 @@ export interface Pedido {
     fecha_retorno: Date, 
     carro: object,
     cobertura: object,
-    extras: string,
+    extras: ArrayConstructor,
     dropoff: string,
     sucursal_detail: object,
     sucursal_retorno_detail: object,

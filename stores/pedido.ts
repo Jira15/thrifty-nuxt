@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia' 
-import { date, number } from 'yup';
+import { array, date, number } from 'yup';
+import { Extra } from '@/types/extra';
 
+import { useExtrasStore } from "@/stores/extras";
+ 
 export const usePedidoStore = defineStore(
     'pedido', 
     { 
@@ -47,7 +50,7 @@ export const usePedidoStore = defineStore(
                     precio_2: 0.00,
                     precio_3: Number
                 },
-                extras: [],
+                extras: [], 
                 sucursal: { 
                             id: Number,
                             mapa: Object,
@@ -99,10 +102,28 @@ export const usePedidoStore = defineStore(
         getters: {
                 getPedido: (state) => { 
                     return state.pedido 
-                },  
-            
-            },  
-        actions: {   
+                },   
+  
+            },      
+        actions: {    
+            addExtra(extra) { 
+                    this.pedido.extras.push(extra)
+ 
+              },
+              removeExtra(extra) {
+                const index = this.pedido.extras.indexOf(extra)
+                if (index !== -1) {
+                  this.pedido.extras.splice(index, 1)
+                }
+              },
+              updatePedido(newPedido) {
+                if (Array.isArray(newPedido.extras)) { // check if newPedido.extras is an array
+                  this.pedido.extras = newPedido.extras
+                } else {
+                  console.error('extras must be an array')
+                }
+                // other logic
+              },
             diffDias(retiro, retorno){
                     let difference = new Date(retiro).getTime() - new Date(retorno).getTime();
                     let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
@@ -328,13 +349,15 @@ export const usePedidoStore = defineStore(
                 return  dropoff; 
                 // return new Intl.NumberFormat('en-US').format(dropoff); 
             },
+ 
+    
             subTotal() {
 
                 let precioAuto 
                 let tipoReserva = this.pedido.reserva;
                 if(tipoReserva === 'prepago'){
                     const precio = this.pedido.carro.precio_thrifty;  
-                    let descuento = 10;  
+                    let descuento = 5;  
                     const descuentoCalculado = precio * (descuento / 100);  
                     const nuevoPrecio = precio - descuentoCalculado;
  
@@ -355,14 +378,36 @@ export const usePedidoStore = defineStore(
                 let precioDias = this.pedido.totalDeDias;  
                 let precioEra = this.pedido.era; 
                 let precioDropoff = this.pedido.dropoff;
-                const precioExtra = this.pedido.extras;   
+ 
+                // JSON.stringify(this.pedido.extras)
+       
+                // const precioExtra = this.pedido.extras; 
+                // console.log('extras array' + precioExtra)  
                 const preciosASumar = [];  
-                // sumo todos los extras
-                const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0); 
+                // sumo todos los extras  any[] = []
+            
+
+                // const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0); 
+                // console.log('extras sumados' + extrasSumados)  
+
+
+                // const extrasSumados = this.extras.reduce((acc, extra) => acc + extra.price, 0);
 
                 //  agrego los precios de cobertura y carro y todos los extras ya sumados al array
                 // preciosASumar.push(extrasSumados, precioCobertura, precioAuto, precioEra, precioDropoff); 
 
+
+                let extrasSumados = 0;
+                if (Array.isArray(this.pedido.extras)) {
+                    for (const extra of this.pedido.extras) {
+                    extrasSumados += extra.precio;
+                    }
+                }
+
+
+
+                // const extrasSumados =  this.pedido.extras.reduce((acc: number, extra: any) => acc + extra.precio, 0);
+                console.log('precio extras ' + extrasSumados);
                 console.log('precio drop off ' + precioDropoff);
                 preciosASumar.push( precioAuto, precioEra, precioCobertura, extrasSumados); 
 
@@ -427,13 +472,13 @@ export const usePedidoStore = defineStore(
                 const impuestoSumado = nuevoSubtotal * (1 + (impuesto / 100));
                 
                 let precioFinal = +(impuestoSumado.toFixed(2)); 
-                console.log(
-                    "Subtotal: $" + subTotal + 
-                    'impuestoAeropuerto viene de sucursal  ' +  impuestoAeropuerto +
-                    "\n Impuesto Aeropuerto: " + impuestoAeropuertoCalculado + 
-                    "\n nuevo Subtotal: " + nuevoSubtotal + 
-                    "%\n Impuesto Final: $" + impuestoADeber + 
-                    "\n\nFinal price: $" + precioFinal);
+                // console.log(
+                //     "Subtotal: $" + subTotal + 
+                //     'impuestoAeropuerto viene de sucursal  ' +  impuestoAeropuerto +
+                //     "\n Impuesto Aeropuerto: " + impuestoAeropuertoCalculado + 
+                //     "\n nuevo Subtotal: " + nuevoSubtotal + 
+                //     "%\n Impuesto Final: $" + impuestoADeber + 
+                //     "\n\nFinal price: $" + precioFinal);
                     
                 return new Intl.NumberFormat('en-US').format(precioFinal); 
             }   

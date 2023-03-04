@@ -327,6 +327,20 @@
     fast-deep-equal "^3.1.3"
     supercluster "^7.1.3"
 
+"@gtm-support/core@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@gtm-support/core/-/core-2.0.0.tgz"
+  integrity sha512-32hyxR/LIB6EWnUcbbrUzjkAE6PSRtqv/AztEnQ8MuCOQ7+u+yXOssfZqNDSWlQkEBn0Co6f7aHG+vcNZCGiLw==
+
+"@gtm-support/vue-gtm@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@gtm-support/vue-gtm/-/vue-gtm-2.0.0.tgz"
+  integrity sha512-zcnCMZbjPkTGkQpMkF9U2JcCtK9JiasfoZJCYYJLGKFj0cd7abwNLPMa3/sXB89YqiFniazkP++nIzFU9kZzqw==
+  dependencies:
+    "@gtm-support/core" "^2.0.0"
+  optionalDependencies:
+    vue-router "^4.1.0"
+
 "@hutson/parse-repository-url@^3.0.0":
   version "3.0.2"
   resolved "https://registry.npmjs.org/@hutson/parse-repository-url/-/parse-repository-url-3.0.2.tgz"
@@ -5180,6 +5194,13 @@ nuxt-directus@^3.1.0:
     "@nuxt/kit" "^3.0.0"
     standard-version "^9.3.2"
 
+nuxt-facebook-pixel-module@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/nuxt-facebook-pixel-module/-/nuxt-facebook-pixel-module-1.6.0.tgz"
+  integrity sha512-+9JGTzf6aXp5sIAsW/oPSP/HTZR0a+2FpFHYGFjvOrwp81mx7i10mt3C1XPcHakUH48kHEQSkB8PH4MD7SPLvQ==
+  dependencies:
+    minimatch "^3.0.4"
+
 nuxt-proxy@^0.3.7:
   version "0.3.12"
   resolved "https://registry.npmjs.org/nuxt-proxy/-/nuxt-proxy-0.3.12.tgz"
@@ -7517,7 +7538,7 @@ vue-money-format@^1.2.4:
   dependencies:
     vue "^2.6.11"
 
-vue-router@^4.1.6:
+vue-router@^4.1.0, vue-router@^4.1.6:
   version "4.1.6"
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.1.6.tgz"
   integrity sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==
