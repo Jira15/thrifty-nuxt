@@ -47,7 +47,7 @@ const precioFormat = function(value) {
     }
 }
 const prepago = function(precio){ 
-        let descuento = 10;  
+        let descuento = 5;  
         const descuentoCalculado = precio * (descuento / 100);  
         const nuevoPrecio = precio - descuentoCalculado;
         console.log('precio' + precio +
@@ -127,20 +127,20 @@ onMounted(() => {
                 {{ pedido.carro.marca }} {{ pedido.carro.modelo }} 
             </dt> 
             <dd v-if="pedido.reserva === 'prepago'">
-                {{ prepago(pedido.carro.precio_thrifty) }} 
+                {{ prepago(pedido.carro.precio_thrifty  * pedidoStore.diffDias(pedido.diaRetorno, pedido.diaRetiro)) }} 
             </dd>
             <dd v-else>
-                {{ precioFormat(pedido.carro.precio_thrifty) }} 
+                {{ precioFormat(pedido.carro.precio_thrifty * pedidoStore.diffDias(pedido.diaRetorno, pedido.diaRetiro)) }} 
             </dd>
         </dl> 
         <h6>Coberturas:</h6> 
  
         <dl v-if="pedido.carro.tipo != 'Sedan'">
-            <dt> 
+            <dt v-if="pedido.cobertura.nombre"> 
                 {{ pedido.cobertura.nombre }} 
             </dt> 
             <dd>
-                {{  precioFormat(pedido.cobertura.precio_2)}} 
+                {{  precioFormat(pedido.cobertura.precio_2 * pedidoStore.diffDias(pedido.diaRetorno, pedido.diaRetiro))}} 
             </dd> 
         </dl>
         <dl v-else>
@@ -148,15 +148,15 @@ onMounted(() => {
                 {{ pedido.cobertura.nombre }} 
             </dt> 
             <dd>
-                {{  precioFormat(pedido.cobertura.precio)}} 
+                {{  precioFormat(pedido.cobertura.precio * pedidoStore.diffDias(pedido.diaRetorno, pedido.diaRetiro))}} 
             </dd> 
         </dl> 
         <dl >
             <dt> 
-                Asistencia Vial(ERA)
+                Asistencia Vial(ERA) 
             </dt> 
             <dd>
-                {{  precioFormat(pedido.era) }} 
+                {{  precioFormat(pedido.era * pedidoStore.diffDias(pedido.diaRetorno, pedido.diaRetiro)) }} 
             </dd> 
         </dl> 
 
@@ -167,7 +167,7 @@ onMounted(() => {
                     {{ extra.nombre }}
                 </dt>  
                 <dd>
-                    {{ precioFormat(extra.precio) }}
+                    {{ precioFormat(extra.precio   * pedidoStore.diffDias(pedido.diaRetorno, pedido.diaRetiro))}}
                 </dd> 
             </div>
         </dl> 

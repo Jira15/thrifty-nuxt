@@ -206,7 +206,17 @@ useHead({
                 </dd> 
             </dl>   
 
-
+            <div v-if="pedido.impuesto_aeropuerto > 0">
+                <h6>Impuesto de Aeropuerto:  </h6> 
+    
+                <dl>
+                    <dt> 
+                    </dt>
+                    <dd >
+                        B/.  {{ pedido.impuesto_aeropuerto }} 
+                    </dd> 
+                </dl>   
+            </div>
             
             <h6>Impuesto:  </h6> 
 
@@ -218,20 +228,7 @@ useHead({
                 </dd> 
             </dl>   
 
-
-        <div v-if="pedido.impuesto_aeropuerto > 0">
-            <h6>Impuesto de Aeropuerto:  </h6> 
-
-            <dl>
-                <dt> 
-                </dt>
-                <dd >
-                    B/.  {{ pedido.impuesto_aeropuerto }} 
-                </dd> 
-            </dl>   
-        </div>
-
-            
+    
             <h6>Total:  </h6> 
 
             <dl>

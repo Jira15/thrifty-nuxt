@@ -13,12 +13,18 @@ export default defineNuxtConfig({
             { name: 'Thrifty Car Rental Panamá', content: 'Reserve su auto al mejor precio por día. 100% confiable y seguro. Alquiler de carros por día. Contamos con una gran flota de autos nuevos. Reserva online. Beneficios Para Empresas. Leasing Corporativo. Precios Especiales. Amplia cobertura. Modelos: Kia, Hyundai, Toyota.' }
             
         ],
-        script:[    
-            {
-            src: "https://secure.networkmerchants.com/token/Collect.js",
-            'data-tokenization-key': "4S33Nz-Zsrp9B-qz2679-kUZAAQ" 
-            }
-        ],
+        script: [{ 
+            children:"  !function(f,b,e,v,n,t,s) {if(f.fbq)return;n=f.fbq=function(){n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)}; if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';    n.queue=[];t=b.createElement(e);t.async=!0;     t.src=v;s=b.getElementsByTagName(e)[0];     s.parentNode.insertBefore(t,s)}(window, document,'script', 'https://connect.facebook.net/en_US/fbevents.js');    fbq('init', '683665672969341');   fbq('track', 'PageView');" }],
+        noscript: [{ 
+            children: ' <img height="1" width="1" style="display:none"   src="https://www.facebook.com/tr?id=683665672969341&ev=PageView&noscript=1"/>' 
+        }],
+
+        // script:[    
+        //     {
+        //     src: "https://secure.networkmerchants.com/token/Collect.js",
+        //     'data-tokenization-key': "4S33Nz-Zsrp9B-qz2679-kUZAAQ" 
+        //     }
+        // ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: './favicon.ico' }
         ]

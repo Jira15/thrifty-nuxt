@@ -4,25 +4,18 @@ import { storeToRefs } from 'pinia'
 import { useSucursalStore } from '@/stores/sucursal'
 import { defineRule, Form, Field, ErrorMessage, configure } from 'vee-validate';
 import { ref, computed } from 'vue';
-
+import addDays from 'date-fns/addDays';
 
 const date = ref(new Date());
 
-const hoursArray = computed(() => {
-  const arr = [];
-  for (let i = 0; i < 24; i++) {
-    arr.push({ text: i < 10 ? `0${i}` : i, value: i });
-  }
-  return arr;
-});
+// codigo dias especificos/feriados
+// const highlightedDates = ref([
+//   addDays(new Date(), 7), 
+// ]) 
+// :highlight="highlightedDates"
+// :disabled-dates="highlightedDates"
+// highlight-disabled-days
 
-const minutesArray = computed(() => {
-  const arr = [];
-  for (let i = 0; i < 60; i++) {
-    arr.push({ text: i < 10 ? `0${i}` : i, value: i });
-  }
-  return arr;
-}); 
 const storeSearch = useSearchStore();
 
 const storeSucursal = useSucursalStore(); 
@@ -38,9 +31,37 @@ onMounted(() => {
 function minimoDeDias(date, days){
     const newDate = new Date(date);
     newDate.setDate(newDate.getDate() + days);
-
     return newDate;
 };  
+
+function getWorkingHours(openingTime, closingTime) {
+    let workingHours = [];
+        for (let i = openingTime; i < closingTime; i++) {
+        workingHours.push({ text: `${i}`, value: i });
+        }
+    return workingHours; 
+}
+
+function domingoCerrados(domingoApertura, domingoCierre){
+    if(domingoApertura === 0 && domingoCierre === 0){
+        return  [0] 
+    }
+} 
+
+function horarioFines(openingTime, closingTime) {
+    let fines = [];
+        for (let i = openingTime; i < closingTime; i++) {
+            fines.push({ text: `${i}`, value: i });
+        }
+    return fines; 
+}
+
+const minutesArray = [
+    {text: '00', value: 0 },
+    {text: '15', value: 15 },
+    {text: '30', value: 30 },
+    {text: '45', value: 45 }, 
+];
 
 </script> 
 <template>
@@ -88,9 +109,17 @@ function minimoDeDias(date, days){
                     <date-picker v-model="storeSearch.fechas" minutesIncrement="30" time-picker disable-time-range-validation range placeholder="Select Time" /> -->
 
                     <section class="fechas"> 
-                        <div> 
+
+                        <div v-if="storeSearch.sucursal"> 
+
                             <label>Fecha de Retiro</label>
-                            <date-picker v-model="storeSearch.fechaRetiro"  :minDate="new Date()"  >
+                            <date-picker 
+                                v-model="storeSearch.fechaRetiro"
+                                :minDate="new Date()"  
+                                :disabled-week-days="domingoCerrados(storeSearch.sucursal.horario_apertura_domingo,storeSearch.sucursal.horario_cierre_domingo)" 
+                                >
+
+
                                 <template #time-picker="{ time, updateTime }">
                                     <div class="custom-time-picker-component">
                                     <select 
@@ -99,7 +128,7 @@ function minimoDeDias(date, days){
                                         
                                         @change="updateTime(+$event.target.value)" >
                                         <option 
-                                        v-for="h in hoursArray"
+                                        v-for="h in getWorkingHours(storeSearch.sucursal.horario_apertura, storeSearch.sucursal.horario_cierre )"
                                         :key="h.value" 
                                         :value="h.value">{{ h.text }}</option>
                                     </select>
@@ -116,11 +145,20 @@ function minimoDeDias(date, days){
                                     </select>
                                     </div>
                                 </template>
+
+
+
                             </date-picker> 
                         </div>
-                        <div>
+
+
+
+
+                        
+                        <div  v-if="storeSearch.sucursalRetorno">
                             <label>Fecha de Retorno</label>
-                            <date-picker v-model="storeSearch.fechaRetorno" :minDate="minimoDeDias(storeSearch.fechaRetiro, 3)">
+                            <date-picker v-model="storeSearch.fechaRetorno" :minDate="minimoDeDias(storeSearch.fechaRetiro, 1)"
+                            :disabled-week-days="domingoCerrados(storeSearch.sucursalRetorno.horario_apertura_domingo, storeSearch.sucursalRetorno.horario_cierre_domingo)" >
                                 <template #time-picker="{ time, updateTime }">
                                     <div class="custom-time-picker-component">
                                     <select 
@@ -128,7 +166,7 @@ function minimoDeDias(date, days){
                                         :value="time.hours"
                                         @change="updateTime(+$event.target.value)" >
                                         <option 
-                                        v-for="h in hoursArray"
+                                        v-for="h in getWorkingHours(storeSearch.sucursalRetorno.horario_apertura, storeSearch.sucursalRetorno.horario_cierre )"
                                         :key="h.value"
                                         :value="h.value">{{ h.text }}</option>
                                     </select>
@@ -155,7 +193,7 @@ function minimoDeDias(date, days){
         </div>  
             <!-- <ErrorMessage name="sucursal" >
                 <p class="warn">Todos los Campos son requeridos</p> 
-            </ErrorMessage>  --> 
+            </ErrorMessage>   -->
     </article> 
 </form>
 

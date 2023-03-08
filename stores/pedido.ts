@@ -33,7 +33,7 @@ export const usePedidoStore = defineStore(
                     combustible:String,
                     marca:String,
                     puertas:Number,
-                    precio_thrifty: number,
+                    precio_thrifty: 0.00,
                     galeria:Array
                 }, 
                 cobertura: {
@@ -349,24 +349,22 @@ export const usePedidoStore = defineStore(
                 return  dropoff; 
                 // return new Intl.NumberFormat('en-US').format(dropoff); 
             },
- 
-    
-            subTotal() {
-
-                let precioAuto 
+            precioAuto(){
+                let precioAuto = 0
                 let tipoReserva = this.pedido.reserva;
-                if(tipoReserva === 'prepago'){
-                    const precio = this.pedido.carro.precio_thrifty;  
-                    let descuento = 5;  
-                    const descuentoCalculado = precio * (descuento / 100);  
-                    const nuevoPrecio = precio - descuentoCalculado;
- 
- 
-                    precioAuto = nuevoPrecio 
-                }
-                else{
-                    precioAuto = this.pedido.carro.precio_thrifty ; 
-                } 
+                    if(tipoReserva === 'prepago'){
+                        const precio = this.pedido.carro.precio_thrifty;  
+                        let descuento = 5;  
+                        const descuentoCalculado = precio * (descuento / 100);  
+                        const nuevoPrecio = precio - descuentoCalculado; 
+                        precioAuto = nuevoPrecio 
+                    }
+                    else{
+                        precioAuto = this.pedido.carro.precio_thrifty ; 
+                    } 
+                return precioAuto
+            },
+            precioCobertura(){ 
                 let precioCobertura
                 let tipoCarro = this.pedido.carro.tipo;
                 if(tipoCarro !== 'Sedan'){
@@ -374,44 +372,58 @@ export const usePedidoStore = defineStore(
                 }
                 else {
                     precioCobertura = this.pedido.cobertura.precio; 
-                } 
-                let precioDias = this.pedido.totalDeDias;  
-                let precioEra = this.pedido.era; 
-                let precioDropoff = this.pedido.dropoff;
- 
-                // JSON.stringify(this.pedido.extras)
-       
+                }
+                return precioCobertura;
+            }, 
+            extrasSumados(){ 
+                // JSON.stringify(this.pedido.extras) 
                 // const precioExtra = this.pedido.extras; 
-                // console.log('extras array' + precioExtra)  
-                const preciosASumar = [];  
-                // sumo todos los extras  any[] = []
-            
-
+                // console.log('extras array' + precioExtra)   
+                // sumo todos los extras  any[] = [] 
                 // const extrasSumados = precioExtra.map(element => element.precio).reduce((a, b) => a + b, 0); 
-                // console.log('extras sumados' + extrasSumados)  
-
-
-                // const extrasSumados = this.extras.reduce((acc, extra) => acc + extra.price, 0);
-
+                // console.log('extras sumados' + extrasSumados)   
+                // const extrasSumados = this.extras.reduce((acc, extra) => acc + extra.price, 0); 
                 //  agrego los precios de cobertura y carro y todos los extras ya sumados al array
-                // preciosASumar.push(extrasSumados, precioCobertura, precioAuto, precioEra, precioDropoff); 
-
-
+                // preciosASumar.push(extrasSumados, precioCobertura, precioAuto, precioEra, precioDropoff);  
                 let extrasSumados = 0;
                 if (Array.isArray(this.pedido.extras)) {
                     for (const extra of this.pedido.extras) {
                     extrasSumados += extra.precio;
                     }
                 }
+                return extrasSumados;
+            },
+            subTotal() {
 
+                let precioAuto = this.precioAuto();
+                let tipoReserva = this.pedido.reserva;
+                if(tipoReserva === 'prepago'){
+                    const precio = this.pedido.carro.precio_thrifty;  
+                    let descuento = 5;  
+                    const descuentoCalculado = precio * (descuento / 100);  
+                    const nuevoPrecio = precio - descuentoCalculado;
+  
+                    precioAuto = nuevoPrecio 
+                }
+                else{
+                    precioAuto = this.pedido.carro.precio_thrifty ; 
+                } 
 
+                let precioCobertura = this.precioCobertura();
+ 
+                let precioDias = this.pedido.totalDeDias;  
+                let precioEra = this.pedido.era; 
+                let precioDropoff = this.pedido.dropoff;
+  
+                const preciosASumar = [];   
 
+                let extrasSumados = this.extrasSumados(); 
                 // const extrasSumados =  this.pedido.extras.reduce((acc: number, extra: any) => acc + extra.precio, 0);
-                console.log('precio extras ' + extrasSumados);
+                console.log('precio extras total' + extrasSumados);
                 console.log('precio drop off ' + precioDropoff);
                 preciosASumar.push( precioAuto, precioEra, precioCobertura, extrasSumados); 
 
-                console.log('cosas para multiplicar x dias' + preciosASumar);
+                // console.log('cosas para multiplicar x dias' + preciosASumar);
 
                 // sumo todo en el array
                 const suma = preciosASumar.map(element => element).reduce((a, b) => a + b, 0);
@@ -419,8 +431,8 @@ export const usePedidoStore = defineStore(
                 const multiplicadoPorDias = suma * precioDias;
 
                 
-                console.log('total de dias' + precioDias)
-                console.log('resultado multiplicado por dias' + multiplicadoPorDias);
+                // console.log('total de dias' + precioDias)
+                // console.log('resultado multiplicado por dias' + multiplicadoPorDias);
 
                 const unSoloMonto = multiplicadoPorDias + precioDropoff; 
                 
@@ -429,58 +441,92 @@ export const usePedidoStore = defineStore(
                 return subTotal; 
             },
             impuestoAeropuerto(){ 
-                let subTotal = this.subTotal();   
-                let impuestoAeropuerto = this.pedido.sucursal.impuesto;   
-                const impuestoAeropuertoCalculado = subTotal * (impuestoAeropuerto / 100); 
-                // const nuevoSubtotal = subTotal + impuestoAeropuertoCalculado; 
-                const impuestoAeropuertoADeber = +(impuestoAeropuertoCalculado.toFixed(2));
+                // impuesto sobre el subtotal pero no la cobertura ni wifi  
+                const precioDias = this.pedido.totalDeDias;
+                const extrasArray = this.pedido.extras;
+                if (this.pedido.sucursal.impuesto > 0){ 
+ 
+                    let precioWifi = 0; 
+                    if (Array.isArray(extrasArray)) {
+                        // find the object with name property set to 'wifi'
+                        const wifiObj = extrasArray.find(obj => obj.id === 5); 
+                            if (wifiObj) {  
+                            precioWifi =  wifiObj.precio; 
+                            console.log('mi lista tiene wifi este es el precio' + precioWifi ); 
+                            } else {
+                            console.log('no contiene "wifi"');
+                            } 
+                        } 
+                    else {
+                            console.log('no hay extras');
+                    } 
+                    let extrasSinWifi = this.extrasSumados() - precioWifi;
+                    const eraSumado = this.pedido.era * precioDias;
+                    const precioAutoSumado = this.precioAuto() * precioDias; 
+                    const extrasSinWifiSumado = extrasSinWifi * precioDias;
 
-                return  impuestoAeropuertoADeber 
+ 
+
+
+                    let cargasAplicablesSaf = precioAutoSumado + extrasSinWifiSumado + eraSumado;
+                    
+                    console.log(    'precioAuto' + precioAutoSumado +
+                                    'extras sumados?' +  this.extrasSumados() +
+                                    'extrasSinWifi' + extrasSinWifi +
+                                    'extrasSinWifiSumado' + extrasSinWifiSumado +
+                                    'eraSumado' + eraSumado +
+                                    'cargasAplicablesSaf' + cargasAplicablesSaf)  
+                    
+
+                    let impuestoAeropuerto = this.pedido.sucursal.impuesto;    
+
+                    const impuestoAeropuertoCalculado = cargasAplicablesSaf * (impuestoAeropuerto / 100);  
+                    const impuestoAeropuertoADeber = +(impuestoAeropuertoCalculado.toFixed(2)); 
+
+                    return  impuestoAeropuertoADeber  
+                }
+                else{
+                    let impuestoAeropuertoADeber = 0;    
+                    return impuestoAeropuertoADeber
+                }
             }, 
             impuesto(){ 
                 let subTotal = this.subTotal(); 
-                let impuestoAeropuerto = this.pedido.sucursal.impuesto;   
-                // Calculate tax due
-                const impuestoAeropuertoCalculado = subTotal * (impuestoAeropuerto / 100);
-                
-                const nuevoSubtotal = subTotal + impuestoAeropuertoCalculado; 
+                let impuestoAeropuerto = this.impuestoAeropuerto();
+                console.log('impuesto aeropuerto en impuesto:' + impuestoAeropuerto); 
+
+                const nuevoSubtotal = subTotal + impuestoAeropuerto; 
                 let impuesto = 7; 
                 // Calculate tax due
                 const impuestoCalculado = nuevoSubtotal * (impuesto / 100);  
 
                 const impuestoADeber = +(impuestoCalculado.toFixed(2));
-                // console.log('impuesto con aeropuerto y nuevo total sumado:' + impuestoADeber); 
+                console.log('impuesto con aeropuerto y nuevo total sumado:' + impuestoADeber); 
 
                 // que siempre formatee como dolares 
                 return  impuestoADeber  
             }, 
             total() {
                 // cuando llamamos la funcion es store.total y el state es store.pedido.total
-                let impuestoAeropuerto = 0;
-                if ( this.pedido.sucursal.impuesto)
-                {
-                    impuestoAeropuerto = this.pedido.sucursal.impuesto;    
-                }
-                let subTotal = this.subTotal();   
-                let impuesto = 7;  
-                const impuestoAeropuertoCalculado = subTotal * (impuestoAeropuerto / 100);
+                // let impuestoAeropuerto = 0;
+                // if ( this.pedido.sucursal.impuesto)
+                // {
+                //     impuestoAeropuerto = this.pedido.sucursal.impuesto;    
+                // }
+                let subTotal = this.subTotal();
+                let impuestoAeropuerto = this.impuestoAeropuerto();
+                let impuesto = this.impuesto();  
 
-                const nuevoSubtotal = subTotal + impuestoAeropuertoCalculado;
-                // Calculate tax due
-                const impuestoADeber = nuevoSubtotal * (impuesto / 100);
-                // Calculate final price
-                const impuestoSumado = nuevoSubtotal * (1 + (impuesto / 100));
-                
-                let precioFinal = +(impuestoSumado.toFixed(2)); 
-                // console.log(
-                //     "Subtotal: $" + subTotal + 
-                //     'impuestoAeropuerto viene de sucursal  ' +  impuestoAeropuerto +
-                //     "\n Impuesto Aeropuerto: " + impuestoAeropuertoCalculado + 
-                //     "\n nuevo Subtotal: " + nuevoSubtotal + 
-                //     "%\n Impuesto Final: $" + impuestoADeber + 
-                //     "\n\nFinal price: $" + precioFinal);
+                // const impuestoSumado = nuevoSubtotal * (1 + (impuesto / 100));
+                // const precioFinal = +(impuestoSumado.toFixed(2)); 
+                const total = subTotal + impuestoAeropuerto + impuesto; 
+                console.log(
+                    "\n Subtotal: $" + subTotal + 
+                    '\n ImpuestoAeropuerto ' +  impuestoAeropuerto + 
+                    "\n Impuesto Final: $" + impuesto + 
+                    "\n Final price: $" + total);
                     
-                return new Intl.NumberFormat('en-US').format(precioFinal); 
+                return new Intl.NumberFormat('en-US').format(total); 
             }   
         } 
     }   

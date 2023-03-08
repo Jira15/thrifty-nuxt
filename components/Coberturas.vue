@@ -53,7 +53,7 @@ onMounted(() => {
                     </p>
                 </div>
                 <footer> 
-                    <h4>B/. 3.99 </h4>  
+                    <h4>B/. 3.99 / por día</h4>  
                 </footer>
             </article>
         </li> 
