@@ -7,7 +7,7 @@ import { schema } from '@/types/search-schema-yup';
 export const useSearchStore = defineStore('search',  () => { 
     let searchIs = ref('default')
     const storePedido = usePedidoStore();
-    const router = useRouter();
+    const router = useRouter(); 
 
     const mostrarWarning = ref(false)
 
@@ -36,8 +36,9 @@ export const useSearchStore = defineStore('search',  () => {
         storePedido.pedido.diaRetiro = values.fechaRetiro; 
         storePedido.pedido.sucursalRetorno = values.sucursalRetorno; 
         storePedido.pedido.diaRetorno = values.fechaRetorno;  
-        router.push('/reserva/'); 
-        searchIs = ref('TheProgress');
+        
+        searchIs = ref('TheProgress');  
+        router.push('/reserva/');  
     });   
     return {
         errors,

@@ -10,8 +10,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
 
     const { createItems } = useDirectusItems(); 
     const storePedido = usePedidoStore();
-    const totalPedido = storePedido.total();   
-    console.log(totalPedido);   
+    const totalPedido = storePedido.total();  
  
     const metodos = ref('none')
  

@@ -93,6 +93,7 @@ const horaFormat = function(value) {
         color: white;
         border-radius:10px;
         align-self: flex-end; 
+        cursor: pointer;
     }
 } 
 // Desktop  

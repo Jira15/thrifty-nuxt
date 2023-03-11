@@ -1,8 +1,16 @@
 <script setup>   
-
+import { usePedidoStore } from '@/stores/pedido';    
 useHead({
         title: 'Gracias | Thrifty Car Rental Panamá'
     });
+
+
+ 
+onMounted(() => {
+    // usePedidoStore.$reset();
+}) 
+
+
 </script>  
 
 

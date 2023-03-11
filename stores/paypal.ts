@@ -10,9 +10,9 @@ export const usePaypalStore = defineStore('paypal',  () => {
     const totalPedido = storePedido.pedido.total; 
 
     const router = useRouter();
-    
+    //  SANDBOX API "client-id": "Aa2-lyJOfSxdyNqdMX_91EI24gW16qkYhzIJKxg4rq_dYC5HFDz7Sjb5FUp_UZ54dFDQ46lNQ2ykix-u",
     loadScript({ 
-      "client-id": "Aa2-lyJOfSxdyNqdMX_91EI24gW16qkYhzIJKxg4rq_dYC5HFDz7Sjb5FUp_UZ54dFDQ46lNQ2ykix-u",
+      "client-id": "AauU5ZBGbHQmw4NSSD3m8p_JC5an_3cscA7RZ52dH0YBZsKa5Za-X8aPlxf1FkowqAb0phFjjETUUnCl",
       "currency": "USD",
       "data-page-type": "checkout",
     }).then((paypal) => {

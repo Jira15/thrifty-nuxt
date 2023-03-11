@@ -60,8 +60,14 @@ useHead({
 <template>
 <main class="auto">
     <ThePrompt />
+
+    
+    <Filtros></Filtros>
     <div class="wrapper">
         <article v-for="auto in autos" :key="auto.id"> 
+            <div class="promocion" v-if="auto.status === 'promocion'">
+                <img src="@/assets/images/promo.png" alt="Pasajeros" />  
+            </div>
             <section>
                 <header>  
                     <figure> 
@@ -287,7 +293,57 @@ useHead({
         display:none;
     }
 }
- 
+.promocion {
+    position: absolute; 
+    opacity:80%;
+    margin-top: -5px;
+    margin-left: -5px;
+    display: flex; 
+    img {
+        max-width: 100px;
+        max-height: 100px;      
+    }
+}
+
+.disponibilidad
+{
+    background-color: #25D366; 
+    padding: 5px 15px;
+    border-radius: 5px; 
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;   
+    width: 100%;
+    text-align: center; 
+}
+
+.verificar { 
+    
+        background-color: #047EFF;
+        padding: 5px 15px;
+        border-radius: 5px; 
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: 600;
+        color: white;   
+        width: 100%;
+        text-align: center; 
+
+        a {
+            background-color: #047EFF;
+            padding: 5px 15px;
+            border-radius: 5px; 
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;   
+            width: 100%;
+            text-align: center;
+            
+        }
+
+} 
 
 // Desktop  
 @media screen and (min-width: 768px) {

@@ -67,6 +67,7 @@ export const useNoPagoStore = defineStore('nopago',  () => {
                 } ]; 
                 createItems<Pedido>({ collection: "pedidos", items });
                 router.push('/thanks/'); 
+                 
     } 
     return {
         errors,

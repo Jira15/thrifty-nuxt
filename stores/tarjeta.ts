@@ -14,8 +14,9 @@ export const useTarjetaStore = defineStore
     actions: { 
         async onSubmit() {  
             const orderId = this.orden.pedidos_id 
-            console.log(orderId)
+            // console.log(orderId)
             const bodyData = {
+                // wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4 TEST API
                 'security_key': 'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
                 'first_name': this.orden.nombre,
                 'last_name': this.orden.apellido,
@@ -45,7 +46,7 @@ export const useTarjetaStore = defineStore
                 body: bodyData ,   
             }).then(function (response) {    
                 const router = useRouter(); 
-                console.log('THEN' + orderId)   
+                // console.log('THEN' + orderId)   
                 let respuesta = response; 
                 let codigoAprobado = 'response=1';
                 let codigoTransaccionDeclinada = 'response=2';

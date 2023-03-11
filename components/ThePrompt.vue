@@ -45,6 +45,7 @@ onMounted(() => {
         font-size: 20px; 
         font-weight: bold;
         padding: 0.2rem;
+        cursor: pointer;
     } 
     legend {
         font-size: 14px;
