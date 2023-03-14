@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'  
-const { getItems } = useDirectusItems();  
-
+ 
 export const useVacantesStore = defineStore('vacantes', {
     // a function that returns a fresh state - STATE ES COMO DATA
 state: () => ({ 
@@ -16,6 +15,8 @@ getters: {
 actions: {
         async fetchVacantes(){
                 try { 
+                    const { getItems } = useDirectusItems();  
+
                     const vacantes = await getItems(
                         { collection: "bolsa_trabajo", params : { fields: ["*","picture.*"] }});
                         this.vacantes = vacantes

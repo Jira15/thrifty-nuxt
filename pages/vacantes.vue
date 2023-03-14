@@ -10,7 +10,7 @@ const vacantes = computed(() => {
     return storeVacantes.vacantes
 }) 
 const candidato = computed(() => {
-    return storeCandidato.candidato
+    return storeCandidato
 }) 
 onMounted(() => {
     storeVacantes.fetchVacantes(); 
@@ -50,16 +50,62 @@ useHead({
                 </li>
             </ul>
         </article> 
-    </section>
+    </section> 
 
 
+ 
 
     <section class="candidato"> 
         <h3>Dejanos tu Información</h3>  
-            <Form @submit="storeCandidato.crearCandidato">
+
+
+
+<!-- 
+        <input type="text" v-model="candidato.nombre" /><br/>
+        <input type="text" v-model="candidato.apellido" /><br/>
+        <input type="text" v-model="candidato.telefono" /><br/>
+        <input type="text" v-model="candidato.email" /><br/>
+        <input type="file"   ref="cvInput" @change="candidato.handleFileUpload" />
+        <button @click="candidato.handleSubmit">Submit</button>
+    
+     -->
+
+            
+        <div>
             <fieldset>
                 <p>
                     <label for="nombre">Nombre</label>
+                    <input type="text" v-model="candidato.nombre" id="nombre" name="nombre" rules="required" placeholder="Nombre" />
+ 
+                </p> 
+                <p>
+                    <label for="apellido">Apellido</label>
+                    <input type="text" v-model="candidato.apellido" id="apellido" name="apellido" rules="required"   placeholder="Apellido"/>
+                </p>  
+                <p>
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" v-model="candidato.telefono"  id="telefono" name="telefono"   placeholder="Teléfono" rules="required"  />
+                </p>  
+                <p>
+                    <label for="email">Correo electrónico</label>
+                    <input type="text" v-model="candidato.email"  id="email" name="email" rules="required"   placeholder="Correo"  />
+                </p>    
+                <p>
+                    <label for="cv">Hoja de vida(solo archivos docx o PDF):</label> 
+                    <input type="file"   ref="cvInput" @change="candidato.handleFileUpload" />
+                </p> 
+            </fieldset>  
+            <button @click="candidato.handleSubmit">Enviar</button>
+        </div>  
+
+
+
+    
+            <!-- <Form @submit="candidato.handleSubmit">
+            <fieldset>
+                <p>
+                    <label for="nombre">Nombre</label>
+                    <input type="text" v-model="candidato.nombre" id="nombre" name="nombre" rules="required" placeholder="Nombre" />
                     <Field  type="text" id="nombre" name="nombre" rules="required" placeholder="Nombre" />  
                     <ErrorMessage name="nombre" >
                         <p class="warning">Todos los Campos son requeridos</p> 
@@ -96,7 +142,7 @@ useHead({
                 </p> 
             </fieldset> 
             <button type="submit">Enviar</button> 
-        </Form>
+        </Form>   -->
     </section>
 
 </main>

@@ -42,7 +42,7 @@ export default {
                     </ul>
                 </li> 
                 <li><NuxtLink href="https://wa.link/n4yy20" target="_blank">Reservas a USA</NuxtLink></li> 
-                <li><NuxtLink to="/clientes">Paga/Mira tu Reserva</NuxtLink></li>
+                <li><NuxtLink to="/clientes">Maneja tu Reserva</NuxtLink></li>
                 <li>  
                     <button @click="storeLenguaje.setEN()"> EN </button> |
                     <button @click="storeLenguaje.setES()"> ES </button>
