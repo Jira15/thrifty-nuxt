@@ -3,11 +3,13 @@ import { useForm } from 'vee-validate';
 import { usePedidoStore } from '@/stores/pedido';     
 import { Pedido } from '~~/types/interfaces';   
 import moment from 'moment'; 
-import { checkoutSchema } from '@/types/checkout-schema-yup';
+import { checkoutSchema } from '@/types/checkout-schema-yup'; 
+import { createProxyMiddleware }from 'http-proxy-middleware' 
+import axios from 'axios';
+ 
 
 
-export const useCheckoutStore = defineStore('checkout',  () => { 
-
+export const useCheckoutStore = defineStore('checkout',  () => {  
     const { createItems } = useDirectusItems(); 
     const storePedido = usePedidoStore();
     const totalPedido = storePedido.total();  
@@ -39,11 +41,16 @@ export const useCheckoutStore = defineStore('checkout',  () => {
         'nacimiento'
         ]);
  
+
+
+        
     async function onSubmit(values) {
+ 
+
       // Submit values to API... 
       console.log('Submit', JSON.stringify(values, null, 2));
-      console.log("Values", values);   
-        const bodyData = {
+    //   console.log("Values", values);   
+        const data = {
             'security_key': 'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
             'first_name': storePedido.pedido.cliente.nombre,
             'last_name': storePedido.pedido.cliente.apellido,
@@ -59,25 +66,62 @@ export const useCheckoutStore = defineStore('checkout',  () => {
             'shipping_zip' : '98765', 
             'type': 'sale',
             'amount': totalPedido,
-            'ccnumber': this.tarjeta.ccnumber, 
+            'ccnumber': this.tarjeta.ccnumber,  
             'ccexp': this.tarjeta.ccexp,
             'cvv': this.tarjeta.cvv
         }    
-        await $fetch( '/api/tarjeta', { 
-            method: 'POST',
-            // headers: {  
-            //     'Content-Type': 'application/x-www-form-urlencoded',
-            // },
-            params: bodyData,
-            body: bodyData ,   
-        }).then(function (response) {    
+ 
+        // await axios.post( '/api/tarjeta', {   $fetch 
+
+ 
+//    CODIGO NUEVO
+ 
+  
+//   const proxyUrl = 'http://localhost:3000'; // the URL of your proxy server
+//   const params = new URLSearchParams(data).toString();
+//   const url = proxyUrl;
+//   console.log(url)
+//   return axios.post(url, params, {
+//     headers: {
+//       'Content-Type': 'application/x-www-form-urlencoded',
+//     },
+//   })
+//     .then(response => {
+//       console.log('Post request successful:', response.data);
+//       return response.data;
+//     })
+//     .catch(error => {
+//       console.error('Post request failed:', error);
+//       throw error;
+//     });
+
+
+// CODIGO NUEVO    
+//   const proxyUrl = 'http://localhost:3000'; // the URL of your proxy server
+//   const params = new URLSearchParams(data).toString();
+//   const url = proxyUrl;
+    axios.defaults.baseURL = 'http://localhost:3000';
+    const params = new URLSearchParams(data).toString();
+    await axios.post( '/api/tarjeta'
+                        ,params ,
+                        {
+                            headers: {
+                              'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                          }) 
+                        .then(function (response) { 
+                            
             const router = useRouter();  
 
-            let respuesta = response; 
+            let respuesta = response.data; 
             let codigoAprobado = 'response=1';
             let codigoTransaccionDeclinada = 'response=2';
             let codigoErrorSistema = 'response=3'; 
 
+            console.log('respuesta tarjeta', respuesta)
+            console.log('Response', response)
+
+ 
             if (respuesta.includes(codigoAprobado)){   
               
               console.log('codigoAprobado')   

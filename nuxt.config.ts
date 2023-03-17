@@ -56,7 +56,7 @@ export default defineNuxtConfig({
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [ 
             'nuxt-directus', 
-            'nuxt-proxy',
+            // 'nuxt-proxy',  
             [
                 '@pinia/nuxt',
                 {
@@ -69,19 +69,27 @@ export default defineNuxtConfig({
                     ],
                 },
             ],
-        ],
-    proxy: {
-        options: {
-            target: 'https://secure.networkmerchants.com/api/transact.php',
-            changeOrigin: true,
-            headers: {  
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            pathFilter: [
-                '/api/tarjeta', 
-              ]
-        },
-    },
+        ], 
+  
+    // vite: {
+    //     server: {
+    //         proxy: {
+    //         '/api/tarjeta': 'http://localhost:3000',
+    //         },
+    //     }
+    // },
+    // proxy: {
+    //     options: {
+    //         target: 'https://secure.networkmerchants.com/api/transact.php',
+    //         changeOrigin: true,
+    //         headers: {  
+    //             'Content-Type': 'application/x-www-form-urlencoded',
+    //         },
+    //         pathFilter: [
+    //             '/api/tarjeta', 
+    //           ]
+    //     },
+    // },
 	directus: {
 		url: "https://admin.intermarketing.com.pa",
 	},  

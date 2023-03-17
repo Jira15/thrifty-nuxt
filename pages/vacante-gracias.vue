@@ -2,7 +2,6 @@
 useHead({
         title: 'Vacante solicitada | Thrifty Car Rental Panamá'
     });
-
  
 
 </script>  
