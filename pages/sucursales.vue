@@ -40,20 +40,20 @@ useHead({
                     Telefonos:  {{ sucursal.telefono_1 }} <br />
                     {{ sucursal.telefono_2 }} 
                 </p>
-                <p v-if="sucursal.horario_apertura === 24 && sucursal.horario_apertura_domingo === 24 ">
+                <p v-if="sucursal.horario_apertura === 0 && sucursal.horario_apertura_domingo === 0 ">
                     Abierto 24 horas
                 </p> 
-                <p v-if="sucursal.horario_apertura != 24">
+                <p v-if="sucursal.horario_apertura != 24 && sucursal.horario_apertura != 0">
                     Lunes a Viernes: {{ sucursal.horario_apertura }}:00 a {{ sucursal.horario_cierre }}:00 
                 </p> 
                 <p v-if="sucursal.horario_apertura_sabado > 0 && sucursal.horario_cierre_sabado != 24">
                     Sabados: {{ sucursal.horario_apertura_sabado }}:00 a {{ sucursal.horario_cierre_sabado }}:00 
                 </p>
-                <p  v-if="sucursal.horario_apertura_sabado === 0 ">
+                <p  v-if="sucursal.horario_apertura_sabado === 24 ">
                     Sabados: Cerrados 
                 </p>
                 <!-- hacer un if si apertura en cero, es mayor o 24-->
-                <p  v-if="sucursal.horario_apertura_domingo === 0">
+                <p  v-if="sucursal.horario_apertura_domingo === 24">
                     Domingos: Cerrados 
                 </p>
                 <p  v-if="sucursal.horario_apertura_domingo > 0  && sucursal.horario_apertura_domingo != 24">

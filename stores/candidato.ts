@@ -1,46 +1,19 @@
-import { defineStore } from 'pinia' 
-
-import { useForm } from 'vee-validate'; 
-import { vacanteSchema } from '@/types/vacante-schema-yup';  
-
-
+import { defineStore } from 'pinia'; 
+import { ref, computed } from 'vue'; 
 export const useCandidatoStore = defineStore('candidato',  () => { 
 
-     
-    const { createItems } = useDirectusItems();   
+    const { createItems } = useDirectusItems();
     const nombre = ref('');
     const apellido = ref('');
     const telefono = ref('');
     const email = ref('');
     const cv = ref(null);
 
+    function handleFileUpload(event) {
+        cv.value = event.target.files[0];
+    }
 
-
-    // const { errors, useFieldModel, handleSubmit, values } = useForm({
-    //     validationSchema: vacanteSchema,
-    // });
-
-    // const [
-    //     nombre,
-    //     apellido,
-    //     email,
-    //     telefono,
-    //     cv
-    //     ] = useFieldModel([
-    //     'nombre',
-    //     'apellido',
-    //     'email',
-    //     'telefono',
-    //     'cv'
-    //     ]);
-
- 
-
-function handleFileUpload(event) {
-    cv.value = event.target.files[0];
-} 
-async function handleSubmit() {
-    const router = useRouter();  
+async function handleSubmit() { 
     try {
         // Upload the file to the Directus file library 
         const formData = new FormData(); 
@@ -68,20 +41,21 @@ async function handleSubmit() {
                 console.log('item response', itemResponse)
             })
             .catch(error => console.error(error)) 
-
+ 
+        const router = useRouter();  
         router.push('/vacante-gracias/');    
-    } catch (error) {
-        console.error(error)
+    }   catch (error) {
+        console.error(error);
     }
 } 
-    return {
-        nombre, 
+return {
+        nombre,
         apellido,
         email,
-        telefono, 
+        telefono,
         cv,
         handleFileUpload,
         handleSubmit
-    }; 
+    };
 
 });    

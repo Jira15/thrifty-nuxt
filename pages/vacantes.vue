@@ -60,89 +60,33 @@ useHead({
 
 
 
-<!-- 
-        <input type="text" v-model="candidato.nombre" /><br/>
-        <input type="text" v-model="candidato.apellido" /><br/>
-        <input type="text" v-model="candidato.telefono" /><br/>
-        <input type="text" v-model="candidato.email" /><br/>
-        <input type="file"   ref="cvInput" @change="candidato.handleFileUpload" />
-        <button @click="candidato.handleSubmit">Submit</button>
-    
-     -->
-
-            
-        <div>
-            <fieldset>
-                <p>
-                    <label for="nombre">Nombre</label>
-                    <input type="text" v-model="candidato.nombre" id="nombre" name="nombre" rules="required" placeholder="Nombre" />
  
-                </p> 
-                <p>
-                    <label for="apellido">Apellido</label>
-                    <input type="text" v-model="candidato.apellido" id="apellido" name="apellido" rules="required"   placeholder="Apellido"/>
-                </p>  
-                <p>
-                    <label for="telefono">Teléfono</label>
-                    <input type="text" v-model="candidato.telefono"  id="telefono" name="telefono"   placeholder="Teléfono" rules="required"  />
-                </p>  
-                <p>
-                    <label for="email">Correo electrónico</label>
-                    <input type="text" v-model="candidato.email"  id="email" name="email" rules="required"   placeholder="Correo"  />
-                </p>    
-                <p>
-                    <label for="cv">Hoja de vida(solo archivos docx o PDF):</label> 
-                    <input type="file"   ref="cvInput" @change="candidato.handleFileUpload" />
-                </p> 
-            </fieldset>  
-            <button @click="candidato.handleSubmit">Enviar</button>
-        </div>  
-
-
-
-    
-            <!-- <Form @submit="candidato.handleSubmit">
-            <fieldset>
-                <p>
-                    <label for="nombre">Nombre</label>
-                    <input type="text" v-model="candidato.nombre" id="nombre" name="nombre" rules="required" placeholder="Nombre" />
-                    <Field  type="text" id="nombre" name="nombre" rules="required" placeholder="Nombre" />  
-                    <ErrorMessage name="nombre" >
-                        <p class="warning">Todos los Campos son requeridos</p> 
-                    </ErrorMessage>
-                </p> 
-                <p>
-                    <label for="apellido">Apellido</label>
-                    <Field  type="text" id="apellido" name="apellido" rules="required"   placeholder="Apellido"/> 
-                    <ErrorMessage name="apellido" >
-                        <p class="warning">Todos los Campos son requeridos</p> 
-                    </ErrorMessage>
-                </p>  
-                <p>
-                    <label for="telefono">Teléfono</label>
-                    <Field  type="text" id="telefono" name="telefono"   placeholder="Teléfono" rules="required"   />
-                    <ErrorMessage name="telefono" > 
-                        <p class="warning">Todos los Campos son requeridos</p> 
-                    </ErrorMessage> 
-                </p>  
-                <p>
-                    <label for="email">Correo electrónico</label>
-                    <Field  type="text" id="email" name="email" rules="required"   placeholder="Correo" /> 
-                    <ErrorMessage name="email" > 
-                        <p class="warning">Todos los Campos son requeridos</p> 
-                    </ErrorMessage>  
-                </p>    
+    <div>
+        <fieldset>
+            <p>
+                <label for="nombre">Nombre</label>
+                <input type="text" v-model="candidato.nombre" id="nombre" name="nombre" required placeholder="Nombre" />
+              </p>
               <p>
-                    <label for="cv">Hoja de vida(solo archivos docx o PDF):</label> 
-
-                    <Field    type="file" id="cv" name="cv"     placeholder="cv" /> 
-                    <ErrorMessage name="cv" > 
-                        <p class="warning">Todos los Campos son requeridos</p> 
-                    </ErrorMessage> 
-                </p> 
-            </fieldset> 
-            <button type="submit">Enviar</button> 
-        </Form>   -->
+                <label for="apellido">Apellido</label>
+                <input type="text" v-model="candidato.apellido" id="apellido" name="apellido" required placeholder="Apellido" />
+              </p>
+              <p>
+                <label for="telefono">Teléfono</label>
+                <input type="tel" v-model="candidato.telefono" id="telefono" name="telefono" required placeholder="Teléfono" pattern="\d+" title="Solo se permiten números en el teléfono" />
+              </p>
+              <p>
+                <label for="email">Correo electrónico</label>
+                <input type="email" v-model="candidato.email" id="email" name="email" required placeholder="Correo" />
+              </p>
+              <p>
+                <label for="cv">Hoja de vida(solo archivos docx o PDF):</label>
+                <input type="file" ref="cvInput" @change="candidato.handleFileUpload" required />
+              </p>
+        </fieldset>  
+         
+        <button  type="submit" @click="candidato.handleSubmit">Enviar</button>
+    </div>   
     </section>
 
 </main>

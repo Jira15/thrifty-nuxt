@@ -71,35 +71,6 @@ export const useCheckoutStore = defineStore('checkout',  () => {
             'cvv': this.tarjeta.cvv
         }    
  
-        // await axios.post( '/api/tarjeta', {   $fetch 
-
- 
-//    CODIGO NUEVO
- 
-  
-//   const proxyUrl = 'http://localhost:3000'; // the URL of your proxy server
-//   const params = new URLSearchParams(data).toString();
-//   const url = proxyUrl;
-//   console.log(url)
-//   return axios.post(url, params, {
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//     },
-//   })
-//     .then(response => {
-//       console.log('Post request successful:', response.data);
-//       return response.data;
-//     })
-//     .catch(error => {
-//       console.error('Post request failed:', error);
-//       throw error;
-//     });
-
-
-// CODIGO NUEVO    
-//   const proxyUrl = 'http://localhost:3000'; // the URL of your proxy server
-//   const params = new URLSearchParams(data).toString();
-//   const url = proxyUrl;
     axios.defaults.baseURL = 'http://localhost:3000';
     const params = new URLSearchParams(data).toString();
     await axios.post( '/api/tarjeta'
