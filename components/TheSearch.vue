@@ -209,7 +209,7 @@ const minutesArray = [
                             locale="es"
                             
                             :start-time="startTime" 
-                            v-model="storeSearch.fechaRetorno" :minDate="minimoDeDias(storeSearch.fechaRetiro, 2)"
+                            v-model="storeSearch.fechaRetorno" :minDate="minimoDeDias(storeSearch.fechaRetiro, 1)"
                             :disabled-week-days="domingoCerrados(storeSearch.sucursalRetorno.horario_apertura_domingo, storeSearch.sucursalRetorno.horario_cierre_domingo)" 
                             >
                                 <template #time-picker="{ time, updateTime }">

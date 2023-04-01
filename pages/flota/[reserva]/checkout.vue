@@ -29,7 +29,8 @@ onMounted(() => {
     
     <section class="detalles-conductor"> 
         <h3>Finaliza tu reserva</h3> 
-        <Form @submit="preventDefault();">
+        <!-- <Form  > -->
+            <div class="forma">
             <!-- <Form @submit="storeCheckout.metodos = 'metodos'"> -->
         <fieldset>
             <p>
@@ -92,6 +93,7 @@ onMounted(() => {
 
             <div class="reserva"  v-if="storePedido.pedido.reserva === 'prepago' " > 
                 <button type="submit" @click="storeCheckout.metodos = 'metodos'" > 
+                    <!-- <button type="submit" @click="storeCheckout.metodos = 'metodos'" >  -->
                     Siguiente
                 </button>  
             </div>
@@ -100,7 +102,7 @@ onMounted(() => {
                 <h2>Metodos de Pago</h2>
                 <FormaPago />
             </div>  
-        </Form>   
+        </div>   
     </section> 
 </main> 
 </template>
@@ -241,7 +243,7 @@ onMounted(() => {
                 display: flex; 
                 flex-wrap: wrap; 
             }
-            form { 
+            .forma { 
                 display: flex; 
                 flex-direction: column;
                 margin-bottom: 10px; 
@@ -260,6 +262,17 @@ onMounted(() => {
                     display: flex; 
                     flex-direction: column;
                     justify-content: space-between; 
+                } 
+                button {
+                    background-color: #047EFF;
+                    padding: 5px 15px;
+                    border-radius: 5px; 
+                    text-transform: uppercase;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: white;    
+                    text-align: center;
+                    cursor:pointer;
                 }  
             }
         }

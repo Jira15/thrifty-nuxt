@@ -70,14 +70,19 @@ export default defineNuxtConfig({
                 },
             ],
         ], 
-  
-    // vite: {
-    //     server: {
-    //         proxy: {
-    //         '/api/tarjeta': 'http://localhost:3000',
-    //         },
-    //     }
-    // },
+    // serverMiddleware: [
+    //     {
+    //         path: '/api/tarjeta',
+    //         handler: '@/middleware/proxy.js',
+    //     },
+    // ],
+    vite: {
+        server: {
+            proxy: {
+            '/api/tarjeta': 'https://secure.networkmerchants.com/api/transact.php',
+            },
+        }
+    },
     // proxy: {
     //     options: {
     //         target: 'https://secure.networkmerchants.com/api/transact.php',

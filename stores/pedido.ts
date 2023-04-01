@@ -420,7 +420,7 @@ export const usePedidoStore = defineStore(
 
                 const unSoloMonto = multiplicadoPorDias + precioDropoff; 
                  
-                const subTotal = +(unSoloMonto.toFixed(2)); 
+                const subTotal = unSoloMonto; 
                 return subTotal; 
             },
             impuestoAeropuerto(){ 

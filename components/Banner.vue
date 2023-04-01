@@ -9,7 +9,7 @@ const banner = await getItems({ collection: "banner_principal" });
 </script>
 
 <template>   
-<section class="banner"> 
+<section class="banner" id="nserv"> 
     <vueper-slides :slide-ratio="1 / 2" fixed-height="350px" :arrows="false" :bullets="false" autoplay> 
         <vueper-slide v-for="banner in banner"
         :key="banner.id"  :image="getAssetURL(banner.banner)" />
