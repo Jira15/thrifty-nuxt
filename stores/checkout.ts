@@ -6,7 +6,7 @@ import moment from 'moment';
 import { checkoutSchema } from '@/types/checkout-schema-yup'; 
 import { createProxyMiddleware }from 'http-proxy-middleware' 
 import axios from 'axios';
- 
+import qs from 'qs';
 
 
 export const useCheckoutStore = defineStore('checkout',  () => {  
@@ -44,7 +44,7 @@ export const useCheckoutStore = defineStore('checkout',  () => {
 
 
         
-async function onSubmit(values) { 
+async function onSubmit(values, origin) { 
     console.log('Submit', JSON.stringify(values, null, 2));
     //   console.log("Values", values);   
     const paramsQ = {
@@ -68,10 +68,12 @@ async function onSubmit(values) {
         'cvv': this.tarjeta.cvv
     }     
 // Create a URL object with the base API endpoint
-const url = new URL('/api/tarjeta', window.location.origin);
+ 
+
+const url = new URL('/api/tarjeta',origin);
 
   // Add the query string parameters to the URL using URLSearchParams
-url.search = new URLSearchParams(paramsQ).toString(); 
+// url.search = new URLSearchParams(qs.stringify(paramsQ)).toString(); 
 
 
 console.log('Final URL:', url.toString()); // Log the final URL
@@ -83,13 +85,28 @@ console.log('Final URL:', url.toString()); // Log the final URL
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
         }, 
-        params: paramsQ
+        // params: paramsQ 
       }; 
 
 
 
+      
+
       try {
-        const response = await axios(url.toString(), requestOptions);
+        // const response = await axios(url.toString(), requestOptions);
+
+              
+            const response = await axios.post(url.toString(), qs.stringify(paramsQ), {
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',  
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+                },
+                params: paramsQ
+            });
+
+
+
         const responseText = await response.data;
 
         console.log('Data:', responseText);

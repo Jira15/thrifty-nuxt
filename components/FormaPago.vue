@@ -10,12 +10,55 @@ const storeCheckout = useCheckoutStore();
 const pedido = computed(() => {
     return storePedido.pedido
 })   
+
+
+
+
+const store = useCheckoutStore();
+const origin = ref(null);
+const ccnumber = ref('');
+const ccexp = ref('');
+const cvv = ref('');
+
+
+
+onBeforeMount(() => {
+  if (import.meta.env.SSR) {
+    return;
+  }
+  origin.value = window.location.origin;
+});
+
+
+
+onBeforeMount(() => {
+  if (import.meta.env.SSR) {
+    return;
+  }
+  origin.value = window.location.origin;
+});
+
+
+
+async function submitForm() {
+  // Collect the form values here
+  const values = {
+    ccnumber: ccnumber.value,
+    ccexp: ccexp.value,
+    cvv: cvv.value,
+  };
+
+  await storeCheckout.onSubmit(values, origin.value);
+}
+
+
+
 </script> 
 
 <template>
 <section class="metodos" > 
     
-    <section class="tarjeta">  
+    <form class="tarjeta" @submit.prevent="submitForm">
         <p>
             <label>Número de la Tarjeta</label>  
             <input type="text" placeholder="0000 0000 0000 000" name="ccnumber" v-model="storeCheckout.tarjeta.ccnumber" />
@@ -28,8 +71,8 @@ const pedido = computed(() => {
             <label>CCV</label>  
             <input type="text" placeholder="123" name="cvv" class="cvv" v-model="storeCheckout.tarjeta.cvv" />
         </p>   
-    <button type="submit" @click="storeCheckout.onSubmit">Pagar</button>
-</section>  
+       <button type="submit">Pagar</button>
+    </form>  
 
 
     <div id="paypal-button">
