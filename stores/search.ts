@@ -35,7 +35,7 @@ export const useSearchStore = defineStore('search',  () => {
         storePedido.pedido.sucursal = values.sucursal; 
         storePedido.pedido.diaRetiro = values.fechaRetiro; 
         storePedido.pedido.sucursalRetorno = values.sucursalRetorno; 
-        storePedido.pedido.diaRetorno = values.fechaRetorno;  
+        storePedido.pedido.diaRetorno = values.fechaRetorno;   
         
         searchIs = ref('TheProgress');  
         router.push('/reserva/');  

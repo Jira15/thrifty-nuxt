@@ -306,14 +306,12 @@ useHead({
 }
 
 .disponibilidad
-{
-    background-color: #25D366; 
+{ 
     padding: 5px 15px;
     border-radius: 5px; 
     text-transform: uppercase;
     font-size: 16px;
-    font-weight: 600;
-    color: white;   
+    font-weight: 600; 
     width: 100%;
     text-align: center; 
 }

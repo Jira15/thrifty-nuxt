@@ -3,19 +3,11 @@ import { useSearchStore } from '@/stores/search'
 import { storeToRefs } from 'pinia' 
 import { useSucursalStore } from '@/stores/sucursal'
 import { defineRule, Form, Field, ErrorMessage, configure } from 'vee-validate';
-import { ref, computed } from 'vue';
-import addDays from 'date-fns/addDays';
-
+import { ref, computed } from 'vue'; 
 const date = ref(new Date());
 
-// codigo dias especificos/feriados
-// const highlightedDates = ref([
-//   addDays(new Date(), 7), 
-// ]) 
-// :highlight="highlightedDates"
-// :disabled-dates="highlightedDates"
-// highlight-disabled-days
-
+ 
+ 
 const storeSearch = useSearchStore();
 
 const storeSucursal = useSucursalStore(); 
@@ -24,10 +16,12 @@ const sucursales = computed(() => {
     return storeSucursal.sucursales
 }) 
 onMounted(() => {
-    storeSucursal.fetchSucursales();   
+    storeSucursal.fetchSucursales();    
     // storeSearch.options = sucursales;
 }) 
 
+
+ 
 function minimoDeDias(date, days){
     const newDate = new Date(date);
     newDate.setDate(newDate.getDate() + days);
@@ -40,6 +34,25 @@ function minimoDeHoras(date, horas){
     newDate.setDate(newDate.getDate() + horas);
     return newDate;
 };  
+
+
+// ejemplo como desactivar
+// codigo dias especificos/feriados
+// const highlightedDates = ref([
+//   addDays(new Date(), 4), 
+// ]) 
+// :highlight="highlightedDates"
+// :disabled-dates="highlightedDates"
+// highlight-disabled-days
+// const currentDate = new Date();
+// const currentYear = currentDate.getFullYear();
+// const targetMonth = 3; // April (months are 0-indexed in JavaScript)
+// const targetDay = 7; // April 7th 
+// const abril =  [  new Date(currentYear, targetMonth, targetDay) ]  
+// const dateString = "2023-04-09T12:00:00";
+// const convertedDate =   [ new Date(dateString)] 
+
+ 
 
 // function addThreeHoursIfToday(dateToCheck) {
 //   const today = new Date();
@@ -158,17 +171,19 @@ const minutesArray = [
                     <date-picker v-model="storeSearch.fechas" minutesIncrement="30" time-picker disable-time-range-validation range placeholder="Select Time" /> -->
 
                     <section class="fechas">
+                   
                         <div v-if="storeSearch.sucursal"> 
-                            <label>Fecha de Retiro</label>
-
+                            <label>Fecha de Retiro </label> 
                             <date-picker 
                             
                             :start-time="startTime" 
                             locale="es"
                             v-model="storeSearch.fechaRetiro"
                             :minDate="new Date()"  
-                            :disabled-week-days="domingoCerrados(storeSearch.sucursal.horario_apertura_domingo,storeSearch.sucursal.horario_cierre_domingo)" 
-                            > 
+                            :disabled-week-days="domingoCerrados(storeSearch.sucursal.horario_apertura_domingo,storeSearch.sucursal.horario_cierre_domingo)"  
+                            :highlight="storeSearch.sucursal.dias_festivos"
+                            :disabled-dates="storeSearch.sucursal.dias_festivos"
+                            >  
                                 <template #time-picker="{ time, updateTime }" >
                                     <div class="custom-time-picker-component">
                                         <select 
@@ -211,6 +226,7 @@ const minutesArray = [
                             :start-time="startTime" 
                             v-model="storeSearch.fechaRetorno" :minDate="minimoDeDias(storeSearch.fechaRetiro, 1)"
                             :disabled-week-days="domingoCerrados(storeSearch.sucursalRetorno.horario_apertura_domingo, storeSearch.sucursalRetorno.horario_cierre_domingo)" 
+    
                             >
                                 <template #time-picker="{ time, updateTime }">
                                     <div class="custom-time-picker-component">

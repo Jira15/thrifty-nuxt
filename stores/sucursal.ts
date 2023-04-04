@@ -18,7 +18,9 @@ state: () => ({
                 horario_cierre_sabado: Number,
                 horario_cierre_domingo: Number,
                 horario_apertura_sabado: Number,
-                horario_apertura_domingo: Number
+                horario_apertura_domingo: Number,
+                festivo: Number,
+                dias_festivos: String
             }
         }
     ]
