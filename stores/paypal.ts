@@ -11,6 +11,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
 
     const router = useRouter();
     //  SANDBOX API "client-id": "Aa2-lyJOfSxdyNqdMX_91EI24gW16qkYhzIJKxg4rq_dYC5HFDz7Sjb5FUp_UZ54dFDQ46lNQ2ykix-u",
+    //       "client-id": "AauU5ZBGbHQmw4NSSD3m8p_JC5an_3cscA7RZ52dH0YBZsKa5Za-X8aPlxf1FkowqAb0phFjjETUUnCl",
     loadScript({ 
       "client-id": "AauU5ZBGbHQmw4NSSD3m8p_JC5an_3cscA7RZ52dH0YBZsKa5Za-X8aPlxf1FkowqAb0phFjjETUUnCl",
       "currency": "USD",
@@ -24,40 +25,40 @@ export const usePaypalStore = defineStore('paypal',  () => {
                 
                   // Set up the transaction
                     return actions.order.create({
+                      purchase_units: [{
+                        amount: { 
+                            value: totalPedido
+                          // value: '88.88'
+                        },
+
+                      description: 'Renta de Auto '
+                                    + storePedido.pedido.carro.modelo + ' o '+ storePedido.pedido.carro.clasificacion 
+                                    + ' - '+ storePedido.pedido.cobertura.nombre,
+                      custom_id: 'Thrifty Car Rental',
+                      // // invoice_id: 'INV-0001',
+                      soft_descriptor: 'Thrifty Car Rental',
+                      // items: [
+                      //     {
+                      //         name: 'Renta de Auto',
+                      //         quantity: '1',
+                      //         unit_amount: {
+                      //             currency_code: 'USD',
+                      //             value: totalPedido
+                      //         },
+                      //         category: 'PHYSICAL_GOODS'
+                      //     }, 
+                      // ], 
+                  }]
                         // payer: { 
                         //   payer_id: '',
                         //   name: {
                         //       given_name: '',
                         //       surname: ''
                         //     }, 
-                        //     email_address: '', 
-                        //     birth_date: '',
-                        //     phone: {
-                        //       phone_type: '',
-                        //       phone_number: {
-                        //           national_number: ''
-                        //       }
-                        //     },
-                        //   address: {
-                        //     address_line_1: '',
-                        //     address_line_2:'',
-                        //     admin_area_1:'',
-                        //     admin_area_2:'',
-                        //     postal_code:'',
-                        //     country_code:'',
-                        //   },
-                        //   tax_info: {
-                        //     tax_id: 'string',
-                        //     tax_id_type: 'string'
-                        //   },
-                        //   tenant:''
                         // },
-                        purchase_units: [{
-                          amount: {
-                              value: totalPedido
-                            // value: '88.88'
-                          }
-                        }], 
+
+                        // Id. del formato de pagoThrifty-8351-ODM1MQ==OV
+ 
                     });
                   },
                   onApprove: function(data, actions) {
@@ -100,7 +101,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
                           item: status });  
                       
                       router.push('/thanks/'); 
-                  }
+                    }
                     createItems<Pedido>({ collection: "pedidos", items }); 
                     router.push('/thanks/');  
                     });

@@ -35,25 +35,7 @@ function minimoDeHoras(date, horas){
     return newDate;
 };  
 
-
-// ejemplo como desactivar
-// codigo dias especificos/feriados
-// const highlightedDates = ref([
-//   addDays(new Date(), 4), 
-// ]) 
-// :highlight="highlightedDates"
-// :disabled-dates="highlightedDates"
-// highlight-disabled-days
-// const currentDate = new Date();
-// const currentYear = currentDate.getFullYear();
-// const targetMonth = 3; // April (months are 0-indexed in JavaScript)
-// const targetDay = 7; // April 7th 
-// const abril =  [  new Date(currentYear, targetMonth, targetDay) ]  
-// const dateString = "2023-04-09T12:00:00";
-// const convertedDate =   [ new Date(dateString)] 
-
  
-
 // function addThreeHoursIfToday(dateToCheck) {
 //   const today = new Date();
 //   const inputDate = new Date(dateToCheck);
@@ -183,6 +165,7 @@ const minutesArray = [
                             :disabled-week-days="domingoCerrados(storeSearch.sucursal.horario_apertura_domingo,storeSearch.sucursal.horario_cierre_domingo)"  
                             :highlight="storeSearch.sucursal.dias_festivos"
                             :disabled-dates="storeSearch.sucursal.dias_festivos"
+                            highlight-disabled-days
                             >  
                                 <template #time-picker="{ time, updateTime }" >
                                     <div class="custom-time-picker-component">
@@ -224,9 +207,11 @@ const minutesArray = [
                             locale="es"
                             
                             :start-time="startTime" 
-                            v-model="storeSearch.fechaRetorno" :minDate="minimoDeDias(storeSearch.fechaRetiro, 1)"
+                            v-model="storeSearch.fechaRetorno" :minDate="minimoDeDias(storeSearch.fechaRetiro, storeSearch.sucursalRetorno.minimo_dias)"
                             :disabled-week-days="domingoCerrados(storeSearch.sucursalRetorno.horario_apertura_domingo, storeSearch.sucursalRetorno.horario_cierre_domingo)" 
-    
+                            :highlight="storeSearch.sucursalRetorno.dias_festivos"
+                            :disabled-dates="storeSearch.sucursalRetorno.dias_festivos"
+                            highlight-disabled-days
                             >
                                 <template #time-picker="{ time, updateTime }">
                                     <div class="custom-time-picker-component">
@@ -271,6 +256,28 @@ const minutesArray = [
 
 </template> 
 <style lang="scss">
+
+.dp__theme_light {
+    --dp-background-color: #ffffff;
+    --dp-text-color: #212121;
+    --dp-hover-color: #f3f3f3;
+    --dp-hover-text-color: #212121;
+    --dp-hover-icon-color: #959595;
+    --dp-primary-color: #1976d2;
+    --dp-primary-text-color: #f8f5f5;
+    --dp-secondary-color: #c0c4cc;
+    --dp-border-color: #ddd;
+    --dp-menu-border-color: #ddd;
+    --dp-border-color-hover: #aaaeb7;
+    --dp-disabled-color: #f6f6f6;
+    --dp-scroll-bar-background: #f3f3f3;
+    --dp-scroll-bar-color: #959595;
+    --dp-success-color: #1976d2;
+    --dp-success-color-disabled: #a3d9b1;
+    --dp-icon-color: #3755b9;
+    --dp-danger-color: #ff6f60;
+    --dp-highlight-color:#135a5fa1;
+ }
 
 .custom-time-picker-component {
     display: flex;
