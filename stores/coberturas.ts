@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useCoberturasStore = defineStore('coberturas', {
     // a function that returns a fresh state - STATE ES COMO DATA
-state: () => ({ 
+state: () => ({  
     coberturas: [
         {    descripcion: true}
     ], 
@@ -16,8 +16,13 @@ actions: {
         async fetchCoberturas(){
                 try {
                     const { getItems } = useDirectusItems(); 
+                    var filters = { marca: "Thrifty"  };
                     const coberturas = await getItems(
-                        { collection: "coberturas"}); 
+                        { collection: "coberturas",
+                                params: {
+                                    filter: filters,
+                                },
+                    }); 
                     this.coberturas = coberturas  
                 } catch (error) {
                         console.error(error); 

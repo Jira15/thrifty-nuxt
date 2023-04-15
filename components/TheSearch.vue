@@ -36,39 +36,11 @@ function minimoDeHoras(date, horas){
 };  
 
  
-// function addThreeHoursIfToday(dateToCheck) {
-//   const today = new Date();
-//   const inputDate = new Date(dateToCheck);
-  
-//   if (today.toDateString() === inputDate.toDateString()) {
-//     // Date is today, so add 3 hours to the current hour
-//     const currentHour = today.getHours();
-//     const newHour = currentHour + 3;
-
-//     today.setHours(newHour);
-    
-//     // Return the new hour without the date
-//     const hoursOnly = today.toLocaleTimeString([], { hour: '2-digit', hour12: false });
-//     const startTime =  { hours: hoursOnly, minutes: 15 } 
-
-
-//     return startTime;
-//   } else {
-//     // Date is not today, so return the input hour without modification
-//     const inputHour = inputDate.toLocaleTimeString([], { hour: '2-digit', hour12: false });
-//     const startTime = ref({ hours: 10, minutes: 15 }); 
-//     return startTime;
-//   }
-// }
-
-
-// // Example usage:
-// const someDate = '2023-03-10T05:30:00'; // Date to check (in ISO 8601 format)
-// const newHour = addThreeHoursIfToday(someDate);
-// console.log(newHour); // Outputs: 8 (assuming current time is before 5:30am UTC)
-
-
- 
+const currentDate = new Date(); 
+const currentTime = currentDate.getTime(); 
+const oneDay = 24 * 60 * 60 * 1000;
+const newTime = currentTime + oneDay; 
+const nextDay = new Date(newTime); 
 
 
 const startTime = ref({ hours: 10, minutes: 15 }); 
@@ -87,7 +59,7 @@ function getWorkingHours(openingTime, closingTime) {
 
 
 function domingoCerrados(domingoApertura, domingoCierre){
-    if(domingoApertura === 0 && domingoCierre === 0){
+    if(domingoApertura === 24 && domingoCierre === 0){
         return  [0] 
     }
 } 
@@ -161,7 +133,7 @@ const minutesArray = [
                             :start-time="startTime" 
                             locale="es"
                             v-model="storeSearch.fechaRetiro"
-                            :minDate="new Date()"  
+                            :minDate="nextDay"  
                             :disabled-week-days="domingoCerrados(storeSearch.sucursal.horario_apertura_domingo,storeSearch.sucursal.horario_cierre_domingo)"  
                             :highlight="storeSearch.sucursal.dias_festivos"
                             :disabled-dates="storeSearch.sucursal.dias_festivos"

@@ -2,6 +2,19 @@
 import { usePedidoStore } from '@/stores/pedido'; 
 import moment from 'moment';
 import MoneyFormat from 'vue-money-format'
+
+import { useCuponesStore } from '@/stores/cupon';
+
+const cuponStore = useCuponesStore();
+
+// Fetch the coupon data when the component is created.
+cuponStore.fetchCupones();
+
+const discountValue = cuponStore.descuento;
+
+
+
+
 const pedidoStore = usePedidoStore();
  
 const pedido = computed(() => { 
@@ -67,7 +80,7 @@ onMounted(() => {
     pedidoStore.pedido.totalDeDias = pedidoStore.diffDias(pedidoStore.pedido.diaRetorno, pedidoStore.pedido.diaRetiro);  
 }) 
 
-
+ 
 
 </script>
 <script>
@@ -135,12 +148,13 @@ onMounted(() => {
         </dl> 
         <h6>Coberturas:</h6> 
  
-        <dl v-if="pedido.carro.tipo != 'Sedan'">
+        <dl v-if="pedido.carro.tipo !== 'Sedan'">
+            
             <dt v-if="pedido.cobertura.nombre"> 
                 {{ pedido.cobertura.nombre }} 
             </dt> 
             <dd>
-                {{  precioFormat(pedido.cobertura.precio_2 * pedidoStore.diffDias(pedido.diaRetorno, pedido.diaRetiro))}} 
+                {{  precioFormat(pedido.cobertura.precio_2 * pedidoStore.diffDias(pedido.diaRetorno, pedido.diaRetiro)) }} 
             </dd> 
         </dl>
         <dl v-else>
@@ -208,6 +222,28 @@ onMounted(() => {
 
 
 
+
+        <dl>
+            <dt> 
+                Cúpon: <input
+                id="coupon-code"
+                type="text"
+                v-model="pedidoStore.pedido.cupon_code"
+           
+                placeholder="Codigo del cúpon"
+                aria-describedby="coupon-code-help"
+              />
+            </dt>
+            <dd>
+                
+              <button class="cupon"  @click="pedidoStore.cuponActivo(pedidoStore.pedido.cupon_code)">Aplicar</button>
+            </dd> 
+ 
+          
+        </dl> 
+        <p v-if="pedidoStore.pedido.cupon === 'panamericano23' ">¡Cupon Aplicado!</p>
+ 
+
         <dl v-if="!pedido.cobertura.precio">
             <dt class="warn"> 
                 Te Falta elegir un tipo de cobertura para poder continuar
@@ -249,6 +285,17 @@ onMounted(() => {
         border-radius: 5px; 
         text-transform: uppercase;
         font-size: 16px;
+        font-weight: 600;
+        color: white;   
+        width: 100%;
+        text-align: center;
+    }
+    .cupon {
+        background-color: #27507c;
+        padding: 3px 10px;
+        border-radius: 5px; 
+        text-transform: uppercase;
+        font-size: 12px;
         font-weight: 600;
         color: white;   
         width: 100%;

@@ -1,66 +1,38 @@
  
-<script setup>  
-import { useCoberturasStore } from '@/stores/coberturas'
+<script setup>   
 import { usePedidoStore } from '@/stores/pedido' 
  
-const storePedido = usePedidoStore() 
-const storeCoberturas = useCoberturasStore() 
-const coberturas = computed(() => {
-    return storeCoberturas.coberturas
-}) 
-onMounted(() => {
-    storeCoberturas.fetchCoberturas(); 
-}) 
+const storePedido = usePedidoStore()  
 </script> 
 <template>
-<main class="coberturas">   
-<h2>Coberturas</h2>
-<section>  
-    <ul>
-        <li v-for="cobertura in coberturas" :key="cobertura.id">
-            <article> 
-                <div> 
-                    <header>  
-                        <h3 v-on:click="cobertura.descripcion = !cobertura.descripcion" >{{ cobertura.nombre }} <span>i</span></h3> 
-                    </header>   
-                    <Transition mode="out-in"> 
-                        <p v-show="cobertura.descripcion === true">
-                            {{ cobertura.explicacion }}
-                        </p>
-                    </Transition> 
-                </div> 
-                <footer v-if="storePedido.pedido.carro.tipo != 'Sedan'"> 
-                    <input required  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura">
-                    <h4>B/. {{ cobertura.precio_2 }} / por día</h4>  
-                </footer>
-                <footer  v-else> 
-                    <input required  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura">
-                    <h4>B/. {{ cobertura.precio }} / por día</h4>  
-                </footer>
-        
-            </article>
-        </li>  
-        <li>
-            <article>
-                <div>
+<main class="delivery">   
+<h2>Delivery</h2>
+<section>   
+        <article> 
+            <div> 
                 <header>  
-                    <h3>Asistencia Vial(ERA)</h3>
-                </header> 
+                    <h3> Delivery</h3> 
+                </header>    
                     <p>
-                        Esta cobertura ofrece a EL ARRENDATARIO los siguientes servicios de asistencia en carretera sin cargo alguno: Pérdida de llave del automóvil, servicio de grúa, reemplazo de neumático, asistencia al quedarse sin combustible o sin batería. El tiempo de respuesta por parte de LA ARRENDADORA está sujeto al día, hora y ubicación del incidente.
-                    </p>
-                </div>
-                <footer> 
-                    <h4>B/. 3.99 / por día</h4>  
-                </footer>
-            </article>
-        </li> 
-        </ul> 
+                        {{ storePedido.pedido.delivery.explicacion }}
+                    </p> 
+            </div> 
+            <footer v-if="storePedido.pedido.delivery.vuelta"> 
+                <input required  type="radio" name="delivery" v-model="storePedido.pedido.delivery.seleccion" :value="delivery">
+                <h4>B/. {{ storePedido.pedido.delivery.precio_2 }} </h4>  
+            </footer>
+            <footer  v-else> 
+                <input required  type="radio" name="delivery" v-model="storePedido.pedido.delivery.seleccion" :value="delivery">
+                <h4>B/. {{ storePedido.pedido.delivery.precio }}  </h4>  
+            </footer>
+    
+        </article>
+       
     </section> 
 </main> 
 </template> 
 <style scoped lang="scss">  
-.coberturas {  
+.delivery {  
     ul li article {
         background-color: rgba(255, 255, 255, 0.644);
         border-radius: 5px;  

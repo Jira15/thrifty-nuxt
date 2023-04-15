@@ -84,6 +84,8 @@ export const usePaypalStore = defineStore('paypal',  () => {
                           sucursal_detail: storePedido.pedido.sucursal,
                           sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
                           extras: JSON.stringify(storePedido.pedido.extras), 
+                          
+                          cupon: storePedido.pedido.cupon,
                           status: 'Pagado',
                           tipo_pago: 'Paypal',
                           total: totalPedido

@@ -3,6 +3,7 @@ import { array, date, number } from 'yup';
 import { Extra } from '@/types/extra';
 
 import { useExtrasStore } from "@/stores/extras";
+import { useCoberturasStore } from "@/stores/coberturas";
  
 export const usePedidoStore = defineStore(
     'pedido', 
@@ -37,7 +38,7 @@ export const usePedidoStore = defineStore(
                     galeria:Array
                 }, 
                 cobertura: {
-                    nombre: String,
+                    nombre: '',
                     explicacion: String,
                     precio: 0.00,
                     precio_2: 0.00,
@@ -51,6 +52,16 @@ export const usePedidoStore = defineStore(
                     precio_3: Number
                 },
                 extras: [], 
+                delivery: {
+                    retiro: '',
+                    retorno: '',
+                    precio: 30.00,
+                    precio_2: 60.00,
+                    explicacion: 'Lorem ipsum   dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+                    prepago: true,
+                    vuelta: true,
+                    seleccion: ''
+                },
                 sucursal: { 
                             id: Number,
                             mapa: Object,
@@ -88,6 +99,7 @@ export const usePedidoStore = defineStore(
                 dropoff:number,
                 era: 3.99,
                 cupon: null,
+                cupon_code: null,
                 prepago: null,
                 totalDeDias: number,
                 sub_total: number,
@@ -350,19 +362,50 @@ export const usePedidoStore = defineStore(
                 return  dropoff; 
                 // return new Intl.NumberFormat('en-US').format(dropoff); 
             },
+            cuponActivo(codigoCupon) {
+               this.pedido.cupon = codigoCupon;
+               console.log('codigo cupon ' + codigoCupon)
+            }, 
             precioAuto(){
-                let precioAuto = 0
+                let precioAuto = 0; 
                 let tipoReserva = this.pedido.reserva;
+
                     if(tipoReserva === 'prepago'){
-                        const precio = this.pedido.carro.precio_thrifty;  
-                        let descuento = 5;  
-                        const descuentoCalculado = precio * (descuento / 100);  
-                        const nuevoPrecio = precio - descuentoCalculado; 
-                        precioAuto = nuevoPrecio 
+                        
+                        let cupon = this.pedido.cupon;
+                        if(cupon === 'panamericano23'){
+                            console.log('cupon Activo' + precioAuto)
+                            const precio = this.pedido.carro.precio_thrifty;  
+                            let descuento = 30;  
+                            const descuentoCalculado = precio * (descuento / 100);  
+                            const nuevoPrecio = precio - descuentoCalculado; 
+                            precioAuto = nuevoPrecio 
+
+                        }
+                        else {
+                            const precio = this.pedido.carro.precio_thrifty;  
+                            let descuento = 5;  
+                            const descuentoCalculado = precio * (descuento / 100);  
+                            const nuevoPrecio = precio - descuentoCalculado; 
+                            precioAuto = nuevoPrecio 
+                        }  
                     }
                     else{
-                        precioAuto = this.pedido.carro.precio_thrifty ; 
-                    } 
+                        
+                        let cupon = this.pedido.cupon;
+                        if(cupon === 'panamericano23'){
+                            console.log('cupon Activo' + precioAuto)
+                            const precio = this.pedido.carro.precio_thrifty;  
+                            let descuento = 30;  
+                            const descuentoCalculado = precio * (descuento / 100);  
+                            const nuevoPrecio = precio - descuentoCalculado; 
+                            precioAuto = nuevoPrecio  
+                        }
+                        else {
+                            precioAuto = this.pedido.carro.precio_thrifty ; 
+                        } 
+                    }  
+                    console.log(precioAuto)
                 return precioAuto
             },
             precioCobertura(){ 
@@ -390,15 +433,40 @@ export const usePedidoStore = defineStore(
                 let precioAuto = this.precioAuto();
                 let tipoReserva = this.pedido.reserva;
                 if(tipoReserva === 'prepago'){
-                    const precio = this.pedido.carro.precio_thrifty;  
-                    let descuento = 5;  
-                    const descuentoCalculado = precio * (descuento / 100);  
-                    const nuevoPrecio = precio - descuentoCalculado; 
-                    precioAuto = nuevoPrecio 
+                        
+                    let cupon = this.pedido.cupon;
+                    if(cupon === 'panamericano23'){
+                        console.log('cupon Activo' + precioAuto)
+                        const precio = this.pedido.carro.precio_thrifty;  
+                        let descuento = 30;  
+                        const descuentoCalculado = precio * (descuento / 100);  
+                        const nuevoPrecio = precio - descuentoCalculado; 
+                        precioAuto = nuevoPrecio 
+
+                    }
+                    else {
+                        const precio = this.pedido.carro.precio_thrifty;  
+                        let descuento = 5;  
+                        const descuentoCalculado = precio * (descuento / 100);  
+                        const nuevoPrecio = precio - descuentoCalculado; 
+                        precioAuto = nuevoPrecio 
+                    }  
                 }
                 else{
-                    precioAuto = this.pedido.carro.precio_thrifty ; 
-                } 
+                    
+                    let cupon = this.pedido.cupon;
+                    if(cupon === 'panamericano23'){
+                        console.log('cupon Activo' + precioAuto)
+                        const precio = this.pedido.carro.precio_thrifty;  
+                        let descuento = 30;  
+                        const descuentoCalculado = precio * (descuento / 100);  
+                        const nuevoPrecio = precio - descuentoCalculado; 
+                        precioAuto = nuevoPrecio  
+                    }
+                    else {
+                        precioAuto = this.pedido.carro.precio_thrifty ; 
+                    } 
+                }  
 
                 let precioCobertura = this.precioCobertura();
  

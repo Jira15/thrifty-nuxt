@@ -2,6 +2,7 @@
   <div>
     <TheNavigation /> 
     <NuxtPage />
+    <whatsapp />
     <TheFooter />
   </div>
 </template>

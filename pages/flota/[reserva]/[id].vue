@@ -1,6 +1,7 @@
 <script setup> 
 import { getAssetURL } from "@/utils/get-asset-url";
 import { usePedidoStore } from '@/stores/pedido';
+import Delivery from "~~/components/Delivery.vue";
  
 const storePedido = usePedidoStore();
 const route = useRoute();
@@ -36,6 +37,7 @@ onMounted(() => {
             </article> 
             <section class="coberturas">
                 <Coberturas rules="required"  /> 
+                <Delivery />
                 <Extras /> 
             </section>  
     </main> 
@@ -140,6 +142,8 @@ onMounted(() => {
 @media screen and (min-width: 768px) { 
 .auto {
     display: flex; 
+    max-width: 1200px;
+    margin: 0 auto;
     article {
         background-color: white;
         border-radius: 5px; 

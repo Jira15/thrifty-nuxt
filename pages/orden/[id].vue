@@ -244,11 +244,13 @@ useHead({
         </section> 
         <footer>
  
-          {{ pedido.status }} 
+            <div class="status" v-if="pedido.status === 'booking'"> 
+                <h4>Esta reserva aun no esta paga</h4>
+            </div>  
             <div class="status" v-if="pedido.status === 'Pagado'"> 
                 <h4>Esta reserva ya esta paga</h4>
             </div>
-            <div class="status"  v-if="pedido.status === 'Cancelado'"> 
+            <div class="status"  v-if="pedido.status === 'Cancel'"> 
                 <h4>El Pedido ha sido cancelado</h4>
             </div> 
 

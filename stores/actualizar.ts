@@ -16,7 +16,7 @@ export const useActualizarStore = defineStore
             const { updateItem  } = useDirectusItems();    
             // Submit values to API...   
             try {
-                var status = {  status: 'Cancelado'  }   // var newItem = { status: "Draft" };
+                var status = {  status: 'Cancel'  }   // var newItem = { status: "Draft" };
                 await updateItem<Pedido>({ 
                     collection: "pedidos",
                     id: storePedido.pedido.pedidos_id,

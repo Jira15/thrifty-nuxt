@@ -6,7 +6,7 @@
             <h2>Conoce nuestros Planes Corporativos</h2>
             <p>Contamos con planes corporativos que se ajustan a las necesidades de las Empresas, con una flota amplia, renovada y variada. 
             </p>
-            <button>ver mas</button>
+            <NuxtLink to="https://www.panamathrifty.com/paginas/corporativo">ver mas</NuxtLink>
         </section>
     </article>  
     <article class="ofertas"> 
@@ -68,7 +68,7 @@
         flex:1;
         text-align: justify;
     }
-    button {
+    a {
         background-color: #047EFF;
         padding: 5px 15px;
         border-radius: 5px; 
