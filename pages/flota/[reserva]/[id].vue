@@ -20,8 +20,7 @@ onMounted(() => {
 
 </script> 
 <template>
-    <main class="auto" >   
-        <!-- <h1> {{ storePedido.pedido.reserva  }}</h1>   -->
+    <main class="auto" >    
             <article> 
                 <CarroSeleccionado />
                 <Desglose />  
@@ -37,22 +36,26 @@ onMounted(() => {
             </article> 
             <section class="coberturas">
                 <Coberturas rules="required"  /> 
-                <Delivery />
                 <Extras /> 
+                <Delivery /> 
             </section>  
     </main> 
 </template>
 <style scoped lang="scss">  
   /* autos flota id */ 
 .auto {  
+
+    
     article {
+        
+        border: 1px solid #c7c7c7;
         background-color: white;
         border-radius: 5px; 
         padding: 5px;
         display: flex;
         flex-direction: column;
         min-width: 350px; 
-        margin:5px;  
+        margin:5px;   
     }
     h2 {
         font-weight: bold;
@@ -90,10 +93,11 @@ onMounted(() => {
     }
 
     footer {
-        text-align: center;
-        justify-content: space-between; 
+        text-align:end; 
         display: flex;
-        width: 100%;
+        width: 100%; 
+        flex-direction: column;
+        padding: 5px;
         h4 {
         font-size: 40px;
         font-weight:bold;
@@ -103,7 +107,8 @@ onMounted(() => {
         color: rgb(3, 3, 3);
         font-style:normal;
         } 
-        button {
+        button { 
+            align-items: end;
             background-color: #047EFF;
             padding: 5px 15px;
             border-radius: 5px; 
@@ -144,6 +149,7 @@ onMounted(() => {
     display: flex; 
     max-width: 1200px;
     margin: 0 auto;
+ 
     article {
         background-color: white;
         border-radius: 5px; 
@@ -164,7 +170,7 @@ onMounted(() => {
         height: 400px;
         padding: 5px;
         border-radius: 5px; 
-    } //650 x 411
+    }  
     .specs { 
         display:flex;
         flex-wrap: wrap; 

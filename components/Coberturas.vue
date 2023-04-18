@@ -31,11 +31,11 @@ onMounted(() => {
                 </div> 
                 <footer v-if="storePedido.pedido.carro.tipo != 'Sedan'"> 
                     <input required  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura">
-                    <h4>B/. {{ cobertura.precio_2 }} / por día</h4>  
+                    <h4>B/. {{ cobertura.precio_2 }}</h4>  <em>por día</em> 
                 </footer>
                 <footer  v-else> 
                     <input required  type="radio" name="cobertura" v-model="storePedido.pedido.cobertura" :value="cobertura">
-                    <h4>B/. {{ cobertura.precio }} / por día</h4>  
+                    <div> <h4>B/. {{ cobertura.precio }}</h4>   <em>por día</em> </div>
                 </footer>
         
             </article>
@@ -50,8 +50,8 @@ onMounted(() => {
                         Esta cobertura ofrece a EL ARRENDATARIO los siguientes servicios de asistencia en carretera sin cargo alguno: Pérdida de llave del automóvil, servicio de grúa, reemplazo de neumático, asistencia al quedarse sin combustible o sin batería. El tiempo de respuesta por parte de LA ARRENDADORA está sujeto al día, hora y ubicación del incidente.
                     </p>
                 </div>
-                <footer> 
-                    <h4>B/. 3.99 / por día</h4>  
+                <footer class="era"> 
+                    <h4>B/. 3.99</h4>  <em>por día</em> 
                 </footer>
             </article>
         </li> 
@@ -61,14 +61,22 @@ onMounted(() => {
 </template> 
 <style scoped lang="scss">  
 .coberturas {  
+    h2 {
+        font-weight: bold;
+        font-size: 22px; 
+        margin-top: 10px; 
+        padding-left:10px;
+        width: 100%; 
+    } 
     ul li article {
-        background-color: rgba(255, 255, 255, 0.644);
-        border-radius: 5px;  
+        background-color: rgb(199, 226, 255);
+        border-radius: 10px;  
         display: flex;
         flex-direction: column;
         min-width: 350px; 
         margin:10px;
         padding: 0px;
+        border: 1px solid #c7c7c7;
     } 
     header { 
         display: flex;
@@ -76,7 +84,7 @@ onMounted(() => {
             cursor: pointer;
             span{ 
                 background-color: #8aacc5;
-                border: none;
+                border: none; 
                 border-radius: 15px 15px 15px 0px;
                 color: white;
                 font-weight: bold;
@@ -84,14 +92,8 @@ onMounted(() => {
                 font-size: 11px; 
                 padding: 3px 3px 0px 3px; 
             } 
-    }
-    h2 {
-        font-weight: bold;
-        font-size: 32px; 
-        margin-top: 20px; 
-        padding-left:10px;
-        width: 100%; 
     } 
+ 
     h3 {
         margin-top:10px;
         font-weight: bold;
@@ -107,6 +109,7 @@ onMounted(() => {
     font-size: 13px;
     text-align: justify;
     padding: 10px;
+    background-color: white;
     }  
     img {
         object-fit:contain;
@@ -116,19 +119,20 @@ onMounted(() => {
     } 
     footer {
     text-align: center;
-    justify-content: space-around; 
+    place-content: center;
     display: flex;
-    width: 100%;
-    background-color: #b3d7ff;
-    padding: 10px;
+    width: 100%;  
+    padding: 10px; 
         h4 {
             font-size: 20px;
             font-weight:bold;
+            margin-left: 10px;
         } 
         em {
-            font-size: 24px;
-            color: rgb(3, 3, 3);
-            font-style:normal;
+            font-size: 14px; 
+            color: #666666;
+            font-style:italic;
+            font-weight: bold;
         }  
     } 
 } 
@@ -136,11 +140,11 @@ onMounted(() => {
 @media screen and (min-width: 768px) {
     .coberturas {  
         ul li article {
-            background-color: rgba(255, 255, 255, 0.644);
+            background-color: rgba(255, 255, 255, 0.541);
             border-radius: 5px;  
             display: flex; 
             flex-direction: row-reverse; 
-            margin:10px;
+            margin:5px;
             padding: 0px;
             justify-content: space-between;
         } 
@@ -148,7 +152,13 @@ onMounted(() => {
             width: 100%; 
     
         } 
-        footer {  
+        footer {   
+            align-items: center;
+            max-width: 150px;
+        } 
+        .era {  
+            display: flex;
+            flex-direction: column;
             align-items: center;
             max-width: 150px;
         } 

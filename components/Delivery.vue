@@ -1,46 +1,94 @@
  
 <script setup>   
 import { usePedidoStore } from '@/stores/pedido' 
- 
+import { useDeliveryStore } from '@/stores/delivery'
 const storePedido = usePedidoStore()  
+const storeDelivery = useDeliveryStore() 
+const delivery = computed(() => {
+    return storeDelivery.delivery
+}) 
+onMounted(() => {
+    storeDelivery.fetchDelivery(); 
+}) 
+
 </script> 
 <template>
 <main class="delivery">   
 <h2>Delivery</h2>
 <section>   
-        <article> 
+    <div class="remover" v-if="storePedido.pedido.delivery.precio > 0"> 
+        <button   @click="storePedido.resetDelivery()"  >Remover Delivery</button> 
+    </div> 
+        <article v-for="delivery in delivery" :key="delivery.id"> 
             <div> 
                 <header>  
-                    <h3> Delivery</h3> 
-                </header>    
-                    <p>
-                        {{ storePedido.pedido.delivery.explicacion }}
-                    </p> 
+                    <h3>{{delivery.nombre}}</h3> 
+                </header>     
+                <p>
+                    {{ delivery.explicacion }}
+                </p> 
+                <p class="aviso">
+                    {{ delivery.aviso }}
+                </p> 
             </div> 
-            <footer v-if="storePedido.pedido.delivery.vuelta"> 
-                <input required  type="radio" name="delivery" v-model="storePedido.pedido.delivery.seleccion" :value="delivery">
-                <h4>B/. {{ storePedido.pedido.delivery.precio_2 }} </h4>  
-            </footer>
-            <footer  v-else> 
-                <input required  type="radio" name="delivery" v-model="storePedido.pedido.delivery.seleccion" :value="delivery">
-                <h4>B/. {{ storePedido.pedido.delivery.precio }}  </h4>  
-            </footer>
-    
+            <footer  v-if="storePedido.pedido.reserva === 'prepago' " >  
+                <input  type="radio" name="delivery" id="delivery"  v-model="storePedido.pedido.delivery" :value="delivery">
+                <h4>B/. {{ delivery.precio }}.00  </h4>  
+            </footer> 
         </article>
-       
+
+  
+ 
     </section> 
 </main> 
 </template> 
 <style scoped lang="scss">  
 .delivery {  
-    ul li article {
+    .remover { 
+        border: none;
+        border-radius: 15px 15px 15px 0px;
+        color: white;
+        font-weight: bold; 
+        font-size: 11px; 
+        padding: 3px 3px 0px 3px; 
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        margin:5px;
+        button {
+            background-color: #27507c;
+            padding: 3px 10px;
+            border-radius: 5px; 
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;   
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+    article {
         background-color: rgba(255, 255, 255, 0.644);
         border-radius: 5px;  
+        border: 1px solid #c7c7c7;
         display: flex;
         flex-direction: column;
         min-width: 350px; 
         margin:10px;
         padding: 0px;
+        p {  
+            font-size: 16px;
+            text-align: justify;
+            padding:5px;
+            }  
+        
+        .aviso {
+            color: rgb(145, 145, 145);
+            font-size: 11px;
+            font-weight: bold;
+            font-style: italic;
+        }
     } 
     header { 
         display: flex;
@@ -59,8 +107,7 @@ const storePedido = usePedidoStore()
     }
     h2 {
         font-weight: bold;
-        font-size: 32px; 
-        margin-top: 20px; 
+        font-size: 22px;  
         padding-left:10px;
         width: 100%; 
     } 
@@ -75,11 +122,7 @@ const storePedido = usePedidoStore()
         color: gray;
         font-style: italic; 
     }
-    p {  
-    font-size: 13px;
-    text-align: justify;
-    padding: 10px;
-    }  
+ 
     img {
         object-fit:contain;
         width: 100%;
@@ -88,14 +131,16 @@ const storePedido = usePedidoStore()
     } 
     footer {
     text-align: center;
-    justify-content: space-around; 
+    place-content: center;
     display: flex;
     width: 100%;
-    background-color: #b3d7ff;
+    border-radius: 5px;  
+    background-color: rgba(4, 125, 255, 0.4588235294);
     padding: 10px;
         h4 {
             font-size: 20px;
             font-weight:bold;
+            margin: 5px;
         } 
         em {
             font-size: 24px;
@@ -106,8 +151,20 @@ const storePedido = usePedidoStore()
 } 
   // Desktop  
 @media screen and (min-width: 768px) {
-    .coberturas {  
-        ul li article {
+    .delivery { 
+        .remover{
+            margin:5px;
+            border: none;
+            border-radius: 15px 15px 15px 0px;
+            color: white;
+            font-weight: bold; 
+            font-size: 11px; 
+            padding: 3px 15px 3px 5px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+         article {
             background-color: rgba(255, 255, 255, 0.644);
             border-radius: 5px;  
             display: flex; 
@@ -117,12 +174,12 @@ const storePedido = usePedidoStore()
             justify-content: space-between;
         } 
         div{
-            width: 100%; 
-    
+            width: 100%;  
         } 
         footer {  
             align-items: center;
-            max-width: 150px;
+            max-width: 140px; 
+            
         } 
     } 
 }

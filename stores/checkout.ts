@@ -138,6 +138,7 @@ console.log('Final URL:', url.toString()); // Log the final URL
                       sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
                       extras: storePedido.pedido.extras, 
                       cupon: storePedido.pedido.cupon,
+                      delivery: storePedido.pedido.delivery,
                       status: 'Pagado',
                       tipo_pago: 'Tarjeta',
                       total: totalPedido

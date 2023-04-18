@@ -43,32 +43,21 @@ export const usePedidoStore = defineStore(
                     precio: 0.00,
                     precio_2: 0.00,
                     precio_3: Number
-                }, 
-                cobertura_e: {
-                    nombre: String,
-                    explicacion: String,
-                    precio: 0.00,
-                    precio_2: 0.00,
-                    precio_3: Number
-                },
+                },  
                 extras: [], 
-                delivery: {
-                    retiro: '',
-                    retorno: '',
-                    precio: 30.00,
-                    precio_2: 60.00,
-                    explicacion: 'Lorem ipsum   dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-                    prepago: true,
-                    vuelta: true,
-                    seleccion: ''
-                },
+                delivery: { 
+                    precio: 0.00, 
+                    explicacion: String,
+                    aviso: String, 
+                    seleccion: null
+                }, 
                 sucursal: { 
                             id: Number,
                             mapa: Object,
                             imagen: String,
                             name: String,
                             telefono_1: String,
-                            telefono_2: null,
+                            telefono_2: null,   
                             horario_cierre: Number,
                             LocationCode: String,
                             horario_apertura: Number,
@@ -118,6 +107,14 @@ export const usePedidoStore = defineStore(
   
             },      
         actions: {    
+            resetDelivery() { 
+                this.pedido.delivery = {
+                  precio: 0,
+                  explicacion: String,
+                  aviso: String,
+                  seleccion: null,
+                } 
+          },  
             addExtra(extra) { 
                     this.pedido.extras.push(extra)
  
@@ -472,6 +469,7 @@ export const usePedidoStore = defineStore(
  
                 let precioDias = this.pedido.totalDeDias;  
                 let precioEra = this.pedido.era; 
+                let precioDelivery = this.pedido.delivery.precio; 
                 let precioDropoff = this.pedido.dropoff;
   
                 const preciosASumar = [];   
@@ -485,8 +483,8 @@ export const usePedidoStore = defineStore(
                 const suma = preciosASumar.map(element => element).reduce((a, b) => a + b, 0);
 
                 const multiplicadoPorDias = suma * precioDias; 
-
-                const unSoloMonto = multiplicadoPorDias + precioDropoff; 
+                const unSoloFee = precioDropoff + precioDelivery;
+                const unSoloMonto = multiplicadoPorDias + unSoloFee; 
                  
                 const subTotal = unSoloMonto; 
                 return subTotal; 

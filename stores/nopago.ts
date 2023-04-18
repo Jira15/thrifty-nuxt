@@ -59,6 +59,7 @@ export const useNoPagoStore = defineStore('nopago',  () => {
                     sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
                     extras:storePedido.pedido.extras, 
                     cupon: storePedido.pedido.cupon,
+                    delivery: storePedido.pedido.delivery,
                     status: 'Pendiente de Pago',
                     tipo_pago: 'Sin Pago',
                     sub_total: subTotal,

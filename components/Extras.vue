@@ -11,7 +11,7 @@
                         </header>  
                         <footer> 
                             <input type="checkbox" :value="extra" v-model="pedidoStore.pedido.extras"  >
-                            <h4>B/.{{ extra.precio }} / por día</h4>  
+                            <h4>B/.{{ extra.precio }} por día</h4>  
                         </footer> 
                     </article>
                 </li>  
@@ -54,6 +54,7 @@ function addSelectedExtras() {
     ul li article {
         background-color: rgba(255, 255, 255, 0.644);
         border-radius: 5px;  
+        border: 1px solid #c7c7c7;
         display: flex;
         flex-direction: column; 
         margin:10px;
@@ -61,30 +62,30 @@ function addSelectedExtras() {
     } 
     header { 
         display: flex;
-        text-align: center; 
+        text-align: center;
+        padding:5px;
     }
     h2 {
         font-weight: bold;
-        font-size: 32px; 
+        font-size: 22px; 
         margin-top: 20px;
         padding-left:10px;
         width: 100%; 
     }
-    h3 {
-        margin-top:10px;
+    h3 {  
         font-weight: bold;
-        font-size:18px;  
+        font-size:14px;  
         width: 100%; 
     }  
     footer {
-    text-align: center;
-    justify-content: space-around; 
+    text-align: center; 
+    place-content: center;
     display: flex;
     width: 100%;
-    background-color: #b3d7ff;
-    padding: 10px;
+    background-color: rgba(4, 125, 255, 0.4588235294);
+    padding: 5px;
         h4 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight:bold;
         }  
     } 
@@ -94,7 +95,7 @@ function addSelectedExtras() {
 
     .extras {  
         footer h4 {
-            font-size: 16px;
+            font-size: 14px;
         }
         ul li article { 
             border-radius: 5px;  

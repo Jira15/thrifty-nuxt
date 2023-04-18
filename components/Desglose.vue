@@ -175,6 +175,18 @@ onMounted(() => {
         </dl> 
 
         <h6>Extras:</h6> 
+
+        <dl v-if="pedido.delivery.precio > 0" class="extras">
+            <div >
+                <dt>
+                    Delivery
+                </dt>  
+                <dd>
+                    {{ precioFormat(pedido.delivery.precio)}}
+                </dd> 
+            </div>
+        </dl> 
+
         <dl v-if="pedido.extras" class="extras">
             <div v-for="extra in pedido.extras">
                 <dt>
@@ -255,6 +267,7 @@ onMounted(() => {
 </template>
 <style lang="scss">
 .desglose {
+    
     display: flex;
     flex-direction: column; 
     line-height: 1.5;
@@ -265,12 +278,13 @@ onMounted(() => {
     }
     h6 {
         font-weight:bold;
-        background-color: #cde4ff;
+        background-color: #047dff75;
     }
     dl {
         display: flex;
         justify-content: space-between;
         background-color: #f8fbff; 
+        padding: 3px  ;
     }
     .extras { 
         flex-direction: column; 
@@ -281,8 +295,7 @@ onMounted(() => {
     }
     button {
         background-color: #047EFF;
-        padding: 5px 15px;
-        border-radius: 5px; 
+        padding: 5px 15px; 
         text-transform: uppercase;
         font-size: 16px;
         font-weight: 600;

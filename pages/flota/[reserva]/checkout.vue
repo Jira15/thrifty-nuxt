@@ -110,7 +110,7 @@ onMounted(() => {
 
  
   /* autos flota id */ 
-
+ 
 .auto {  
     article {
         background-color: white;
@@ -194,6 +194,7 @@ onMounted(() => {
             max-width:  15px;  
         } 
     }
+  
     .detalles-conductor{
         background-color:white;
         border-radius: 5px; 
