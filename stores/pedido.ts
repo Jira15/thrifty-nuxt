@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia' 
 import { array, date, number } from 'yup';
-import { Extra } from '@/types/extra';
-
+import { Extra } from '@/types/extra'; 
 import { useExtrasStore } from "@/stores/extras";
 import { useCoberturasStore } from "@/stores/coberturas";
+import { getUniqueOrderID } from '@/types/orderIDGenerator';
+
  
 export const usePedidoStore = defineStore(
     'pedido', 
@@ -106,7 +107,13 @@ export const usePedidoStore = defineStore(
                 },   
   
             },      
-        actions: {    
+        actions: {  
+            // setOrderId () {
+            //     const orderID = getUniqueOrderID();
+            //     this.pedido.order_id = orderID;
+
+            // },
+
             resetDelivery() { 
                 this.pedido.delivery = {
                   precio: 0,

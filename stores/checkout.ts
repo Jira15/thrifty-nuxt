@@ -7,13 +7,24 @@ import { checkoutSchema } from '@/types/checkout-schema-yup';
 import { createProxyMiddleware }from 'http-proxy-middleware' 
 import axios from 'axios';
 import qs from 'qs';
+import { getUniqueOrderID } from '@/types/orderIDGenerator';
 
 
 export const useCheckoutStore = defineStore('checkout',  () => {  
     const { createItems } = useDirectusItems(); 
-    const storePedido = usePedidoStore();
-    const totalPedido = storePedido.total();  
- 
+    const storePedido = usePedidoStore(); 
+
+    
+    const orderID = getUniqueOrderID();
+
+
+
+
+    const subTotal = storePedido.subTotal();    
+    const impuestoAeropuerto = storePedido.impuestoAeropuerto();    
+    const impuesto = storePedido.impuesto();     
+    const totalPedido = storePedido.total();   
+    
     const metodos = ref('none')
  
     const tarjeta = ref( {
@@ -45,10 +56,11 @@ export const useCheckoutStore = defineStore('checkout',  () => {
 
         
 async function onSubmit(values, origin) { 
-    console.log('Submit', JSON.stringify(values, null, 2));
+    // console.log('Submit', JSON.stringify(values, null, 2));
     //   console.log("Values", values);   
     const paramsQ = {
         'security_key': 'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
+        'order_id': orderID,
         'first_name': storePedido.pedido.cliente.nombre,
         'last_name': storePedido.pedido.cliente.apellido,
         'address1': storePedido.pedido.sucursal.name,
@@ -121,6 +133,8 @@ console.log('Final URL:', url.toString()); // Log the final URL
                 console.log('codigoAprobado')   
                 var items: Pedido[] = [
                   {
+                    
+                      order_id: orderID,
                       nombre: storePedido.pedido.cliente.nombre,
                       apellido: storePedido.pedido.cliente.apellido, 
                       email: storePedido.pedido.cliente.email,
@@ -141,6 +155,9 @@ console.log('Final URL:', url.toString()); // Log the final URL
                       delivery: storePedido.pedido.delivery,
                       status: 'Pagado',
                       tipo_pago: 'Tarjeta',
+                      sub_total: subTotal,
+                      impuesto_aeropuerto: impuestoAeropuerto,
+                      impuesto: impuesto,
                       total: totalPedido
                   } ];   
                   createItems<Pedido>({ collection: "pedidos", items });

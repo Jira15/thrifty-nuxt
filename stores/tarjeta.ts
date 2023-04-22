@@ -13,11 +13,12 @@ export const useTarjetaStore = defineStore
     } ),  
     actions: { 
         async onSubmit() {  
-            const orderId = this.orden.pedidos_id 
+            const orderId = this.orden.order_id;    
             // console.log(orderId)
             const bodyData = {
                 // wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4 TEST API
                 'security_key': 'wjHj4Ku8wtTwH7s4v2W6Fx298A5Q56x4',
+                'order_id': orderId,
                 'first_name': this.orden.nombre,
                 'last_name': this.orden.apellido,
                 'address1': this.orden.retiro,

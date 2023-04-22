@@ -244,7 +244,7 @@ useHead({
         </section> 
         <footer>
  
-            <div class="status" v-if="pedido.status === 'booking'"> 
+            <div class="status" v-if="pedido.status === 'Pendiente de Pago'"> 
                 <h4>Esta reserva aun no esta paga</h4>
             </div>  
             <div class="status" v-if="pedido.status === 'Pagado'"> 

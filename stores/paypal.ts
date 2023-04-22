@@ -3,15 +3,22 @@ import { usePedidoStore } from '@/stores/pedido';
 import { loadScript } from "@paypal/paypal-js";
 import { Pedido } from '~~/types/interfaces';  
 import moment from 'moment';
+import { getUniqueOrderID } from '@/types/orderIDGenerator';
 
 export const usePaypalStore = defineStore('paypal',  () => { 
     const { createItems, updateItem } = useDirectusItems(); 
     const storePedido = usePedidoStore(); 
-    const totalPedido = storePedido.pedido.total; 
 
+    // if modificar la order id deberia venir del pedido de lo contrario se genera una nueva que no es igual al pedido actual
+    const orderID = getUniqueOrderID();
+    const subTotal = storePedido.subTotal();    
+    const impuestoAeropuerto = storePedido.impuestoAeropuerto();    
+    const impuesto = storePedido.impuesto();     
+    const totalPedido = storePedido.total();   
+    
     const router = useRouter();
     //  SANDBOX API "client-id": "Aa2-lyJOfSxdyNqdMX_91EI24gW16qkYhzIJKxg4rq_dYC5HFDz7Sjb5FUp_UZ54dFDQ46lNQ2ykix-u",
-    //       "client-id": "AauU5ZBGbHQmw4NSSD3m8p_JC5an_3cscA7RZ52dH0YBZsKa5Za-X8aPlxf1FkowqAb0phFjjETUUnCl",
+    //        "client-id": "AauU5ZBGbHQmw4NSSD3m8p_JC5an_3cscA7RZ52dH0YBZsKa5Za-X8aPlxf1FkowqAb0phFjjETUUnCl",
     loadScript({ 
       "client-id": "AauU5ZBGbHQmw4NSSD3m8p_JC5an_3cscA7RZ52dH0YBZsKa5Za-X8aPlxf1FkowqAb0phFjjETUUnCl",
       "currency": "USD",
@@ -34,8 +41,8 @@ export const usePaypalStore = defineStore('paypal',  () => {
                       description: 'Renta de Auto '
                                     + storePedido.pedido.carro.modelo + ' o '+ storePedido.pedido.carro.clasificacion 
                                     + ' - '+ storePedido.pedido.cobertura.nombre,
-                      custom_id: 'Thrifty Car Rental',
-                      // // invoice_id: 'INV-0001',
+                      custom_id: 'Thrifty Car Rental ' + orderID,
+                      invoice_id: orderID,
                       soft_descriptor: 'Thrifty Car Rental',
                       // items: [
                       //     {
@@ -68,6 +75,7 @@ export const usePaypalStore = defineStore('paypal',  () => {
                     
                       var items: Pedido[] = [
                         {
+                          order_id: orderID,
                           nombre: storePedido.pedido.cliente.nombre,
                           apellido: storePedido.pedido.cliente.apellido, 
                           email: storePedido.pedido.cliente.email,
@@ -85,9 +93,12 @@ export const usePaypalStore = defineStore('paypal',  () => {
                           sucursal_retorno_detail: storePedido.pedido.sucursalRetorno,
                           extras: JSON.stringify(storePedido.pedido.extras),  
                           delivery: storePedido.pedido.delivery,
-                          cupon: storePedido.pedido.cupon,
+                          cupon: storePedido.pedido.cupon, 
                           status: 'Pagado',
                           tipo_pago: 'Paypal',
+                          sub_total: subTotal,
+                          impuesto_aeropuerto: impuestoAeropuerto,
+                          impuesto: impuesto,
                           total: totalPedido
                         } 
                     ];  

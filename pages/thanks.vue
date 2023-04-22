@@ -142,6 +142,7 @@ onMounted(() => {
         margin-top: 100px;
         margin-bottom: 100px; 
         max-width: 1000px;
+        min-height: 500px;
         padding: 50px;
         h2 {
             margin: 20px;
