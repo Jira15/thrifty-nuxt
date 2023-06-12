@@ -1,11 +1,24 @@
 <script>
 import { useWindowSize } from "@/composables/useWindowSize";
 import { ref, computed } from "vue";
-// import { useLenguajesStore } from "@/stores/lenguajes";
-// const storeLenguaje = useLenguajesStore();
-
+import { useLenguajesStore } from "@/stores/lenguajes";
+ 
 export default {
   setup() {
+    const storeLenguaje = useLenguajesStore();
+    const { locale } = useI18n()
+
+ 
+    const enLocale = () => { 
+      storeLenguaje.setEN(); 
+      locale.value = 'en'
+    };
+
+    const esLocale = () => { 
+      storeLenguaje.setES(); 
+      locale.value = 'es'
+    };
+
     const isMenuVisible = ref(false);
     const { width } = useWindowSize();
 
@@ -20,82 +33,67 @@ export default {
       isMenuVisible,
       toggleMenu,
       isMobile,
-      isDesktop,
+      isDesktop, 
+      enLocale,
+      esLocale,
+      locale
     };
   },
 };
 </script>
 
-<template>
-  <header class="menu">
-    <nav class="burger-menu">
-      <NuxtLink to="/"><img src="../assets/images/logo.png" /></NuxtLink>
-
-      <button @click="toggleMenu" class="burger-btn" v-if="isMobile">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <transition name="slide-fade">
-        <div v-if="isDesktop || isMenuVisible" class="menu-items">
-          <ul>
-            <li><NuxtLink to="/flota">Flota</NuxtLink></li>
-            <li><NuxtLink to="/sucursales">Sucursales</NuxtLink></li>
-            <li>
-              <a href="#">Corporativo</a>
-              <ul class="dropdown" aria-label="submenu">
-                <li><NuxtLink to="/paginas/operativo">Leasing Operativo</NuxtLink></li>
-                <li>
-                  <NuxtLink to="/paginas/corporativo">Planes Corporativos</NuxtLink>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <NuxtLink href="https://wa.link/n4yy20" target="_blank"
-                >Reservas a USA</NuxtLink
-              >
-            </li>
-            <li><NuxtLink to="/clientes">Maneja tu Reserva</NuxtLink></li>
-            <li>
-              <button @click="storeLenguaje.setEN()">EN</button> |
-              <button @click="storeLenguaje.setES()">ES</button>
-            </li>
-          </ul>
-        </div>
-      </transition>
-    </nav>
-  </header>
-
-  <!-- 
-<header class="menu">
-    <nav>  
-        <ClientOnly>
-            <i class="fas fa-bars" @click="showMenu()">Menu</i>
-        </ClientOnly>
-        <div class="nav-content" :class="showMobileMenu ? 'open-menu' : 'closed-menu'">   
-
-            <ul class="nav-items">
-                <li><NuxtLink to="/"><img src="../assets/images/logo.png"></NuxtLink></li> 
-                <li><NuxtLink to="/flota">Flota</NuxtLink></li>
-                <li><NuxtLink to="/sucursales">Sucursales</NuxtLink></li>
-                <li><a href="#">Corporativo</a>
-                    <ul class="dropdown" aria-label="submenu">
-                        <li><NuxtLink to="/paginas/operativo">Leasing Operativo</NuxtLink></li>
-                        <li><NuxtLink to="/paginas/corporativo">Planes Corporativos</NuxtLink></li> 
-                    </ul>
-                </li> 
-                <li><NuxtLink href="https://wa.link/n4yy20" target="_blank">Reservas a USA</NuxtLink></li> 
-                <li><NuxtLink to="/clientes">Maneja tu Reserva</NuxtLink></li>
-                <li>  
-                    <button @click="storeLenguaje.setEN()"> EN </button> |
-                    <button @click="storeLenguaje.setES()"> ES </button>
-                </li> 
-            </ul> 
-        </div>
-        LENGUAJE ACTUAL:   {{ storeLenguaje.lenguaje }}   
-    </nav>   
-</header> -->
+<template> 
+    <header class="menu">
+      <nav class="burger-menu">
+        <NuxtLink to="/"><img src="../assets/images/logo.png" /></NuxtLink>
+  
+        <button @click="toggleMenu" class="burger-btn" v-if="isMobile">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+  
+        <transition name="slide-fade">
+          <div v-if="isDesktop || isMenuVisible" class="menu-items">
+            <ul>
+              <li><NuxtLink to="/flota">{{ $t('flota') }}</NuxtLink></li>
+              <li><NuxtLink to="/sucursales">{{ $t('sucursales') }}</NuxtLink></li>
+              <li>
+                <a href="#">{{ $t('corporativo') }}</a>
+                <ul class="dropdown" aria-label="submenu">
+                  <li>
+                    <NuxtLink to="/paginas/operativo">{{ $t('leasing') }}</NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink to="/paginas/corporativo">{{ $t('planes') }}</NuxtLink>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <NuxtLink href="https://wa.link/n4yy20" target="_blank"> 
+                  {{ $t('reservaUSA') }}
+                </NuxtLink>
+              </li>
+              <li><NuxtLink to="/clientes">{{ $t('maneja') }}</NuxtLink></li> 
+              <li>
+                <button @click="enLocale()">EN</button> |
+                <button @click="esLocale()">ES</button>
+              </li> 
+                <!-- <form class="lenguaje">
+                  <select v-model="locale">
+                    <option value="en" >EN</option>
+                    <option value="es">ES</option>
+                  </select>  
+                </form> -->
+          
+            </ul>
+          </div>
+        </transition>
+      </nav>
+    </header>
+     
 </template>
+
 
 <style lang="scss" scoped>
 .menu {
@@ -104,8 +102,20 @@ export default {
   display: flex;
   box-shadow: 0px 5px 5px rgba(32, 32, 32, 0.788);
 
+  .lenguaje{  
+    select {  
+      border-style: none;
+      padding: 5px;
+      background-color: #131313;
+      option:hover { 
+          border-style: none;
+          padding: 5px;
+          background-color: #1a1a1a; 
+      }
+    }
+  }
   .router-link-active {
-    color: rgb(3, 101, 199);
+    color: rgb(255, 255, 255);
   }
 
   nav {
@@ -114,7 +124,7 @@ export default {
     display: flex;
     align-items: center;
     font-weight: bold;
-    color: #888888;
+    color: #ffffff;
     z-index: 9999999;
   }
 
@@ -171,7 +181,7 @@ export default {
   position: absolute;
   top: 100%;
   left: 0;
-  background: #fff;
+  background-color: rgb(33, 120, 207);
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -184,7 +194,7 @@ export default {
 
 .menu-items li {
   padding: 15px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #ffffff3a;
 }
 
 .menu-items li:last-child {
@@ -193,32 +203,71 @@ export default {
 
 .menu-items a {
   text-decoration: none;
-  color: #333;
+  color: #ffffff;
 }
-
 /*  desktop */
 @media screen and (min-width: 768px) {
+  .menu {
+    width: 100%;
+    display: flex;
+    box-shadow: 0px 5px 5px rgba(32, 32, 32, 0.788);
+    padding: 20px;
+
+    .dropdown {
+      display: none;
+      position: absolute;
+
+      background-color: rgb(33, 120, 207);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 0;
+      min-width: 200px;
+      max-width: 200px;
+    }
+
+    .dropdown {
+      a {
+        color: #ffffff;
+      }
+      li {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+      li:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .menu-items li:hover .dropdown {
+      display: block;
+    }
+  }
   .menu-items,
   .menu-items.menu-visible {
     display: flex;
     position: static;
     box-shadow: none;
+    background: none;
   }
 
-  .menu-items ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-  }
+  .menu-items {
+    a {
+      color: #ffffff;
+    }
+    ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 100%;
+    }
 
-  .menu-items li {
-    padding: 15px;
-    border-bottom: none;
-  }
-
-  .menu-items li:last-child {
-    border-right: none;
+    li {
+      padding: 15px;
+      border-bottom: none;
+      color: #d8d8d8;
+    }
+    li:last-child {
+      border-right: none;
+    }
   }
 }
-</style>
+</style> 

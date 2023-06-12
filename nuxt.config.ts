@@ -17,14 +17,7 @@ export default defineNuxtConfig({
             children:"  !function(f,b,e,v,n,t,s) {if(f.fbq)return;n=f.fbq=function(){n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)}; if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';    n.queue=[];t=b.createElement(e);t.async=!0;     t.src=v;s=b.getElementsByTagName(e)[0];     s.parentNode.insertBefore(t,s)}(window, document,'script', 'https://connect.facebook.net/en_US/fbevents.js');    fbq('init', '683665672969341');   fbq('track', 'PageView');" }],
         noscript: [{ 
             children: ' <img height="1" width="1" style="display:none"   src="https://www.facebook.com/tr?id=683665672969341&ev=PageView&noscript=1"/>' 
-        }],
-
-        // script:[    
-        //     {
-        //     src: "https://secure.networkmerchants.com/token/Collect.js",
-        //     'data-tokenization-key': "4S33Nz-Zsrp9B-qz2679-kUZAAQ" 
-        //     }
-        // ],
+        }], 
         link: [
             { rel: 'icon', type: 'image/x-icon', href: './favicon.ico' }
         ]
@@ -46,7 +39,7 @@ export default defineNuxtConfig({
     imports: {
         dirs: ['stores'],
       },
-
+ 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [  
         '@/plugins/vue-datepicker.js', 
@@ -55,21 +48,27 @@ export default defineNuxtConfig({
     ],   
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [ 
-            'nuxt-directus', 
-            // 'nuxt-proxy',  
-            [
-                '@pinia/nuxt',
-                {
-                    autoImports: [ 
-                        // automatically imports `defineStore`  //  'autoStore',  'sucursalStore'
-                        'defineStore', 
-                        'storeToRefs',// import { defineStore } from 'pinia'
-                        // automatically imports `defineStore` as `definePiniaStore`
-                        ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-                    ],
-                },
-            ],
-        ], 
+        'nuxt-directus',  
+        '@nuxtjs/i18n',  
+        // 'nuxt-proxy',  
+        [
+            '@pinia/nuxt',
+            {
+                autoImports: [ 
+                    // automatically imports `defineStore`  //  'autoStore',  'sucursalStore'
+                    'defineStore', 
+                    'storeToRefs',// import { defineStore } from 'pinia'
+                    // automatically imports `defineStore` as `definePiniaStore`
+                    ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+                ],
+            },
+        ],
+    ],
+    i18n: {
+        locales: ['en', 'es'],
+        defaultLocale: 'es',
+        vueI18n: '@plugins/i18n.config.ts' 
+    },
     // serverMiddleware: [
     //     {
     //         path: '/api/tarjeta',
@@ -102,5 +101,5 @@ export default defineNuxtConfig({
     build: {
         transpile: ['@vuepic/vue-datepicker', 'moment' ]
     },
- 
+    devtools: false
 }) 

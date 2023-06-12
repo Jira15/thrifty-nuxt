@@ -161,7 +161,7 @@ console.log('Final URL:', url.toString()); // Log the final URL
                       total: totalPedido
                   } ];   
                   createItems<Pedido>({ collection: "pedidos", items });
-                  router.push('/thanks/'); 
+                  router.push('/thanks'); 
               }
   
               if (respuesta.includes(codigoTransaccionDeclinada)){ 

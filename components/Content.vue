@@ -9,10 +9,9 @@
             <NuxtLink to="https://www.panamathrifty.com/paginas/corporativo">ver mas</NuxtLink>
         </section>
     </article>  
-    <article class="ofertas"> 
-            <h3>DESCUBRE PANAMÁ CON NOSOTROS</h3>  
-    </article>
-</main>
+
+    <Promos />
+</main> 
 </template>
 
 <style lang="scss" scoped>

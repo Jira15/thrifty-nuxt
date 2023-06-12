@@ -113,10 +113,10 @@ export const usePaypalStore = defineStore('paypal',  () => {
                           id: storePedido.pedido.pedidos_id,
                           item: status });  
                       
-                      router.push('/thanks/'); 
+                      router.push('/thanks'); 
                     }
                     createItems<Pedido>({ collection: "pedidos", items }); 
-                    router.push('/thanks/');  
+                    router.push('/thanks');  
                     });
                   },
                   onError: function (err) {

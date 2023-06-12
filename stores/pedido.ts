@@ -13,7 +13,7 @@ export const usePedidoStore = defineStore(
         state: () => ({  
             pedido: {
                 reserva: '',
-                precio_prepago: Number,
+                precio_prepago: 0,
                 pedidos_id: '',
                 cliente: {
                     nombre: '',
@@ -21,83 +21,84 @@ export const usePedidoStore = defineStore(
                     email: '',
                     telefono: '',
                     licencia: '', 
-                    nacimiento: Date
+                    nacimiento: new Date()
                 },
                 carro:  {
-                    id: Number,
-                    modelo: String,
-                    clasificacion:String,
-                    imagen: String,
-                    tipo: String,
-                    pasajeros: Number,
-                    maletas: Number,
-                    transmision:String,
-                    combustible:String,
-                    marca:String,
-                    puertas:Number,
+                    id: 0,
+                    modelo: '',
+                    clasificacion:'',
+                    imagen: '',
+                    tipo: '',
+                    pasajeros: 0,
+                    maletas: 0,
+                    transmision:'',
+                    combustible:'',
+                    marca:'',
+                    puertas:0,
                     precio_thrifty: 0.00,
-                    galeria:Array
+                    descuento_prepago: 0.00,
+                    galeria:[]
                 }, 
                 cobertura: {
                     nombre: '',
-                    explicacion: String,
+                    explicacion: '',
                     precio: 0.00,
                     precio_2: 0.00,
-                    precio_3: Number
+                    precio_3: 0
                 },  
                 extras: [], 
                 delivery: { 
                     precio: 0.00, 
-                    explicacion: String,
-                    aviso: String, 
+                    explicacion: '',
+                    aviso: '', 
                     seleccion: null
                 }, 
                 sucursal: { 
-                            id: Number,
-                            mapa: Object,
-                            imagen: String,
-                            name: String,
-                            telefono_1: String,
+                            id: 0,
+                            mapa: {},
+                            imagen: '',
+                            name: '',
+                            telefono_1: '',
                             telefono_2: null,   
-                            horario_cierre: Number,
-                            LocationCode: String,
-                            horario_apertura: Number,
-                            horario_cierre_sabado: Number,
-                            horario_cierre_domingo: Number,    
-                            horario_apertura_sabado: Number,
-                            horario_apertura_domingo: Number,
+                            horario_cierre: 0,
+                            LocationCode: '',
+                            horario_apertura: 0,
+                            horario_cierre_sabado: 0,
+                            horario_cierre_domingo: 0,    
+                            horario_apertura_sabado: 0,
+                            horario_apertura_domingo: 0,
                             impuesto: 0
                         },
                 sucursalRetorno: { 
-                            id: Number,
-                            mapa: Object,
-                            imagen: String,
-                            name: String,
-                            telefono_1: String,
+                            id: 0,
+                            mapa: {},
+                            imagen: '',
+                            name: '',
+                            telefono_1: '',
                             telefono_2: null,
-                            horario_cierre: Number,
-                            LocationCode: String,
-                            horario_apertura: Number,
-                            horario_cierre_sabado: Number,
-                            horario_cierre_domingo: Number,
-                            horario_apertura_sabado: Number,
-                            horario_apertura_domingo: Number,
-                            impuesto: Number
+                            horario_cierre: 0,
+                            LocationCode: '',
+                            horario_apertura: 0,
+                            horario_cierre_sabado: 0,
+                            horario_cierre_domingo: 0,
+                            horario_apertura_sabado: 0,
+                            horario_apertura_domingo: 0,
+                            impuesto: 0
                         },
-                diaRetiro: String,  
-                diaRetorno: String,  
-                dropoff:number,
+                diaRetiro: '',  
+                diaRetorno: '',  
+                dropoff:0,
                 era: 3.99,
                 cupon: null,
                 cupon_code: null,
                 prepago: null,
-                totalDeDias: number,
-                sub_total: number,
-                impuesto: number,
-                impuesto_aeropuerto: number, 
-                total: '',
-                order_id:String,
-                status:String
+                totalDeDias: 0,
+                sub_total: 0,
+                impuesto: 0,
+                impuesto_aeropuerto: 0, 
+                total: 0,
+                order_id:'',
+                status:''
             } 
         }), 
         // optional getters GETTER SON COMO COMPUTED 
@@ -117,8 +118,8 @@ export const usePedidoStore = defineStore(
             resetDelivery() { 
                 this.pedido.delivery = {
                   precio: 0,
-                  explicacion: String,
-                  aviso: String,
+                  explicacion: '',
+                  aviso: '',
                   seleccion: null,
                 } 
           },  
@@ -159,14 +160,37 @@ export const usePedidoStore = defineStore(
                     nueve: 125.00,
                     diez: 177.00,  
                     once: 190.00, 
-                    doce: 290.00
+                    doce: 290.00,
+                    trece: 15.00
                 }  
+
+                 // tier 13 
+                 if (  
+                    sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'TOCUMEN' 
+                    || sucursalDeRetiro === 'TOCUMEN' && sucursalDeRetorno === 'V ESPANA'  
+
+
+                    || sucursalDeRetiro === 'THVENETTO' && sucursalDeRetorno === 'TOCUMEN' 
+                    || sucursalDeRetiro === 'TOCUMEN' && sucursalDeRetorno === 'THVENETTO' 
+
+                    || sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'TOCUMEN' 
+                    || sucursalDeRetiro === 'TOCUMEN' && sucursalDeRetorno === 'ALBROOK' 
+
+
+                    || sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'TOCUMEN' 
+                    || sucursalDeRetiro === 'TOCUMEN' && sucursalDeRetorno === 'THCDELESTE' 
+
+ 
+
+
+                    )
+                    { dropoff = tier.trece; }  
+
+
                 // tier 2  
                 if (  
                     sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'ALBROOK' 
-                    || sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'TORREMOLIN'  
-                    || sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'TOCUMEN' 
-                    || sucursalDeRetiro === 'TOCUMEN' && sucursalDeRetorno === 'ALBROOK' 
+                    || sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'TORREMOLIN'   
                     )
                     { dropoff = tier.dos; }  
 
@@ -211,7 +235,10 @@ export const usePedidoStore = defineStore(
                 // tier seis: 55
                 if (
                     sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'SANTIAGO' 
-                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'CHITRE'  )
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'CHITRE'  
+                ||  sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'SANTIAGO' 
+                ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'APOCHITRE' 
+                )
                 {  dropoff = tier.seis; } 
 
 
@@ -235,6 +262,11 @@ export const usePedidoStore = defineStore(
                     sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'CHORRERA'
                 ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'CHITRE'
 
+                ||   sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'CHORRERA'
+                ||  sucursalDeRetiro === 'CHORRERA' && sucursalDeRetorno === 'APOCHITRE'
+
+
+
                 ||  sucursalDeRetiro === 'TDAVIDC' && sucursalDeRetorno === 'SANTIAGO'
                 ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'TDAVIDC'
 
@@ -250,7 +282,30 @@ export const usePedidoStore = defineStore(
 
                 // tier nueve: 125   
                 if ( 
-                    sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'TDAVIDC'
+
+                sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'TDAVIDC'
+                ||  sucursalDeRetiro === 'TDAVIDC' && sucursalDeRetorno === 'APOCHITRE'
+
+                ||  sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'ALBROOK'
+                ||  sucursalDeRetiro === 'ALBROOK' && sucursalDeRetorno === 'APOCHITRE'
+
+
+                ||  sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'TOCUMEN'
+                ||  sucursalDeRetiro === 'TOCUMEN' && sucursalDeRetorno === 'APOCHITRE' 
+
+                ||  sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'V ESPANA'
+                ||  sucursalDeRetiro === 'V ESPANA' && sucursalDeRetorno === 'APOCHITRE'
+
+                ||  sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'THCDELESTE'
+                ||  sucursalDeRetiro === 'THCDELESTE' && sucursalDeRetorno === 'APOCHITRE'
+
+                ||  sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'THVENETTO'
+                ||  sucursalDeRetiro === 'THVENETTO' && sucursalDeRetorno === 'APOCHITRE'  
+
+                ||  sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'TORREMOLIN'
+                ||  sucursalDeRetiro === 'TORREMOLIN' && sucursalDeRetorno === 'APOCHITRE'  
+
+                ||   sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'TDAVIDC'
                 ||  sucursalDeRetiro === 'TDAVIDC' && sucursalDeRetorno === 'CHITRE'
 
                 ||  sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'ALBROOK'
@@ -299,6 +354,8 @@ export const usePedidoStore = defineStore(
                 if ( 
                     sucursalDeRetiro === 'CHITRE' && sucursalDeRetorno === 'COLON'
                 ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'CHITRE' 
+                ||  sucursalDeRetiro === 'APOCHITRE' && sucursalDeRetorno === 'COLON'
+                ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'APOCHITRE' 
                 ||  sucursalDeRetiro === 'SANTIAGO' && sucursalDeRetorno === 'COLON'
                 ||  sucursalDeRetiro === 'COLON' && sucursalDeRetorno === 'SANTIAGO' 
                 )
@@ -388,7 +445,7 @@ export const usePedidoStore = defineStore(
                         }
                         else {
                             const precio = this.pedido.carro.precio_thrifty;  
-                            let descuento = 5;  
+                            let descuento = this.pedido.carro.descuento_prepago;  
                             const descuentoCalculado = precio * (descuento / 100);  
                             const nuevoPrecio = precio - descuentoCalculado; 
                             precioAuto = nuevoPrecio 
@@ -450,7 +507,7 @@ export const usePedidoStore = defineStore(
                     }
                     else {
                         const precio = this.pedido.carro.precio_thrifty;  
-                        let descuento = 5;  
+                        let descuento = this.pedido.carro.descuento_prepago;  
                         const descuentoCalculado = precio * (descuento / 100);  
                         const nuevoPrecio = precio - descuentoCalculado; 
                         precioAuto = nuevoPrecio 

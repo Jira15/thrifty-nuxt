@@ -62,6 +62,7 @@ onMounted(() => {
         height: 40px;
     }   
 }  
+/*
 .fechas{
     display: flex;
     justify-content: space-between;
@@ -69,9 +70,9 @@ onMounted(() => {
     .hora {
         margin-left: 30px;
         width:150px
-    }
+    } 
 }
-
+*/
 .sucursales h2 {
     font-size: 16px;
 }
